@@ -39,10 +39,8 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -113,6 +111,13 @@ See the [open issues](https://github.com/UniversityOfIdahoCDACS/FANUC-Ethernet_I
 Distributed under the GNU General Public License v3. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p
+
+<!-- CONTACT -->
+## Contact
+
+Project Link: [https://github.com/UniversityOfIdahoCDACS/FANUC-Ethernet_IP_Drivers](https://github.com/UniversityOfIdahoCDACS/FANUC-Ethernet_IP_Drivers)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
