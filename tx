@@ -1,0 +1,49 @@
+def writeCartesianPositionRegister(drive_path, PRNumber, myList):
+
+   #must set UT/UF to 0
+
+
+   #Build myByteArray
+   myByteArray = bytearray(struct.pack('H', 0x0000)) #UTOOL
+   myByteArray.extend(struct.pack('H', 0))      #UFRAME
+   myByteArray.extend(struct.pack('f', myList[2]))      #X
+   myByteArray.extend(struct.pack('f', myList[3]))      #Y
+   myByteArray.extend(struct.pack('f', myList[4]))      #Z
+   myByteArray.extend(struct.pack('f', myList[5]))      #W
+   myByteArray.extend(struct.pack('f', myList[6]))      #P
+   myByteArray.extend(struct.pack('f', myList[7]))      #R
+   myByteArray.extend(struct.pack('B', myList[8]))      #Turn1
+   myByteArray.extend(struct.pack('B', myList[9]))      #Turn2
+   myByteArray.extend(struct.pack('B', myList[10]))     #Turn3
+   myByteArray.extend(struct.pack('B', myList[11]))     #Bitflip
+   myByteArray.extend(struct.pack('f', myList[12]))     #EXT_0
+   myByteArray.extend(struct.pack('f', myList[13]))     #EXT_1
+   myByteArray.extend(struct.pack('f', myList[14]))     #EXT_2
+   
+   if (DEBUG == True):
+     print("len(bytes(myByteArray=)", len(bytes(myByteArray)))
+
+     print(myByteArray)
+
+   with CIPDriver(drive_path) as drive:
+        myTag = drive.generic_message(
+            service=Services.set_attribute_single,
+            class_code=0x7B,
+            instance=0x01,
+            attribute=PRNumber,
+            data_type=None,
+            connected=False,
+            request_data=bytes(myByteArray[0:44]),
+            unconnected_send=False,
+            route_path=False,
+            name='fanucPRSwrite'
+        )
+        if (DEBUG == True):
+          print("Write PR registers Current Cartesian Coordinates 0x7B ")
+          print(myTag)
+          print('myTag.error=', myTag.error)
+          print("myTag.type=", myTag.type)
+
+
+   return myTag.error
+
