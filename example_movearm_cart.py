@@ -49,6 +49,17 @@ W_PR_1_return = FANUCethernetipDriver.writeCartesianPositionRegister(drive_path,
 print("W_PR_1_return =", W_PR_1_return)
 
 
+# write R[5] to set Speed in mm/sec
+print("------------------------")
+print(" write R[5] to set arm speed")
+print("------------------------")
+
+RegNum = 5
+Value = 100
+W_R_5_return = FANUCethernetipDriver.writeR_Register(drive_path, RegNum, Value)
+
+print ("W_R_5_return=",W_R_5_return)
+
 # write R[1] to start Robot
 print("------------------------")
 print(" write R[1] to move arm ")
