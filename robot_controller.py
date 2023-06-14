@@ -10,8 +10,11 @@
 #
 # @section todo_robot_controller todo_robot_controller
 # - Add cartesian functions
-# - Update and modify all functions
+# - Update/Modify/Refactor all functions for clarity and use
 # - Add more useful functions
+# -
+# - Function Ideas:
+# - Move robot function: Moves robot and checks register until finished
 # 
 # @section author_robot_controller Authors(s)
 # - Original Code by John Shovic
@@ -30,7 +33,7 @@ class robot:
         self.robot_IP = robotIP
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
         self.CurCartesianPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(self.robot_IP)
-        self.PRNumber = 1
+        self.PRNumber = 1 # This is the position register for holding coordinates
 
     ##
     #
@@ -78,7 +81,7 @@ class robot:
         print("------------------------")
         print(" write PR[1] Joint Coordinate")
         print("------------------------")
-        joint = joint + 2
+        joint = joint + 1
 
         newPosition = value
 
@@ -97,12 +100,13 @@ class robot:
         print("----------------------------------")
 
         # Set positions DO NOT USE 0
-        self.CurJointPosList[3] = 1.0 # J1
-        self.CurJointPosList[4] = 1.0 # J2
-        self.CurJointPosList[5] = 1.0 # J3
-        self.CurJointPosList[6] = 1.0 # J4
-        self.CurJointPosList[7] = 1.0 # J5
-        self.CurJointPosList[8] = 1.0 # J6
+        # joint coordinates start at list item 2, ie: Joint2 = CurPosList[3]
+        self.CurJointPosList[2] = 1.0 # J1
+        self.CurJointPosList[3] = 1.0 # J2
+        self.CurJointPosList[4] = 1.0 # J3
+        self.CurJointPosList[5] = 1.0 # J4
+        self.CurJointPosList[6] = 1.0 # J5 PB50IB does not like this join, OK on CRX10
+        self.CurJointPosList[7] = 1.0 # J6
 
         myList = self.CurJointPosList
 
@@ -175,7 +179,7 @@ class robot:
         print(" write R[1] to move arm ")
         print("------------------------")
 
-        RegNum = 1
+        RegNum = 1 # This register is used to start the robot when set to 1
         Value = 1
         W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, RegNum, Value)
 
