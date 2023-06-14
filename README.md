@@ -50,7 +50,7 @@
 ## About The Project
 
 <!-- ADD SCREENSHOT HERE -->
-This project aims to give developers tools to control FANUC robots in new ways using Ethernet IP with Python as well as providing ROS2 packages to integrate into ROS2 architectures.
+This project aims to give developers tools to control FANUC robots in new ways using Ethernet IP
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -98,8 +98,6 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 ## Roadmap
 
 - [x] Ethernet IP Control
-- [ ] Peripheral Controls
-- [ ] ROS2 Packages
 
 See the [open issues](https://github.com/UniversityOfIdahoCDACS/FANUC-Ethernet_IP_Drivers/issues) for a full list of proposed features (and known issues).
 
