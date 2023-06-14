@@ -44,7 +44,7 @@ class robot:
         print(" Read current position from Robot")
         print("-----------------------------------------")
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
-        print("CURPOS=", self.CurPosList)
+        print("CURPOS=", self.CurJointPosList)
 
     # read PR[1] Joint Coordinates
     def read_joint_position_register(self):
