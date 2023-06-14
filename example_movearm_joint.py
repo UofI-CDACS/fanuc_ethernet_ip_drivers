@@ -36,9 +36,9 @@ print(" write PR[1] Joint Coordinate")
 print("------------------------")
 
 # take CurPos and add random amount to J2 axis
-newJ2 = CurPosList[4]+random.randrange(-10.0, 10)
+newJ2 = CurPosList[3]+random.randrange(-10.0, 10)
 
-CurPosList[4] = newJ2
+CurPosList[3] = newJ2
 print("CURPOS(J2offset)=", CurPosList)
 
 PRNumber = 1
