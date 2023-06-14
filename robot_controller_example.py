@@ -136,7 +136,7 @@ def main():
     print("*************************")
     print(" Final Joint Positions")
     print("*************************")
-    crx10.read_current_position()
+    crx10.read_current_joint_position()
 
     # End program
     print("END OF PROGRAM")

@@ -43,7 +43,7 @@ class robot:
         print("-----------------------------------------")
         print(" Read current position from Robot")
         print("-----------------------------------------")
-        self.CurPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
+        self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
         print("CURPOS=", self.CurPosList)
 
     # read PR[1] Joint Coordinates
@@ -63,11 +63,11 @@ class robot:
         print("------------------------")
         joint = joint + 1
 
-        newPosition = self.CurPosList[joint] + value
+        newPosition = self.CurJointPosList[joint] + value
 
-        self.CurPosList[joint] = newPosition
+        self.CurJointPosList[joint] = newPosition
 
-        myList = self.CurPosList
+        myList = self.CurJointPosList
 
         W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
@@ -82,9 +82,9 @@ class robot:
 
         newPosition = value
 
-        self.CurPosList[joint] = newPosition
+        self.CurJointPosList[joint] = newPosition
 
-        myList = self.CurPosList
+        myList = self.CurJointPosList
 
         W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
@@ -97,14 +97,14 @@ class robot:
         print("----------------------------------")
 
         # Set positions DO NOT USE 0
-        self.CurPosList[3] = 1.0 # J1
-        self.CurPosList[4] = 1.0 # J2
-        self.CurPosList[5] = 1.0 # J3
-        self.CurPosList[6] = 1.0 # J4
-        self.CurPosList[7] = 1.0 # J5
-        self.CurPosList[8] = 1.0 # J6
+        self.CurJointPosList[3] = 1.0 # J1
+        self.CurJointPosList[4] = 1.0 # J2
+        self.CurJointPosList[5] = 1.0 # J3
+        self.CurJointPosList[6] = 1.0 # J4
+        self.CurJointPosList[7] = 1.0 # J5
+        self.CurJointPosList[8] = 1.0 # J6
 
-        myList = self.CurPosList
+        myList = self.CurJointPosList
 
         W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
@@ -117,7 +117,7 @@ class robot:
     ##
 
     # read current cartesian position from Robot
-    def read_current_cartesian__position(self):
+    def read_current_cartesian_position(self):
         print("------------------------")
         print(" read CURPOS from Robot")
         print("------------------------")
