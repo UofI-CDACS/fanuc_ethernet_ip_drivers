@@ -168,7 +168,7 @@ class robot:
         print("------------------------")
         print(" Speed set to {value}mm/sec")
         print("------------------------")
-        W_R_5_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, speedRegister, Value)
+        W_R_5_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, speedRegister, value)
 
         print ("W_R_5_return=",W_R_5_return)
 
