@@ -105,8 +105,8 @@ print("bitNumber[%d]=%x"% (138,FANUCethernetipDriver.returnBit(138, DigitalOutpu
 print("------------------------")
 print(" Start Conveyor Forward")
 print("------------------------")
-# R20 is forward
-# R21 is reverse
+# R21 is forward
+# R22 is reverse
 
 RegNum = 21
 Value = 1
