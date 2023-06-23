@@ -185,6 +185,14 @@ class robot:
 
         print ("W_R_2_return=",W_R_2_return)
 
+        print("******************************")
+        print(" Moving Joint(s) to Position")
+        print("******************************")
+        # Wait till robot is done moving
+        moving = self.read_robot_start_register()
+        while(moving):
+            moving = self.read_robot_start_register()
+
 
     # read R[1]
     def read_robot_start_register(self):
