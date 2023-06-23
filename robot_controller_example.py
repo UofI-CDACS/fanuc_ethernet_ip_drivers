@@ -29,8 +29,17 @@ def main():
     # Create new robot object
     crx10 = robot(drive_path)
 
+    # Set robot speed
+    crx10.set_speed(600)
+
     loops = 1
-    while(loops < 3):
+    while(loops <= 3):
+        print("******************************")
+        print("******************************")
+        print(f"Current loops: {loops}/3")
+        print("******************************")
+        print("******************************")
+
         # Home position (set all positions to 1)
         crx10.set_joints_to_home_position()
 
