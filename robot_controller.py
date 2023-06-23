@@ -28,6 +28,8 @@ import random
 import time
 import FANUCethernetipDriver
 
+FANUCethernetipDriver.DEBUG = False
+
 class robot:
     def __init__(self, robotIP):
         self.robot_IP = robotIP
@@ -74,7 +76,7 @@ class robot:
 
         W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
-        print("W_PR_1_return =", W_PR_1_return)
+        # print("W_PR_1_return =", W_PR_1_return)
 
     # write PR[1] Joint value
     def write_joint_position(self, joint, value):
@@ -91,7 +93,7 @@ class robot:
 
         W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
-        print("W_PR_1_return =", W_PR_1_return)
+        # print("W_PR_1_return =", W_PR_1_return)
 
     # Put robot in home position
     def set_joints_to_home_position(self):
@@ -112,7 +114,7 @@ class robot:
 
         W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
-        print("W_PR_1_return =", W_PR_1_return)
+        # print("W_PR_1_return =", W_PR_1_return)
 
     ##
     #
@@ -170,7 +172,7 @@ class robot:
         print("------------------------")
         W_R_5_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, speedRegister, value)
 
-        print ("W_R_5_return=",W_R_5_return)
+        # print ("W_R_5_return=",W_R_5_return)
 
 
     # write R[1] to start Robot
@@ -183,7 +185,7 @@ class robot:
         Value = 1
         W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, RegNum, Value)
 
-        print ("W_R_2_return=",W_R_2_return)
+        # print ("W_R_2_return=",W_R_2_return)
 
         print("******************************")
         print(" Moving Joint(s) to Position")
@@ -193,12 +195,16 @@ class robot:
         while(moving):
             moving = self.read_robot_start_register()
 
+        # Signal end of move action
+        print("*************************")
+        print(" Joint Move Complete")
+        print("*************************")
 
     # read R[1]
     def read_robot_start_register(self):
-        print("------------------------")
-        print(" read R[1] Register")
-        print("------------------------")
+        #print("------------------------")
+        #print(" read R[1] Register")
+        #print("------------------------")
 
         RegNum = 1
 

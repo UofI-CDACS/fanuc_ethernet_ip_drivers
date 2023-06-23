@@ -30,7 +30,7 @@ def main():
     crx10 = robot(drive_path)
 
     # Set robot speed
-    crx10.set_speed(600)
+    crx10.set_speed(300)
 
     loops = 1
     while(loops <= 3):
@@ -46,60 +46,17 @@ def main():
         # Execute move action
         crx10.start_robot()
 
-        # set moving variable to 1 from R[1]
-        moving = crx10.read_robot_start_register()
-        while(moving):
-            time.sleep(2)
-            print("******************************")
-            print(" Moving Joint(s) to Position")
-            print("******************************")
-            # Update variable from R[1]
-            moving = crx10.read_robot_start_register()
-
-        # Signal end of move action
-        print("*************************")
-        print(" Joint Move Complete")
-        print("*************************")
-
         # Write new position in joint 2 to -30
         crx10.write_joint_offset(2, -30)
 
         # Execute move action
         crx10.start_robot()
 
-        moving = crx10.read_robot_start_register()
-        while(moving):
-            time.sleep(2)
-            print("******************************")
-            print(" Moving Joint(s) to Position")
-            print("******************************")
-            # Update variable from R[1]
-            moving = crx10.read_robot_start_register()
-
-        # signal end of move action
-        print("*************************")
-        print(" Joint Move Complete")
-        print("*************************")
-
         # write new position in join 2 to 30
         crx10.write_joint_offset(2, 30)
 
         # Execute move action
         crx10.start_robot()
-
-        moving = crx10.read_robot_start_register()
-        while(moving):
-            time.sleep(2)
-            print("******************************")
-            print(" Moving Joint(s) to Position")
-            print("******************************")
-            # Update variable from R[1]
-            moving = crx10.read_robot_start_register()
-
-        # Signal end of move action
-        print("*************************")
-        print(" Joint Move Complete")
-        print("*************************")
 
         # write new position in join 3-6 to 30
         crx10.write_joint_offset(3, -50)
@@ -110,40 +67,11 @@ def main():
         # Execute move action
         crx10.start_robot()
 
-        moving = crx10.read_robot_start_register()
-        while(moving):
-            time.sleep(2)
-            print("******************************")
-            print(" Moving Joint(s) to Position")
-            print("******************************")
-            # Update variable from R[1]
-            moving = crx10.read_robot_start_register()
-
-        # Signal end of move action
-        print("*************************")
-        print(" Joint Move Complete")
-        print("*************************")
-
         # Home position (set all positions to 1)
         crx10.set_joints_to_home_position()
 
         # Execute move action
         crx10.start_robot()
-
-        # set moving variable to 1 from R[1]
-        moving = crx10.read_robot_start_register()
-        while(moving):
-            time.sleep(2)
-            print("*************************")
-            print(" Moving Joint(s) to Position")
-            print("*************************")
-            # Update variable from R[1]
-            moving = crx10.read_robot_start_register()
-
-        # Signal end of move action
-        print("*************************")
-        print(" Joint Move Complete")
-        print("*************************")
 
         # Print Final position list
         print("*************************")
