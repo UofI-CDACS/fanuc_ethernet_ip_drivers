@@ -9,12 +9,8 @@
 # Defines the base and end user class for controlling robot using FANUC-EthernetIP library
 #
 # @section todo_robot_controller todo_robot_controller
-# - Add cartesian functions
-# - Update/Modify/Refactor all functions for clarity and use
 # - Add more useful functions
 # -
-# - Function Ideas:
-# - Move robot function: Moves robot and checks register until finished
 # 
 # @section author_robot_controller Authors(s)
 # - Original Code by John Shovic
@@ -142,21 +138,18 @@ class robot:
         print("list=", PR_1_Value)
 
     # write PR[1] Cartesian Coordinates
-    #def write_cartesian_coordinates(self):
-    #    print("------------------------")
-    #    print(" write PR[1] Cartesian Coordinate")
-    #    print("------------------------")
+    def write_cartesian_coordinates(self, newX, newY, newZ):
+        self.CurCartesianPosList[2] = newX
+        self.CurCartesianPosList[3] = newY
+        self.CurCartesianPosList[4] = newZ
+        
+        print("------------------------")
+        print(" write PR[1] Cartesian Coordinate")
+        print("------------------------")
 
-    #    newZ = CurPosList[4]+random.randrange(-50.0, 50)
+        newPositionList = self.CurCartesianPosList
 
-    #    CurPosList[4] = newZ
-    #    print("CURPOS(Zoffset)=", CurPosList)
-
-    #    myList = CurPosList
-
-    #    W_PR_1_return = FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, myList)
-
-    #    print("W_PR_1_return =", W_PR_1_return)
+        W_PR_1_return = FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
 
     ##
     #
