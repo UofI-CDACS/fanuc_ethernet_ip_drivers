@@ -45,17 +45,17 @@ class robot:
 
     # read CURPOS from Robot
     def read_current_joint_position(self):
-        print("-----------------------------------------")
-        print(" Read current position from Robot")
-        print("-----------------------------------------")
+        print("------------------------------------")
+        print("| Read current position from Robot |")
+        print("------------------------------------")
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
         print("CURPOS=", self.CurJointPosList)
 
     # read PR[1] Joint Coordinates
     def read_joint_position_register(self):
-        print("------------------------")
-        print(" read PR[1] Joint Coordinate")
-        print("------------------------")
+        # print("------------------------")
+        # print(" read PR[1] Joint Coordinate")
+        # print("------------------------")
         PRNumber = 1
         PR_1_Value = FANUCethernetipDriver.readJointPositionRegister(self.robot_IP, self.PRNumber)
         print("PR[%d]"% self.PRNumber)
@@ -63,9 +63,9 @@ class robot:
 
     # write PR[1] offset
     def write_joint_offset(self, joint, value):
-        print("------------------------")
-        print(" write PR[1] Joint Coordinate")
-        print("------------------------")
+        print("***********************************************")
+        print(f" Write Joint Offset Value:[{value}] to Joint:[{joint}] ")
+        print("***********************************************")
         joint = joint + 1
 
         newPosition = self.CurJointPosList[joint] + value
@@ -80,9 +80,9 @@ class robot:
 
     # write PR[1] Joint value
     def write_joint_position(self, joint, value):
-        print("------------------------")
-        print(" write PR[1] Joint Coordinate")
-        print("------------------------")
+        print("--------------------------------")
+        print("| write PR[1] Joint Coordinate |")
+        print("--------------------------------")
         joint = joint + 1
 
         newPosition = value
@@ -97,9 +97,9 @@ class robot:
 
     # Put robot in home position
     def set_joints_to_home_position(self):
-        print("----------------------------------")
-        print(" Robot Returning to Home Position ")
-        print("----------------------------------")
+        print("*************************************************")
+        print("* Setting Joint Positions to Home Configuration *")
+        print("*************************************************")
 
         # Set positions DO NOT USE 0
         # joint coordinates start at list item 2, ie: Joint2 = CurPosList[3]
@@ -124,18 +124,18 @@ class robot:
 
     # read current cartesian position from Robot
     def read_current_cartesian_position(self):
-        print("------------------------")
-        print(" read CURPOS from Robot")
-        print("------------------------")
+        print("--------------------------")
+        print("| read CURPOS from Robot |")
+        print("--------------------------")
         CurPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(self.robot_IP)
 
         print("CURPOS=", CurPosList)
 
     # read PR[1] Cartesian Coordinates
     def read_cartesian_position_register(self):
-        print("------------------------")
-        print(" read PR[1] Cartesian Coordinate")
-        print("------------------------")
+        print("-----------------------------------")
+        print("| read PR[1] Cartesian Coordinate |")
+        print("-----------------------------------")
 
         PR_1_Value = FANUCethernetipDriver.readCartesianPositionRegister(self.robot_IP, self.PRNumber)
         print("PR[%d]"% self.PRNumber)
@@ -167,9 +167,9 @@ class robot:
     # write R[5] to set Speed in mm/sec
     def set_speed(self, value):
         speedRegister = 5 # R[5]
-        print("------------------------")
-        print(" Speed set to {value}mm/sec")
-        print("------------------------")
+        print("------------------------------")
+        print(f"| Speed set to {value}mm/sec |")
+        print("------------------------------")
         W_R_5_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, speedRegister, value)
 
         # print ("W_R_5_return=",W_R_5_return)
@@ -177,9 +177,10 @@ class robot:
 
     # write R[1] to start Robot
     def start_robot(self):  
-        print("------------------------")
-        print(" write R[1] to move arm ")
-        print("------------------------")
+        # Old printout, not needed
+        # print("------------------------")
+        # print(" write R[1] to move arm ")
+        #print("------------------------")
 
         RegNum = 1 # This register is used to start the robot when set to 1
         Value = 1
@@ -187,18 +188,15 @@ class robot:
 
         # print ("W_R_2_return=",W_R_2_return)
 
-        print("******************************")
-        print(" Moving Joint(s) to Position")
-        print("******************************")
         # Wait till robot is done moving
         moving = self.read_robot_start_register()
         while(moving):
             moving = self.read_robot_start_register()
 
         # Signal end of move action
-        print("*************************")
-        print(" Joint Move Complete")
-        print("*************************")
+        print("********************************************")
+        print("* Moving Joint(s) to Position(s): COMPLETE *")
+        print("********************************************")
 
     # read R[1]
     def read_robot_start_register(self):
@@ -230,9 +228,9 @@ class robot:
             W_R_20_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
             W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
-            print("------------------------")
-            print("Moving Conveyor Forward")
-            print("------------------------")
+            print("---------------------------")
+            print("| Moving Conveyor Forward |")
+            print("---------------------------")
 
             W_R_20_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, on)
             ## Set sync bit to update
@@ -242,17 +240,17 @@ class robot:
             W_R_20_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
             W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
-            print("------------------------")
-            print("Moving Conveyor in Reverse")
-            print("------------------------")
+            print("------------------------------")
+            print("| Moving Conveyor in Reverse |")
+            print("------------------------------")
 
             W_R_21_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, on)
             ## Set sync bit to update
             W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
         elif command == 'stop':
-            print("------------------------")
-            print("Stopping conveyor Belt")
-            print("------------------------")
+            print("--------------------------")
+            print("| Stopping conveyor Belt |")
+            print("--------------------------")
             W_R_21_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
             W_R_20_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
             ## Set sync bit to update

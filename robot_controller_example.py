@@ -30,33 +30,34 @@ def main():
     crx10 = robot(drive_path)
 
     # Set robot speed
-    crx10.set_speed(300)
+    crx10.set_speed(250)
 
     loops = 1
     while(loops <= 3):
-        print("******************************")
-        print("******************************")
+        print("==============================")
         print(f"Current loops: {loops}/3")
-        print("******************************")
-        print("******************************")
+        print("==============================")
 
         # Home position (set all positions to 1)
         crx10.set_joints_to_home_position()
 
         # Execute move action
         crx10.start_robot()
+        time.sleep(1)
 
         # Write new position in joint 2 to -30
         crx10.write_joint_offset(2, -30)
 
         # Execute move action
         crx10.start_robot()
+        time.sleep(1)
 
         # write new position in join 2 to 30
         crx10.write_joint_offset(2, 30)
 
         # Execute move action
         crx10.start_robot()
+        time.sleep(1)
 
         # write new position in join 3-6 to 30
         crx10.write_joint_offset(3, -50)
@@ -66,12 +67,14 @@ def main():
 
         # Execute move action
         crx10.start_robot()
+        time.sleep(1)
 
         # Home position (set all positions to 1)
         crx10.set_joints_to_home_position()
 
         # Execute move action
         crx10.start_robot()
+        time.sleep(1)
 
         # Print Final position list
         print("*************************")
@@ -83,7 +86,9 @@ def main():
         loops += 1
 
     # End program
+    print("==============================")
     print("END OF PROGRAM")
+    print("==============================")
 
 if __name__=="__main__":
     main()
