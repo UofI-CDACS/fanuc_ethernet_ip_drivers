@@ -110,27 +110,6 @@ class robot:
 
         W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
-    # Put CRX10 in a mount position to change end tooling
-    # !!! -- THIS JOIN CONFIGURATION IS FOR THE CRX10 ROBOT -- !!!
-    def set_joints_to_mount_position(self):
-        print("**************************************************")
-        print("* Setting Joint Positions to Mount Configuration *")
-        print("**************************************************")
-
-        # Set positions DO NOT USE 0
-        # joint coordinates start at list item 2, ie: Joint2 = CurPosList[3]
-        self.CurJointPosList[2] = 1.0 # J1
-        self.CurJointPosList[3] = 58.0 # J2
-        self.CurJointPosList[4] = -12.0 # J3
-        self.CurJointPosList[5] = -2.0 # J4
-        self.CurJointPosList[6] = 11.0 # J5 PB50IB does not like this join, OK on CRX10
-        self.CurJointPosList[7] = -6.0 # J6
-
-        myList = self.CurJointPosList
-
-        W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
-        # print("W_PR_1_return =", W_PR_1_return)
-
     ##
     #
     # Cartesian Movement Functions
@@ -209,6 +188,27 @@ class robot:
         print("********************************************")
         print("* Moving Joint(s) to Position(s): COMPLETE *")
         print("********************************************")
+
+    # Put CRX10 in a mount position to change end tooling
+    # !!! -- THIS JOIN CONFIGURATION IS FOR THE CRX10 ROBOT -- !!!
+    def set_joints_to_mount_position(self):
+        print("**************************************************")
+        print("* Setting Joint Positions to Mount Configuration *")
+        print("**************************************************")
+
+        # Set positions DO NOT USE 0
+        # joint coordinates start at list item 2, ie: Joint2 = CurPosList[3]
+        self.CurJointPosList[2] = 1.0 # J1
+        self.CurJointPosList[3] = 58.0 # J2
+        self.CurJointPosList[4] = -12.0 # J3
+        self.CurJointPosList[5] = -2.0 # J4
+        self.CurJointPosList[6] = 11.0 # J5 PB50IB does not like this join, OK on CRX10
+        self.CurJointPosList[7] = -6.0 # J6
+
+        myList = self.CurJointPosList
+
+        W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        # print("W_PR_1_return =", W_PR_1_return)
 
     # read R[1]
     def read_robot_start_register(self):
