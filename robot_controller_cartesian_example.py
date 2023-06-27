@@ -19,8 +19,8 @@ import time
 from robot_controller import robot
 
 # Global Constants
-#drive_path = '129.101.98.214' # Bill
-drive_path = '129.101.98.215' # DJ
+drive_path = '129.101.98.214' # Bill
+#drive_path = '129.101.98.215' # DJ
 #drive_path = '129.101.98.244' # Larry
 
 def main():
@@ -46,7 +46,8 @@ def main():
         # Read current cartesian coordinates
         crx10.read_current_cartesian_position()
 
-        crx10.write_cartesian_coordinates(808, 106, 550)
+        crx10.write_cartesian_coordinates(714, -170, 650)
+        #crx10.write_cartesian_coordinates(714, -137, 650)
         # Execute move action
         crx10.start_robot()
 

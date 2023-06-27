@@ -16,6 +16,7 @@
 # Imports
 import sys
 import time
+import random
 from robot_controller import robot
 
 # Global Constants
@@ -30,10 +31,13 @@ def main():
     crx10 = robot(drive_path)
 
     # Set robot speed
-    crx10.set_speed(250)
+    crx10.set_speed(300)
 
     loops = 1
     while(loops <= 3):
+        
+        # Set robot speed
+        #crx10.set_speed(random.randrange(200, 300))
         print("==============================")
         print(f"Current loops: {loops}/3")
         print("==============================")
