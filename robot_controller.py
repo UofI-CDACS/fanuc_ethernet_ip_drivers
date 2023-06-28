@@ -252,7 +252,7 @@ class robot:
         else:
             print("Invalid command.")
 
-    # Read conveyor belt sensor
+    # Read conveyor belt sensor: returns value of 1 or 0
     def conveyor_proximity_sensor(self, sensor):
         right_sensor_register = 31
         left_sensor_register = 30
@@ -278,42 +278,34 @@ class robot:
 
         if command == 'forward':
             # Make sure belt is not moving
-            W_R_21_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
-            W_R_20_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
-            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
-            print("---------------------------")
-            print("| Moving Conveyor Forward |")
-            print("---------------------------")
-
-            W_R_20_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, on)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, on)
             ## Set sync bit to update
-            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
         elif command == 'reverse':
-            W_R_21_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
-            W_R_20_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
-            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
-            print("------------------------------")
-            print("| Moving Conveyor in Reverse |")
-            print("------------------------------")
-
-            W_R_21_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, on)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, on)
             ## Set sync bit to update
-            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
         elif command == 'stop':
             print("--------------------------")
             print("| Stopping conveyor Belt |")
             print("--------------------------")
-            W_R_21_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
-            W_R_20_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
             ## Set sync bit to update
-            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
         else:
-            W_R_21_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
-            W_R_20_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
             ## Set sync bit to update
-            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
             
 
