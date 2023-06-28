@@ -239,12 +239,15 @@ class robot:
 
         if command == 'open':
             print("Opening Gripper...\n")
+            # set bits to toggle 20 off and 23 on
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 0)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 1)
             W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
         elif command == 'close':
             print("Closing Gripper...\n")
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 1)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 0)
             W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
         else:
