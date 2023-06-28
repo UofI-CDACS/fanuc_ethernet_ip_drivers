@@ -19,8 +19,8 @@ import random
 from robot_controller import robot
 
 # Global Constants
-drive_path = '129.101.98.214' # Bill
-#drive_path = '129.101.98.215' # DJ
+#drive_path = '129.101.98.214' # Bill
+drive_path = '129.101.98.215' # DJ
 #drive_path = '129.101.98.244' # Larry
 
 def main():
