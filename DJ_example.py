@@ -105,6 +105,9 @@ def main():
         # increment loops
         loops += 1
 
+    # Set robot speed
+    crx10.set_speed(100)
+
     crx10.set_joints_to_mount_position()
     crx10.start_robot()
     time.sleep(1)
