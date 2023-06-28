@@ -31,7 +31,7 @@ def main():
     crx10 = robot(drive_path)
 
     # Set robot speed
-    crx10.set_speed(200)
+    crx10.set_speed(300)
 
     loops = 1
     while(loops <= 2):
