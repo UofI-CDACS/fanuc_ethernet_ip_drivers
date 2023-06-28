@@ -37,7 +37,8 @@ def main():
 
     # Ping pong an object back and forth between sensors and then stop when program exits
     try:
-        while(True):
+        loops = 0
+        while(loops <= 50):
             # Check Sensors
             right = crx10.conveyor_proximity_sensor("right")
             left = crx10.conveyor_proximity_sensor("left")
@@ -52,6 +53,7 @@ def main():
 
             # Brief sleep to check sensors
             time.sleep(0.1)
+            loops += 1
     finally:
         print("Stopping conveyor belt...")
         crx10.conveyor("stop")

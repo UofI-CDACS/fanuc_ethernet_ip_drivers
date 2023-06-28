@@ -20,8 +20,8 @@ import random
 from robot_controller import robot
 
 # Global Constants
-drive_path = '129.101.98.214' # Bill
-#drive_path = '129.101.98.215' # DJ
+#drive_path = '129.101.98.214' # Bill
+drive_path = '129.101.98.215' # DJ
 #drive_path = '129.101.98.244' # Larry
 
 def main():
@@ -101,14 +101,19 @@ def main():
         crx10.start_robot()
         time.sleep(1)
 
-        # Print Final position list
-        print("*************************")
-        print(" Final Joint Positions")
-        print("*************************")
-        crx10.read_current_joint_position()
 
         # increment loops
         loops += 1
+
+    crx10.set_joints_to_mount_position()
+    crx10.start_robot()
+    time.sleep(1)
+
+    # Print Final position list
+    print("*************************")
+    print(" Final Joint Positions")
+    print("*************************")
+    crx10.read_current_joint_position()
 
     # End program
     print("==============================")

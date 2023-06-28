@@ -43,11 +43,8 @@ class robot:
 
     # read CURPOS from Robot
     def read_current_joint_position(self):
-        print("------------------------------------")
-        print("| Read current position from Robot |")
-        print("------------------------------------")
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
-        print("CURPOS=", self.CurJointPosList)
+        #print("CURPOS=", self.CurJointPosList)
 
     # read PR[1] Joint Coordinates
     def read_joint_position_register(self):
@@ -64,17 +61,17 @@ class robot:
         print("***********************************************")
         print(f" Write Joint Offset Value:[{value}] to Joint:[{joint}] ")
         print("***********************************************")
-        joint = joint + 1
+        joint += 1
 
         newPosition = self.CurJointPosList[joint] + value
+        print(f"New Position value: {newPosition}\n")
 
         self.CurJointPosList[joint] = newPosition
+        print(self.CurJointPosList[joint])
 
         myList = self.CurJointPosList
 
-        W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
-
-        # print("W_PR_1_return =", W_PR_1_return)
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
     # write PR[1] Joint value
     def write_joint_position(self, joint, value):
@@ -89,9 +86,7 @@ class robot:
 
         myList = self.CurJointPosList
 
-        W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
-
-        # print("W_PR_1_return =", W_PR_1_return)
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
     # Put robot in home position
     def set_joints_to_home_position(self):
@@ -185,6 +180,9 @@ class robot:
         moving = self.read_robot_start_register()
         while(moving):
             moving = self.read_robot_start_register()
+
+        # Update position List
+        self.read_current_joint_position()
 
         # Signal end of move action
         print("********************************************")
