@@ -32,6 +32,8 @@ class robot:
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
         self.CurCartesianPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(self.robot_IP)
         self.PRNumber = 1 # This is the position register for holding coordinates
+        self.sync_register = 2
+        self.sync_value = 1
 
     ##
     #
@@ -221,6 +223,46 @@ class robot:
         R_R_2_return = FANUCethernetipDriver.readR_Register(self.robot_IP, RegNum)
         return R_R_2_return
         #print ("R_R_2_return=",R_R_2_return)
+
+    # NOT CURRENTLY WORKING
+    def gripper(self, command):
+        # Register number for the gripper
+        gripperReg = 20
+        sync_register = 2
+        sync_value = 1
+
+        # Get current gripper state
+        gripper_open = FANUCethernetipDriver.readR_Register(self.robot_IP, gripperReg)
+        print(f"Gripper Register Value: {gripper_open}")
+        open_status = FANUCethernetipDriver.readR_Register(self.robot_IP, 32)
+        print(f"Grippen open status: {open_status}\n")
+        closed_status = FANUCethernetipDriver.readR_Register(self.robot_IP, 33)
+        print(f"Grippen closed status: {closed_status}\n")
+
+        if command == 'open':
+            print("Opening Gripper...\n")
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 0)
+            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+
+        elif command == 'close':
+            print("Closing Gripper...\n")
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 1)
+            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+
+        else:
+            print("Invalid command.")
+
+    # Read conveyor belt sensor
+    def conveyor_proximity_sensor(self, sensor):
+        right_sensor_register = 31
+        left_sensor_register = 30
+
+        if sensor == "right":
+            return FANUCethernetipDriver.readR_Register(self.robot_IP, right_sensor_register)
+        elif sensor == "left":
+            return FANUCethernetipDriver.readR_Register(self.robot_IP, left_sensor_register)
+        else:
+            print("Invalid Sensor, Try 'right' or 'left'\n")
 
     # Control conveyor belt
     def conveyor(self, command):
