@@ -224,18 +224,19 @@ class robot:
 
     # NOT CURRENTLY WORKING
     def gripper(self, command):
+        # !! Registers 20 and 23 need to be toggled for opening and closing !!
         # Register number for the gripper
         gripperReg = 20
         sync_register = 2
         sync_value = 1
 
         # Get current gripper state
-        gripper_open = FANUCethernetipDriver.readR_Register(self.robot_IP, gripperReg)
-        print(f"Gripper Register Value: {gripper_open}")
-        open_status = FANUCethernetipDriver.readR_Register(self.robot_IP, 32)
-        print(f"Grippen open status: {open_status}\n")
-        closed_status = FANUCethernetipDriver.readR_Register(self.robot_IP, 33)
-        print(f"Grippen closed status: {closed_status}\n")
+        # gripper_open = FANUCethernetipDriver.readR_Register(self.robot_IP, gripperReg)
+        # print(f"Gripper Register Value: {gripper_open}")
+        # open_status = FANUCethernetipDriver.readR_Register(self.robot_IP, 32)
+        # print(f"Grippen open status: {open_status}\n")
+        # closed_status = FANUCethernetipDriver.readR_Register(self.robot_IP, 33)
+        # print(f"Grippen closed status: {closed_status}\n")
 
         if command == 'open':
             print("Opening Gripper...\n")
