@@ -120,7 +120,7 @@ def main():
     crx10.set_joints_to_home_position()
 
     #start conveyor
-    crx10.conveyor("forward")
+    #crx10.conveyor("forward")
 
     # Sync bit and move robot
     crx10.start_robot()
@@ -230,9 +230,6 @@ def main():
         # Sync bit and move robot
         crx10.start_robot()
 
-        #start conveyor
-        crx10.conveyor("forward")
-
         #  MOVE INTO WAIT POSITION IN MIDDLE
         crx10.write_joint_position(1, 73.16226196289062)
         crx10.write_joint_position(2, 10.072640419006348)
@@ -242,7 +239,8 @@ def main():
         crx10.write_joint_position(6, -41.75325012207031)
         # Sync bit and move robot
         crx10.start_robot()
-        time.sleep(sleep_time)
+
+        time.sleep(0.1)
 
         loops += 1
 
