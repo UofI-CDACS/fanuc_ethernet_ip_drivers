@@ -32,7 +32,7 @@ def main():
     crx10 = robot(drive_path)
 
     # Set robot speed
-    crx10.set_speed(200)
+    crx10.set_speed(400)
 
     # Move robot to home position and open gripper
     crx10.set_joints_to_home_position()
