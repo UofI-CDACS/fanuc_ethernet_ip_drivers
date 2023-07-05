@@ -105,7 +105,7 @@ class robot:
 
         myList = self.CurJointPosList
 
-        W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
     ##
     #
@@ -144,7 +144,7 @@ class robot:
 
         newPositionList = self.CurCartesianPosList
 
-        W_PR_1_return = FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
+        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
 
     ##
     #
@@ -158,10 +158,7 @@ class robot:
         print("------------------------------")
         print(f"| Speed set to {value}mm/sec |")
         print("------------------------------")
-        W_R_5_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, speedRegister, value)
-
-        # print ("W_R_5_return=",W_R_5_return)
-
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, speedRegister, value)
 
     # write R[1] to start Robot
     def start_robot(self):  
@@ -172,7 +169,7 @@ class robot:
 
         RegNum = 1 # This register is used to start the robot when set to 1
         Value = 1
-        W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, RegNum, Value)
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, RegNum, Value)
 
         # print ("W_R_2_return=",W_R_2_return)
 
@@ -207,8 +204,7 @@ class robot:
 
         myList = self.CurJointPosList
 
-        W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
-        # print("W_PR_1_return =", W_PR_1_return)
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
     # read R[1]
     def read_robot_start_register(self):
@@ -243,13 +239,13 @@ class robot:
             # set bits to toggle 20 off and 23 on
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 0)
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 1)
-            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
         elif command == 'close':
             print("Closing Gripper...\n")
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 1)
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 0)
-            W_R_2_return = FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
         else:
             print("Invalid command.")
