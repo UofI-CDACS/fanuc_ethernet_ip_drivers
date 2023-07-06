@@ -96,6 +96,10 @@ class robot:
         for joint in joint_position_array:
             self.CurJointPosList[joint_number + 1] = joint_position_array[joint_number - 1]
             joint_number += 1
+
+        myList = self.CurJointPosList
+
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
         
 
     # Put robot in home position
