@@ -50,7 +50,7 @@ def main():
     # Sync bit and move robot
     crx10.start_robot()
 
-    time.sleep(sleep_time)
+    #time.sleep(sleep_time)
 
 
     # Move to SECOND position (MOVE DOWN TO GRAB DICE)
@@ -59,12 +59,12 @@ def main():
     # Sync bit and move robot
     crx10.start_robot()
 
-    time.sleep(sleep_time)
+    #time.sleep(sleep_time)
 
     # Close gripper
     crx10.gripper("close")
     # Pause briefly so gripper can close
-    time.sleep(1)
+    time.sleep(0.5)
 
     # Move back to FIRST position (HOLDING DICE, CLEAR TABLE)
     crx10.set_pose(pose1)
@@ -85,7 +85,7 @@ def main():
     # Open gripper
     crx10.gripper("open")
     # Pause briefly so gripper can open
-    time.sleep(sleep_time)
+    time.sleep(0.5)
 
     # Move back to THIRD position (NOT HOLDING DICE, CLEAR TABLE)
     crx10.set_pose(pose3)
@@ -102,10 +102,10 @@ def main():
 
     # Sync bit and move robot
     crx10.start_robot()
-    time.sleep(sleep_time)
+    #time.sleep(sleep_time)
 
     loops = 1
-    while(loops <= 3):
+    while(loops <= 5):
         # if conveyor_toggle == True:
         #     conveyor_toggle = False
         # else:
@@ -145,25 +145,25 @@ def main():
         crx10.set_pose(pose5)
         # Sync bit and move robot
         crx10.start_robot()
-        time.sleep(sleep_time)
+        #time.sleep(sleep_time)
 
         # Move to SIXTH position (MOVE DOWN AND PICK UP DICE)
         pose6 = [106.07597351074219,9.101266860961914,-31.484973907470703,-1.0569950342178345,-57.83364486694336,-74.26985168457031]
         crx10.set_pose(pose6)
         # Sync bit and move robot
         crx10.start_robot()
-        time.sleep(sleep_time)
+        #time.sleep(sleep_time)
 
         # Close gripper
         crx10.gripper("close")
         # Pause briefly so gripper can close
-        time.sleep(1)
+        time.sleep(0.5)
 
         # Move back to FIFTH position (HOLDING DICE, CLEAR TABLE)
         crx10.set_pose(pose5)
         # Sync bit and move robot
         crx10.start_robot()
-        time.sleep(sleep_time)
+        #time.sleep(sleep_time)
 
         # Move to THIRD position (PREPARE TO PLACE DICE)
         crx10.set_pose(pose3)
@@ -177,7 +177,7 @@ def main():
         # Open gripper
         crx10.gripper("open")
         # Pause briefly so gripper can open
-        time.sleep(1)
+        time.sleep(0.5)
 
         #start conveyor
         crx10.conveyor("forward")
