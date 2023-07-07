@@ -234,7 +234,7 @@ class robot:
 
         FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
-    # read R[1]
+    # This function reads register 1(sync bit for position register)
     def read_robot_start_register(self):
         start_register = FANUCethernetipDriver.readR_Register(self.robot_IP, self.start_register)
         return start_register
