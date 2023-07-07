@@ -22,6 +22,7 @@ sys.path.append('./pycomm3/pycomm3')
 import struct
 import random
 import time
+import math
 import FANUCethernetipDriver
 
 FANUCethernetipDriver.DEBUG = False
@@ -46,14 +47,9 @@ class robot:
     # read CURPOS from Robot
     def read_current_joint_position(self):
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
-        #print("CURPOS=", self.CurJointPosList)
 
     # read PR[1] Joint Coordinates
     def read_joint_position_register(self):
-        # print("------------------------")
-        # print(" read PR[1] Joint Coordinate")
-        # print("------------------------")
-        PRNumber = 1
         PR_1_Value = FANUCethernetipDriver.readJointPositionRegister(self.robot_IP, self.PRNumber)
         print("PR[%d]"% self.PRNumber)
         print("list=", PR_1_Value)
@@ -130,7 +126,7 @@ class robot:
     ##
 
     # read current cartesian position from Robot
-    def read_current_cartesian_position(self):
+    def get_coords(self):
         print("--------------------------")
         print("| read CURPOS from Robot |")
         print("--------------------------")
@@ -149,7 +145,7 @@ class robot:
         print("list=", PR_1_Value)
 
     # write PR[1] Cartesian Coordinates
-    def write_cartesian_coordinates(self, newX, newY, newZ):
+    def send_coords(self, newX, newY, newZ):
         self.CurCartesianPosList[2] = newX
         self.CurCartesianPosList[3] = newY
         self.CurCartesianPosList[4] = newZ
@@ -161,6 +157,29 @@ class robot:
         newPositionList = self.CurCartesianPosList
 
         FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
+
+    ##
+    #
+    # Radian Movement
+    #
+    ##
+
+    # Get the radians of all joints
+    # Returns: list: A float list of radians
+    def get_radians(self):
+        self.read_current_joint_position()
+        indices = range(2,8)
+        radian_list = [self.CurJointPosList[i] for i in indices]
+
+        for i in range(len(radian_list)):
+            radian_list[i] = math.radians((radian_list[i]))
+
+        return radian_list
+
+
+    # Send the radians of all joints to robot
+    def send_radians(self, radians):
+        pass
 
     ##
     #
@@ -180,13 +199,10 @@ class robot:
         return FANUCethernetipDriver.readR_Register(self.robot_IP, self.speed_register)
         
 
-    # write R[1] to start Robot
+    # Starts robot movement and checks to see when it has completed
     def start_robot(self):  
-        RegNum = 1 # This register is used to start the robot when set to 1
-        Value = 1
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, RegNum, Value)
-
-        # print ("W_R_2_return=",W_R_2_return)
+        # Write to start register to begin movement
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, self.start_register, 1)
 
         # Wait till robot is done moving
         moving = self.read_robot_start_register()
@@ -301,9 +317,6 @@ class robot:
             ## Set sync bit to update
             FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
         elif command == 'stop':
-            print("--------------------------")
-            print("| Stopping conveyor Belt |")
-            print("--------------------------")
             FANUCethernetipDriver.writeR_Register(self.robot_IP, reverse_register, off)
             FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
             ## Set sync bit to update
@@ -313,8 +326,6 @@ class robot:
             FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
             ## Set sync bit to update
             FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
-
-            
 
 
 
