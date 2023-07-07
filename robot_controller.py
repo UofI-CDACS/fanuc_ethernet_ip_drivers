@@ -32,6 +32,7 @@ class robot:
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
         self.CurCartesianPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(self.robot_IP)
         self.PRNumber = 1 # This is the position register for holding coordinates
+        self.start_register = 1
         self.sync_register = 2
         self.sync_value = 1
         self.speed_register = 5
@@ -181,11 +182,6 @@ class robot:
 
     # write R[1] to start Robot
     def start_robot(self):  
-        # Old printout, not needed
-        # print("------------------------")
-        # print(" write R[1] to move arm ")
-        #print("------------------------")
-
         RegNum = 1 # This register is used to start the robot when set to 1
         Value = 1
         FANUCethernetipDriver.writeR_Register(self.robot_IP, RegNum, Value)
@@ -204,6 +200,19 @@ class robot:
         print("********************************************")
         print("* Moving Joint(s) to Position(s): COMPLETE *")
         print("********************************************")
+
+    # Detect if the robot is moving
+    def is_moving(self):
+        start_register = read_robot_start_register()
+        if start_register == 1:
+            return 1
+
+        elif start_register == 0:
+            return 0
+
+        else:
+            return -1
+
 
     # Put CRX10 in a mount position to change end tooling
     # !!! -- THIS JOIN CONFIGURATION IS FOR THE CRX10 ROBOT -- !!!
@@ -227,44 +236,25 @@ class robot:
 
     # read R[1]
     def read_robot_start_register(self):
-        #print("------------------------")
-        #print(" read R[1] Register")
-        #print("------------------------")
+        start_register = FANUCethernetipDriver.readR_Register(self.robot_IP, self.start_register)
+        return start_register
 
-        RegNum = 1
-
-        R_R_2_return = FANUCethernetipDriver.readR_Register(self.robot_IP, RegNum)
-        return R_R_2_return
-        #print ("R_R_2_return=",R_R_2_return)
-
-    # NOT CURRENTLY WORKING
+    # Toggle gripper open and close
     def gripper(self, command):
         # !! Registers 20 and 23 need to be toggled for opening and closing !!
-        # Register number for the gripper
-        gripperReg = 20
-        sync_register = 2
-        sync_value = 1
-
-        # Get current gripper state
-        # gripper_open = FANUCethernetipDriver.readR_Register(self.robot_IP, gripperReg)
-        # print(f"Gripper Register Value: {gripper_open}")
-        # open_status = FANUCethernetipDriver.readR_Register(self.robot_IP, 32)
-        # print(f"Grippen open status: {open_status}\n")
-        # closed_status = FANUCethernetipDriver.readR_Register(self.robot_IP, 33)
-        # print(f"Grippen closed status: {closed_status}\n")
 
         if command == 'open':
             print("Opening Gripper...\n")
             # set bits to toggle 20 off and 23 on
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 0)
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 1)
-            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, self.sync_register, 1)
 
         elif command == 'close':
             print("Closing Gripper...\n")
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 1)
             FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 0)
-            FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, self.sync_register, 1)
 
         else:
             print("Invalid command.")
