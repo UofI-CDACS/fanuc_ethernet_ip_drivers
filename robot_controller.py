@@ -34,6 +34,7 @@ class robot:
         self.PRNumber = 1 # This is the position register for holding coordinates
         self.sync_register = 2
         self.sync_value = 1
+        self.speed_register = 5
 
     ##
     #
@@ -168,11 +169,15 @@ class robot:
 
     # write R[5] to set Speed in mm/sec
     def set_speed(self, value):
-        speedRegister = 5 # R[5]
-        print("------------------------------")
-        print(f"| Speed set to {value}mm/sec |")
-        print("------------------------------")
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, speedRegister, value)
+        # print("------------------------------")
+        # print(f"| Speed set to {value}mm/sec |")
+        # print("------------------------------")
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, self.speed_register, value)
+
+    # get current speed
+    def get_speed(self):
+        return FANUCethernetipDriver.readR_Register(self.robot_IP, self.speed_register)
+        
 
     # write R[1] to start Robot
     def start_robot(self):  
