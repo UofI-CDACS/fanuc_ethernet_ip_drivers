@@ -105,12 +105,12 @@ def main():
     #time.sleep(sleep_time)
 
     loops = 1
-    while(loops <= 2):
+    while(loops <= 3):
         # if conveyor_toggle == True:
         #     conveyor_toggle = False
         # else:
         #     crx10.conveyor("forward")
-        print(f"Loops: {loops}/5")
+        print(f"Loops: {loops}/3")
         # conveyor_toggle = False
 
         try:
