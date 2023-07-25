@@ -200,22 +200,27 @@ class robot:
         
 
     # Starts robot movement and checks to see when it has completed
-    def start_robot(self):  
+    # Default to blocking 
+    # Function will block until move action is complete
+    def start_robot(self, blocking=True):  
         # Write to start register to begin movement
         FANUCethernetipDriver.writeR_Register(self.robot_IP, self.start_register, 1)
 
         # Wait till robot is done moving
-        moving = self.read_robot_start_register()
-        while(moving):
+        if blocking == True:
             moving = self.read_robot_start_register()
+            while(moving):
+                moving = self.read_robot_start_register()
 
-        # Update position List
-        self.read_current_joint_position()
+            # Update position List
+            self.read_current_joint_position()
 
-        # Signal end of move action
-        print("********************************************")
-        print("* Moving Joint(s) to Position(s): COMPLETE *")
-        print("********************************************")
+            # Signal end of move action
+            print("********************************************")
+            print("* Moving Joint(s) to Position(s): COMPLETE *")
+            print("********************************************")
+        elif blocking == False:
+            pass
 
     # Detect if the robot is moving
     def is_moving(self):
