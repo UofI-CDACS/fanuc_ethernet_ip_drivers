@@ -197,8 +197,21 @@ class robot:
     # get current speed
     def get_speed(self):
         return FANUCethernetipDriver.readR_Register(self.robot_IP, self.speed_register)
-        
 
+    # select UTOOL
+    # !-- MUST BE VALID UTOOL NUMBER FROM TEACHING PENDANT --!
+    def select_utool(self, toolNumber):
+        self.CurJointPosList[0] = toolNumber
+        myList = self.CurJointPosList
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+
+    # select UFRAME
+    # !-- MUST BE VALID UFRAME NUMBER FROM TEACHING PENDANT --!
+    def select_uframe(self, frameNumber):
+        self.CurJointPosList[1] = frameNumber # J1
+        myList = self.CurJointPosList
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        
     # Starts robot movement and checks to see when it has completed
     # Default to blocking 
     # Function will block until move action is complete
