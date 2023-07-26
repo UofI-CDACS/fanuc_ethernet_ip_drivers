@@ -145,14 +145,15 @@ class robot:
         print("list=", PR_1_Value)
 
     # write PR[1] Cartesian Coordinates
-    def send_coords(self, newX, newY, newZ):
-        self.CurCartesianPosList[2] = newX
-        self.CurCartesianPosList[3] = newY
-        self.CurCartesianPosList[4] = newZ
-        
-        print("------------------------")
-        print(" write PR[1] Cartesian Coordinate")
-        print("------------------------")
+    # Takes x, y, z, w, p, r coords.
+    # WPR are the orientation of the end effector, DEFAULT to current orientation
+    def send_coords(self, X, Y, Z, W=None, P=None, R=None):
+        self.CurCartesianPosList[2] = X
+        self.CurCartesianPosList[3] = Y
+        self.CurCartesianPosList[4] = Z
+        self.CurCartesianPosList[5] = W if W is not None else self.CurCartesianPosList[5]
+        self.CurCartesianPosList[6] = P if P is not None else self.CurCartesianPosList[6]
+        self.CurCartesianPosList[7] = R if R is not None else self.CurCartesianPosList[7]
 
         newPositionList = self.CurCartesianPosList
 
@@ -202,15 +203,19 @@ class robot:
     # !-- MUST BE VALID UTOOL NUMBER FROM TEACHING PENDANT --!
     def select_utool(self, toolNumber):
         self.CurJointPosList[0] = toolNumber
-        myList = self.CurJointPosList
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        jointPosList = self.CurJointPosList
+        cartPosList = self.CurCartesianPosList
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, jointPosList)
+        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, cartPosList)
 
     # select UFRAME
     # !-- MUST BE VALID UFRAME NUMBER FROM TEACHING PENDANT --!
     def select_uframe(self, frameNumber):
         self.CurJointPosList[1] = frameNumber # J1
-        myList = self.CurJointPosList
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        jointPosList = self.CurJointPosList
+        cartPosList = self.CurCartesianPosList
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, jointPosList)
+        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, cartPosList)
         
     # Starts robot movement and checks to see when it has completed
     # Default to blocking 
