@@ -199,23 +199,6 @@ class robot:
     def get_speed(self):
         return FANUCethernetipDriver.readR_Register(self.robot_IP, self.speed_register)
 
-    # select UTOOL
-    # !-- MUST BE VALID UTOOL NUMBER FROM TEACHING PENDANT --!
-    def select_utool(self, toolNumber):
-        self.CurJointPosList[0] = toolNumber
-        jointPosList = self.CurJointPosList
-        cartPosList = self.CurCartesianPosList
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, jointPosList)
-        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, cartPosList)
-
-    # select UFRAME
-    # !-- MUST BE VALID UFRAME NUMBER FROM TEACHING PENDANT --!
-    def select_uframe(self, frameNumber):
-        self.CurJointPosList[1] = frameNumber # J1
-        jointPosList = self.CurJointPosList
-        cartPosList = self.CurCartesianPosList
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, jointPosList)
-        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, cartPosList)
         
     # Starts robot movement and checks to see when it has completed
     # Default to blocking 
