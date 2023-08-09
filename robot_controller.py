@@ -198,7 +198,6 @@ class robot:
     # get current speed
     def get_speed(self):
         return FANUCethernetipDriver.readR_Register(self.robot_IP, self.speed_register)
-
         
     # Starts robot movement and checks to see when it has completed
     # Default to blocking 
@@ -237,6 +236,7 @@ class robot:
 
 
     # Put CRX10 in a mount position to change end tooling
+    # !!! -- THIS CAN BE MOVED INTO OWN FILE -- !!!
     # !!! -- THIS JOIN CONFIGURATION IS FOR THE CRX10 ROBOT -- !!!
     def set_joints_to_mount_position(self):
         print("**************************************************")
@@ -280,6 +280,43 @@ class robot:
 
         else:
             print("Invalid command.")
+
+    # Open onRobot gripper
+    def onRobot_gripper_open(self, width_in_mm, force_in_newtons):
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 1) # Instance typically 1
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 36, width_in_mm) # Set open width in mm
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 37, force_in_newtons) # Set open force in newtons
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 42, 8) # Set to 1 for use with R[43]
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 43, 50) # Register # you want data sent to
+        #FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 1) # Set sync bit for onRobot gripper 1 = open
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 3) # Set sync bit for onRobot gripper 1 = open
+        read_35 = FANUCethernetipDriver.readR_Register(self.robot_IP, 35)
+        read_36 = FANUCethernetipDriver.readR_Register(self.robot_IP, 36)
+        read_37 = FANUCethernetipDriver.readR_Register(self.robot_IP, 37)
+        read_38 = FANUCethernetipDriver.readR_Register(self.robot_IP, 38)
+        read_3 = FANUCethernetipDriver.readR_Register(self.robot_IP, 3)
+        read_50 = FANUCethernetipDriver.readR_Register(self.robot_IP, 50)
+        read_42 = FANUCethernetipDriver.readR_Register(self.robot_IP, 42)
+        read_43 = FANUCethernetipDriver.readR_Register(self.robot_IP, 43)
+        read_46 = FANUCethernetipDriver.readR_Register(self.robot_IP, 46)
+        read_50 = FANUCethernetipDriver.readR_Register(self.robot_IP, 50)
+        print(f"Register 35: {read_35}")
+        print(f"Register 36: {read_36}")
+        print(f"Register 37: {read_37}")
+        print(f"Register 38: {read_38}")
+        print(f"Register 43: {read_43}")
+        print(f"Register 50: {read_50}")
+        print(f"Register 3: {read_3}")
+
+
+    # Close onRobot gripper
+    def onRobot_gripper_close(self, width_in_mm, force_in_newtons):
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 1) # Instance typically 1
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 39, width_in_mm) # Set close width in mm
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 40, force_in_newtons) # Set close force in newtons
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 2) # Set sync bit for onRobot gripper 2 = close
+
+
 
     # Read conveyor belt sensor: returns value of 1 or 0
     def conveyor_proximity_sensor(self, sensor):
