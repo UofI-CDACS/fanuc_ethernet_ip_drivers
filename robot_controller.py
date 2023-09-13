@@ -15,6 +15,7 @@
 # @section author_robot_controller Authors(s)
 # - Original Code by John Shovic
 # - Modified by James Lasso on 6/12/2023
+#
 
 # Imports
 import sys
@@ -25,10 +26,17 @@ import time
 import math
 import FANUCethernetipDriver
 
+## The mode of operation; 
 FANUCethernetipDriver.DEBUG = False
 
+## Robot Class
+# @param self, robotIP
 class robot:
     def __init__(self, robotIP):
+        """! Initializes the robot.
+        @param self         reference to current instance
+        @param robotIP      IP address of robot
+        """
         self.robot_IP = robotIP
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
         self.CurCartesianPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(self.robot_IP)
@@ -38,20 +46,22 @@ class robot:
         self.sync_value = 1
         self.speed_register = 5
 
-    ##
-    #
     # Joint movement functions
-    #
-    ##
 
-    # read CURPOS from Robot
     def read_current_joint_position(self):
+        """! Updates the robots joint position list.
+        @param self         reference to current instance
+        """
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
 
     # read PR[1] Joint Coordinates
     def read_joint_position_register(self):
+        """! Reads joint position register(PR1) and prints the value and prints list.
+        @param self         reference to current instance
+        """
         PR_1_Value = FANUCethernetipDriver.readJointPositionRegister(self.robot_IP, self.PRNumber)
         print("PR[%d]"% self.PRNumber)
+        ## Print list of values
         print("list=", PR_1_Value)
 
     # write PR[1] offset
@@ -119,11 +129,7 @@ class robot:
 
         FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
-    ##
-    #
     # Cartesian Movement Functions
-    #
-    ##
 
     # read current cartesian position from Robot
     def get_coords(self):
@@ -159,11 +165,7 @@ class robot:
 
         FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
 
-    ##
-    #
     # Radian Movement
-    #
-    ##
 
     # Get the radians of all joints
     # Returns: list: A float list of radians
@@ -182,11 +184,7 @@ class robot:
     def send_radians(self, radians):
         pass
 
-    ##
-    #
     # Utility Functions
-    #
-    ##
 
     # write R[5] to set Speed in mm/sec
     def set_speed(self, value):

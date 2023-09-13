@@ -1,0 +1,171 @@
+\hypertarget{classrobot__controller_1_1robot}{}\doxysection{robot\+\_\+controller.\+robot Class Reference}
+\label{classrobot__controller_1_1robot}\index{robot\_controller.robot@{robot\_controller.robot}}
+
+
+Robot Class.  
+
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{classrobot__controller_1_1robot_adf80cca1cd03758727286c5e1e7a8d9b}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, robot\+IP)
+\begin{DoxyCompactList}\small\item\em Initializes the robot. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{classrobot__controller_1_1robot_a50d0c60c9daa375ecee700f452d44215}{read\+\_\+current\+\_\+joint\+\_\+position}} (self)
+\begin{DoxyCompactList}\small\item\em Updates the robots joint position list. \end{DoxyCompactList}\item 
+def \mbox{\hyperlink{classrobot__controller_1_1robot_ab2dc4226a861370ea49f10f7fb5885fb}{read\+\_\+joint\+\_\+position\+\_\+register}} (self)
+\begin{DoxyCompactList}\small\item\em Reads joint position register(\+PR1) and prints the value and prints list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a85e860b6412f0493d721097c3e7edddd}\label{classrobot__controller_1_1robot_a85e860b6412f0493d721097c3e7edddd}} 
+def {\bfseries write\+\_\+joint\+\_\+offset} (self, joint, value)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a5969947c69ca7e85db28530465f30dd2}\label{classrobot__controller_1_1robot_a5969947c69ca7e85db28530465f30dd2}} 
+def {\bfseries write\+\_\+joint\+\_\+position} (self, joint, value)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_aa919bf98b3d762bd24a74b0356e05400}\label{classrobot__controller_1_1robot_aa919bf98b3d762bd24a74b0356e05400}} 
+def {\bfseries set\+\_\+pose} (self, joint\+\_\+position\+\_\+array)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a5ead575efdfbbfaccbb1cb27acaac67c}\label{classrobot__controller_1_1robot_a5ead575efdfbbfaccbb1cb27acaac67c}} 
+def {\bfseries set\+\_\+joints\+\_\+to\+\_\+home\+\_\+position} (self)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_abe50673263ec8ce1959dea33394b14d4}\label{classrobot__controller_1_1robot_abe50673263ec8ce1959dea33394b14d4}} 
+def {\bfseries get\+\_\+coords} (self)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a6c675a56caf29f48b82bd69abd7b5c67}\label{classrobot__controller_1_1robot_a6c675a56caf29f48b82bd69abd7b5c67}} 
+def {\bfseries read\+\_\+cartesian\+\_\+position\+\_\+register} (self)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a9387537ce52d31912466927c4a9b2134}\label{classrobot__controller_1_1robot_a9387537ce52d31912466927c4a9b2134}} 
+def {\bfseries send\+\_\+coords} (self, X, Y, Z, W=None, P=None, R=None)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_aebfa99fa89734910b7764abb05872a90}\label{classrobot__controller_1_1robot_aebfa99fa89734910b7764abb05872a90}} 
+def {\bfseries get\+\_\+radians} (self)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_ad85a3f8c7c715d4586f1d523b98d6ab7}\label{classrobot__controller_1_1robot_ad85a3f8c7c715d4586f1d523b98d6ab7}} 
+def {\bfseries send\+\_\+radians} (self, radians)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a809d57e38c31b3b29fce15f47ba91d1b}\label{classrobot__controller_1_1robot_a809d57e38c31b3b29fce15f47ba91d1b}} 
+def {\bfseries set\+\_\+speed} (self, value)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a9a7b3ef02612fab84edf4637532d83cf}\label{classrobot__controller_1_1robot_a9a7b3ef02612fab84edf4637532d83cf}} 
+def {\bfseries get\+\_\+speed} (self)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_ace4e2d0287452368fc4fd8ef29e5eb90}\label{classrobot__controller_1_1robot_ace4e2d0287452368fc4fd8ef29e5eb90}} 
+def {\bfseries start\+\_\+robot} (self, blocking=True)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a20b646b4ae28dbd4d5fab8e72ad02557}\label{classrobot__controller_1_1robot_a20b646b4ae28dbd4d5fab8e72ad02557}} 
+def {\bfseries is\+\_\+moving} (self)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_afcfc1486a97f5a082afdde023cf424c6}\label{classrobot__controller_1_1robot_afcfc1486a97f5a082afdde023cf424c6}} 
+def {\bfseries set\+\_\+joints\+\_\+to\+\_\+mount\+\_\+position} (self)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a8b1db17aeb53f59faf931ab288345a3a}\label{classrobot__controller_1_1robot_a8b1db17aeb53f59faf931ab288345a3a}} 
+def {\bfseries read\+\_\+robot\+\_\+start\+\_\+register} (self)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_af191c0321941ab34ae384ed843759f73}\label{classrobot__controller_1_1robot_af191c0321941ab34ae384ed843759f73}} 
+def {\bfseries gripper} (self, command)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a199a51f91736ca90f0c4ffdee059410c}\label{classrobot__controller_1_1robot_a199a51f91736ca90f0c4ffdee059410c}} 
+def {\bfseries on\+Robot\+\_\+gripper\+\_\+open} (self, width\+\_\+in\+\_\+mm, force\+\_\+in\+\_\+newtons)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a27b3563fd1b3c130a89be3d6e3bfd763}\label{classrobot__controller_1_1robot_a27b3563fd1b3c130a89be3d6e3bfd763}} 
+def {\bfseries on\+Robot\+\_\+gripper\+\_\+close} (self, width\+\_\+in\+\_\+mm, force\+\_\+in\+\_\+newtons)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a3e2a5aaa1d56ba436c8286800a7dcee4}\label{classrobot__controller_1_1robot_a3e2a5aaa1d56ba436c8286800a7dcee4}} 
+def {\bfseries conveyor\+\_\+proximity\+\_\+sensor} (self, sensor)
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a8049586771c4f9a8f4c1bfb99e6f85c4}\label{classrobot__controller_1_1robot_a8049586771c4f9a8f4c1bfb99e6f85c4}} 
+def {\bfseries conveyor} (self, command)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a309d81448af3402f8c9c52b757078066}\label{classrobot__controller_1_1robot_a309d81448af3402f8c9c52b757078066}} 
+{\bfseries robot\+\_\+\+IP}
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_af861968659cacda35d0900bfede2dba9}\label{classrobot__controller_1_1robot_af861968659cacda35d0900bfede2dba9}} 
+{\bfseries Cur\+Joint\+Pos\+List}
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a09a006684d0363ad90e6d5714a5ab768}\label{classrobot__controller_1_1robot_a09a006684d0363ad90e6d5714a5ab768}} 
+{\bfseries Cur\+Cartesian\+Pos\+List}
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a06753bebdee8065c1b768e950b011452}\label{classrobot__controller_1_1robot_a06753bebdee8065c1b768e950b011452}} 
+{\bfseries PRNumber}
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a624af2563b3ce1ca93dba13cc019330e}\label{classrobot__controller_1_1robot_a624af2563b3ce1ca93dba13cc019330e}} 
+{\bfseries start\+\_\+register}
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a7bef4a222327dfb7251b345acf88b784}\label{classrobot__controller_1_1robot_a7bef4a222327dfb7251b345acf88b784}} 
+{\bfseries sync\+\_\+register}
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_ae68e2a714277a388ad260add4488e89a}\label{classrobot__controller_1_1robot_ae68e2a714277a388ad260add4488e89a}} 
+{\bfseries sync\+\_\+value}
+\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a65b1a09a033a3c07bd7d698d66e3aeea}\label{classrobot__controller_1_1robot_a65b1a09a033a3c07bd7d698d66e3aeea}} 
+{\bfseries speed\+\_\+register}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Robot Class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self,robot\+IP} & \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classrobot__controller_1_1robot_adf80cca1cd03758727286c5e1e7a8d9b}\label{classrobot__controller_1_1robot_adf80cca1cd03758727286c5e1e7a8d9b}} 
+\index{robot\_controller.robot@{robot\_controller.robot}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!robot\_controller.robot@{robot\_controller.robot}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def robot\+\_\+controller.\+robot.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{robot\+IP }\end{DoxyParamCaption})}
+
+
+
+Initializes the robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & reference to current instance \\
+\hline
+{\em robot\+IP} & IP address of robot \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a50d0c60c9daa375ecee700f452d44215}\label{classrobot__controller_1_1robot_a50d0c60c9daa375ecee700f452d44215}} 
+\index{robot\_controller.robot@{robot\_controller.robot}!read\_current\_joint\_position@{read\_current\_joint\_position}}
+\index{read\_current\_joint\_position@{read\_current\_joint\_position}!robot\_controller.robot@{robot\_controller.robot}}
+\doxysubsubsection{\texorpdfstring{read\_current\_joint\_position()}{read\_current\_joint\_position()}}
+{\footnotesize\ttfamily def robot\+\_\+controller.\+robot.\+read\+\_\+current\+\_\+joint\+\_\+position (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Updates the robots joint position list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & reference to current instance \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classrobot__controller_1_1robot_ab2dc4226a861370ea49f10f7fb5885fb}\label{classrobot__controller_1_1robot_ab2dc4226a861370ea49f10f7fb5885fb}} 
+\index{robot\_controller.robot@{robot\_controller.robot}!read\_joint\_position\_register@{read\_joint\_position\_register}}
+\index{read\_joint\_position\_register@{read\_joint\_position\_register}!robot\_controller.robot@{robot\_controller.robot}}
+\doxysubsubsection{\texorpdfstring{read\_joint\_position\_register()}{read\_joint\_position\_register()}}
+{\footnotesize\ttfamily def robot\+\_\+controller.\+robot.\+read\+\_\+joint\+\_\+position\+\_\+register (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Reads joint position register(\+PR1) and prints the value and prints list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em self} & reference to current instance \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{robot__controller_8py}{robot\+\_\+controller.\+py}}\end{DoxyCompactItemize}
