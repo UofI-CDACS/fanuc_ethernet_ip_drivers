@@ -10,8 +10,10 @@ Robot Class.
 \item 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_adf80cca1cd03758727286c5e1e7a8d9b}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, robot\+IP)
 \begin{DoxyCompactList}\small\item\em Initializes the robot. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a50d0c60c9daa375ecee700f452d44215}\label{classrobot__controller_1_1robot_a50d0c60c9daa375ecee700f452d44215}} 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_a50d0c60c9daa375ecee700f452d44215}{read\+\_\+current\+\_\+joint\+\_\+position}} (self)
 \begin{DoxyCompactList}\small\item\em Updates the robots joint position list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_ab2dc4226a861370ea49f10f7fb5885fb}\label{classrobot__controller_1_1robot_ab2dc4226a861370ea49f10f7fb5885fb}} 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_ab2dc4226a861370ea49f10f7fb5885fb}{read\+\_\+joint\+\_\+position\+\_\+register}} (self)
 \begin{DoxyCompactList}\small\item\em Reads joint position register(\+PR1) and prints the value and prints list. \end{DoxyCompactList}\item 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_a85e860b6412f0493d721097c3e7edddd}{write\+\_\+joint\+\_\+offset}} (self, joint, value)
@@ -22,12 +24,15 @@ def \mbox{\hyperlink{classrobot__controller_1_1robot_aa919bf98b3d762bd24a74b0356
 \begin{DoxyCompactList}\small\item\em Set a pose(all joint positions) for robot. \end{DoxyCompactList}\item 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_a5ead575efdfbbfaccbb1cb27acaac67c}{set\+\_\+joints\+\_\+to\+\_\+home\+\_\+position}} (self)
 \begin{DoxyCompactList}\small\item\em This used to set a CRX10 into a \textquotesingle{}home\textquotesingle{} position. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_abe50673263ec8ce1959dea33394b14d4}\label{classrobot__controller_1_1robot_abe50673263ec8ce1959dea33394b14d4}} 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_abe50673263ec8ce1959dea33394b14d4}{get\+\_\+coords}} (self)
 \begin{DoxyCompactList}\small\item\em Print current cartesian coordinates from robot. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a6c675a56caf29f48b82bd69abd7b5c67}\label{classrobot__controller_1_1robot_a6c675a56caf29f48b82bd69abd7b5c67}} 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_a6c675a56caf29f48b82bd69abd7b5c67}{read\+\_\+cartesian\+\_\+position\+\_\+register}} (self)
 \begin{DoxyCompactList}\small\item\em Reads the cartesian position register and prints a list. \end{DoxyCompactList}\item 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_a9387537ce52d31912466927c4a9b2134}{send\+\_\+coords}} (self, X, Y, Z, W=None, P=None, R=None)
 \begin{DoxyCompactList}\small\item\em Send cartesian coordinates to robot using X, Y, Z, W, P, R system. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_aebfa99fa89734910b7764abb05872a90}\label{classrobot__controller_1_1robot_aebfa99fa89734910b7764abb05872a90}} 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_aebfa99fa89734910b7764abb05872a90}{get\+\_\+radians}} (self)
 \begin{DoxyCompactList}\small\item\em Returns a list of joint positions in radians. \end{DoxyCompactList}\item 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_ad85a3f8c7c715d4586f1d523b98d6ab7}{send\+\_\+radians}} (self, radians)
@@ -38,6 +43,7 @@ def \mbox{\hyperlink{classrobot__controller_1_1robot_a9a7b3ef02612fab84edf463753
 \begin{DoxyCompactList}\small\item\em Returns current set speed of robot. \end{DoxyCompactList}\item 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_ace4e2d0287452368fc4fd8ef29e5eb90}{start\+\_\+robot}} (self, blocking=True)
 \begin{DoxyCompactList}\small\item\em starts robot movement by setting the sync register to 1 on the TP program executing commands. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classrobot__controller_1_1robot_a20b646b4ae28dbd4d5fab8e72ad02557}\label{classrobot__controller_1_1robot_a20b646b4ae28dbd4d5fab8e72ad02557}} 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_a20b646b4ae28dbd4d5fab8e72ad02557}{is\+\_\+moving}} (self)
 \begin{DoxyCompactList}\small\item\em checks to see if robot is moving based on the value of the sync register 1=moving 0=not moving \end{DoxyCompactList}\item 
 def \mbox{\hyperlink{classrobot__controller_1_1robot_afcfc1486a97f5a082afdde023cf424c6}{set\+\_\+joints\+\_\+to\+\_\+mount\+\_\+position}} (self)
@@ -106,8 +112,6 @@ Initializes the robot.
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em robot\+IP} & IP address of robot \\
 \hline
 \end{DoxyParams}
@@ -126,8 +130,6 @@ Controls conveyor belt.
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em command} & string \textquotesingle{}forward\textquotesingle{} or \textquotesingle{}reverse\textquotesingle{} or \textquotesingle{}stop\textquotesingle{} \\
 \hline
 \end{DoxyParams}
@@ -143,39 +145,7 @@ reads proximity sensors
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em sensor} & string \textquotesingle{}right\textquotesingle{} or \textquotesingle{}left\textquotesingle{} sensor \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classrobot__controller_1_1robot_abe50673263ec8ce1959dea33394b14d4}\label{classrobot__controller_1_1robot_abe50673263ec8ce1959dea33394b14d4}} 
-\index{robot\_controller.robot@{robot\_controller.robot}!get\_coords@{get\_coords}}
-\index{get\_coords@{get\_coords}!robot\_controller.robot@{robot\_controller.robot}}
-\doxysubsubsection{\texorpdfstring{get\_coords()}{get\_coords()}}
-{\footnotesize\ttfamily def robot\+\_\+controller.\+robot.\+get\+\_\+coords (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
-
-
-
-Print current cartesian coordinates from robot. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classrobot__controller_1_1robot_aebfa99fa89734910b7764abb05872a90}\label{classrobot__controller_1_1robot_aebfa99fa89734910b7764abb05872a90}} 
-\index{robot\_controller.robot@{robot\_controller.robot}!get\_radians@{get\_radians}}
-\index{get\_radians@{get\_radians}!robot\_controller.robot@{robot\_controller.robot}}
-\doxysubsubsection{\texorpdfstring{get\_radians()}{get\_radians()}}
-{\footnotesize\ttfamily def robot\+\_\+controller.\+robot.\+get\+\_\+radians (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
-
-
-
-Returns a list of joint positions in radians. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classrobot__controller_1_1robot_a9a7b3ef02612fab84edf4637532d83cf}\label{classrobot__controller_1_1robot_a9a7b3ef02612fab84edf4637532d83cf}} 
@@ -188,11 +158,6 @@ Returns a list of joint positions in radians.
 
 Returns current set speed of robot. 
 
-
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
-\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 speed in mm/s 
 \end{DoxyReturn}
@@ -208,24 +173,7 @@ FUNCTION WILL BE MOVED TO ITS OWN MODULE\+: controls shunk gripper.
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em command} & string \textquotesingle{}open\textquotesingle{} or \textquotesingle{}close\textquotesingle{} \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classrobot__controller_1_1robot_a20b646b4ae28dbd4d5fab8e72ad02557}\label{classrobot__controller_1_1robot_a20b646b4ae28dbd4d5fab8e72ad02557}} 
-\index{robot\_controller.robot@{robot\_controller.robot}!is\_moving@{is\_moving}}
-\index{is\_moving@{is\_moving}!robot\_controller.robot@{robot\_controller.robot}}
-\doxysubsubsection{\texorpdfstring{is\_moving()}{is\_moving()}}
-{\footnotesize\ttfamily def robot\+\_\+controller.\+robot.\+is\+\_\+moving (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
-
-
-
-checks to see if robot is moving based on the value of the sync register 1=moving 0=not moving 
-
-
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classrobot__controller_1_1robot_a27b3563fd1b3c130a89be3d6e3bfd763}\label{classrobot__controller_1_1robot_a27b3563fd1b3c130a89be3d6e3bfd763}} 
@@ -240,8 +188,6 @@ FUNCTION WILL BE MOVED TO ITS OWN MODULE\+: closes the on\+Robot gripper.
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em width\+\_\+in\+\_\+mm} & value in mm to set gripper jaw distance \\
 \hline
 {\em force\+\_\+in\+\_\+newtons} & value 0-\/120 in newtons \\
@@ -259,56 +205,9 @@ FUNCTION WILL BE MOVED TO ITS OWN MODULE\+: opens the on\+Robot gripper.
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em width\+\_\+in\+\_\+mm} & value in mm to set gripper jaw distance \\
 \hline
 {\em force\+\_\+in\+\_\+newtons} & value 0-\/120 in newtons \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classrobot__controller_1_1robot_a6c675a56caf29f48b82bd69abd7b5c67}\label{classrobot__controller_1_1robot_a6c675a56caf29f48b82bd69abd7b5c67}} 
-\index{robot\_controller.robot@{robot\_controller.robot}!read\_cartesian\_position\_register@{read\_cartesian\_position\_register}}
-\index{read\_cartesian\_position\_register@{read\_cartesian\_position\_register}!robot\_controller.robot@{robot\_controller.robot}}
-\doxysubsubsection{\texorpdfstring{read\_cartesian\_position\_register()}{read\_cartesian\_position\_register()}}
-{\footnotesize\ttfamily def robot\+\_\+controller.\+robot.\+read\+\_\+cartesian\+\_\+position\+\_\+register (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
-
-
-
-Reads the cartesian position register and prints a list. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classrobot__controller_1_1robot_a50d0c60c9daa375ecee700f452d44215}\label{classrobot__controller_1_1robot_a50d0c60c9daa375ecee700f452d44215}} 
-\index{robot\_controller.robot@{robot\_controller.robot}!read\_current\_joint\_position@{read\_current\_joint\_position}}
-\index{read\_current\_joint\_position@{read\_current\_joint\_position}!robot\_controller.robot@{robot\_controller.robot}}
-\doxysubsubsection{\texorpdfstring{read\_current\_joint\_position()}{read\_current\_joint\_position()}}
-{\footnotesize\ttfamily def robot\+\_\+controller.\+robot.\+read\+\_\+current\+\_\+joint\+\_\+position (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
-
-
-
-Updates the robots joint position list. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classrobot__controller_1_1robot_ab2dc4226a861370ea49f10f7fb5885fb}\label{classrobot__controller_1_1robot_ab2dc4226a861370ea49f10f7fb5885fb}} 
-\index{robot\_controller.robot@{robot\_controller.robot}!read\_joint\_position\_register@{read\_joint\_position\_register}}
-\index{read\_joint\_position\_register@{read\_joint\_position\_register}!robot\_controller.robot@{robot\_controller.robot}}
-\doxysubsubsection{\texorpdfstring{read\_joint\_position\_register()}{read\_joint\_position\_register()}}
-{\footnotesize\ttfamily def robot\+\_\+controller.\+robot.\+read\+\_\+joint\+\_\+position\+\_\+register (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
-
-
-
-Reads joint position register(\+PR1) and prints the value and prints list. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classrobot__controller_1_1robot_a8b1db17aeb53f59faf931ab288345a3a}\label{classrobot__controller_1_1robot_a8b1db17aeb53f59faf931ab288345a3a}} 
@@ -321,11 +220,6 @@ Reads joint position register(\+PR1) and prints the value and prints list.
 
 returns value of start register 
 
-
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
-\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 value of start register 
 \end{DoxyReturn}
@@ -341,8 +235,6 @@ Send cartesian coordinates to robot using X, Y, Z, W, P, R system.
 
 These coordinates usually correlate to the tool end effectors position. 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em X} & X cartesian coordinate \\
 \hline
 {\em Y} & Y cartesian coordinate \\
@@ -368,8 +260,6 @@ Send joint movement in radians (CURRENTLY NOT IMPLEMENTED)
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em radians} & pies over things \\
 \hline
 \end{DoxyParams}
@@ -383,12 +273,7 @@ Send joint movement in radians (CURRENTLY NOT IMPLEMENTED)
 
 This used to set a CRX10 into a \textquotesingle{}home\textquotesingle{} position. 
 
-Not useful for other machines probably 
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classrobot__controller_1_1robot_afcfc1486a97f5a082afdde023cf424c6}\label{classrobot__controller_1_1robot_afcfc1486a97f5a082afdde023cf424c6}} 
+Not useful for other machines probably \mbox{\Hypertarget{classrobot__controller_1_1robot_afcfc1486a97f5a082afdde023cf424c6}\label{classrobot__controller_1_1robot_afcfc1486a97f5a082afdde023cf424c6}} 
 \index{robot\_controller.robot@{robot\_controller.robot}!set\_joints\_to\_mount\_position@{set\_joints\_to\_mount\_position}}
 \index{set\_joints\_to\_mount\_position@{set\_joints\_to\_mount\_position}!robot\_controller.robot@{robot\_controller.robot}}
 \doxysubsubsection{\texorpdfstring{set\_joints\_to\_mount\_position()}{set\_joints\_to\_mount\_position()}}
@@ -398,12 +283,7 @@ Not useful for other machines probably
 
 set the joints to be in a \textquotesingle{}mount\textquotesingle{} position for tooling. 
 
-This is for CRX10\textquotesingle{}s and will most likely be removed from this API 
-\begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classrobot__controller_1_1robot_aa919bf98b3d762bd24a74b0356e05400}\label{classrobot__controller_1_1robot_aa919bf98b3d762bd24a74b0356e05400}} 
+This is for CRX10\textquotesingle{}s and will most likely be removed from this API \mbox{\Hypertarget{classrobot__controller_1_1robot_aa919bf98b3d762bd24a74b0356e05400}\label{classrobot__controller_1_1robot_aa919bf98b3d762bd24a74b0356e05400}} 
 \index{robot\_controller.robot@{robot\_controller.robot}!set\_pose@{set\_pose}}
 \index{set\_pose@{set\_pose}!robot\_controller.robot@{robot\_controller.robot}}
 \doxysubsubsection{\texorpdfstring{set\_pose()}{set\_pose()}}
@@ -415,8 +295,6 @@ Set a pose(all joint positions) for robot.
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em joint\+\_\+position\+\_\+array} & a list of joint angles \\
 \hline
 \end{DoxyParams}
@@ -432,8 +310,6 @@ Set movement speed of robot in mm/s.
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em value} & speed in mm/s \\
 \hline
 \end{DoxyParams}
@@ -449,8 +325,6 @@ starts robot movement by setting the sync register to 1 on the TP program execut
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em blocking} & True/\+False program will wait to continue till move is finished. Default=True \\
 \hline
 \end{DoxyParams}
@@ -466,8 +340,6 @@ Offsets current joint position by value given in degrees.
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em joint} & which joint to move \\
 \hline
 {\em value} & degrees you want to move, negative or positive direction \\
@@ -485,8 +357,6 @@ Sets joint to specific angle based on value.
 
 
 \begin{DoxyParams}{Parameters}
-{\em self} & reference to current instance \\
-\hline
 {\em joint} & which joint to move \\
 \hline
 {\em value} & angle to set joint to from -\/180 to 180 \\

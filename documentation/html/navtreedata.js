@@ -55,7 +55,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"FANUCethernetipDriver_8py.html#a0e7ddf5b4bd14aaac0ee0456f1bcea09"
+""
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
