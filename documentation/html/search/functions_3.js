@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['set_5fspeed_51',['set_speed',['../classrobot__controller_1_1robot.html#a809d57e38c31b3b29fce15f47ba91d1b',1,'robot_controller::robot']]]
+  ['is_5fmoving_74',['is_moving',['../classrobot__controller_1_1robot.html#a20b646b4ae28dbd4d5fab8e72ad02557',1,'robot_controller::robot']]]
 ];

@@ -61,11 +61,15 @@ class robot:
         """
         PR_1_Value = FANUCethernetipDriver.readJointPositionRegister(self.robot_IP, self.PRNumber)
         print("PR[%d]"% self.PRNumber)
-        ## Print list of values
         print("list=", PR_1_Value)
 
     # write PR[1] offset
     def write_joint_offset(self, joint, value):
+        """! Offsets current joint position by value given in degrees.
+        @param self         reference to current instance
+        @param joint        which joint to move
+        @param value        degrees you want to move, negative or positive direction
+        """
         print("***********************************************")
         print(f" Write Joint Offset Value:[{value}] to Joint:[{joint}] ")
         print("***********************************************")
@@ -83,6 +87,11 @@ class robot:
 
     # write PR[1] Joint value
     def write_joint_position(self, joint, value):
+        """! Sets joint to specific angle based on value
+        @param self         reference to current instance
+        @param joint        which joint to move
+        @param value        angle to set joint to from -180 to 180
+        """
         print("--------------------------------")
         print("| write PR[1] Joint Coordinate |")
         print("--------------------------------")
@@ -100,6 +109,10 @@ class robot:
     # ie pose = [1, 2, 3, 4, 5, 6]
     # set_pose(pose)
     def set_pose(self, joint_position_array):
+        """! Set a pose(all joint positions) for robot
+        @param self                         reference to current instance
+        @param joint_position_array         a list of joint angles 
+        """
         joint_number = 1
         for joint in joint_position_array:
             self.CurJointPosList[joint_number + 1] = joint_position_array[joint_number - 1]
@@ -112,6 +125,9 @@ class robot:
 
     # Put robot in home position
     def set_joints_to_home_position(self):
+        """! This used to set a CRX10 into a 'home' position. Not useful for other machines probably
+        @param self         reference to current instance
+        """
         print("*************************************************")
         print("* Setting Joint Positions to Home Configuration *")
         print("*************************************************")
@@ -133,6 +149,9 @@ class robot:
 
     # read current cartesian position from Robot
     def get_coords(self):
+        """! Print current cartesian coordinates from robot.
+        @param self         reference to current instance
+        """
         print("--------------------------")
         print("| read CURPOS from Robot |")
         print("--------------------------")
@@ -142,6 +161,9 @@ class robot:
 
     # read PR[1] Cartesian Coordinates
     def read_cartesian_position_register(self):
+        """! Reads the cartesian position register and prints a list
+        @param self         reference to current instance
+        """
         print("-----------------------------------")
         print("| read PR[1] Cartesian Coordinate |")
         print("-----------------------------------")
@@ -154,6 +176,16 @@ class robot:
     # Takes x, y, z, w, p, r coords.
     # WPR are the orientation of the end effector, DEFAULT to current orientation
     def send_coords(self, X, Y, Z, W=None, P=None, R=None):
+        """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
+        These coordinates usually correlate to the tool end effectors position.
+        @param self         reference to current instance
+        @param X            X cartesian coordinate
+        @param Y            Y cartesian coordinate
+        @param Z            Z cartesian coordinate
+        @param W            Yaw
+        @param P            Pitch
+        @param R            Roll
+        """
         self.CurCartesianPosList[2] = X
         self.CurCartesianPosList[3] = Y
         self.CurCartesianPosList[4] = Z
@@ -170,6 +202,9 @@ class robot:
     # Get the radians of all joints
     # Returns: list: A float list of radians
     def get_radians(self):
+        """! Returns a list of joint positions in radians
+        @param self         reference to current instance
+        """
         self.read_current_joint_position()
         indices = range(2,8)
         radian_list = [self.CurJointPosList[i] for i in indices]
@@ -182,12 +217,20 @@ class robot:
 
     # Send the radians of all joints to robot
     def send_radians(self, radians):
+        """! Send joint movement in radians (CURRENTLY NOT IMPLEMENTED)
+        @param self         reference to current instance
+        @param radians      pies over things 
+        """
         pass
 
     # Utility Functions
 
     # write R[5] to set Speed in mm/sec
     def set_speed(self, value):
+        """! Set movement speed of robot in mm/s
+        @param self         reference to current instance
+        @param value        speed in mm/s
+        """
         # print("------------------------------")
         # print(f"| Speed set to {value}mm/sec |")
         # print("------------------------------")
@@ -195,12 +238,20 @@ class robot:
 
     # get current speed
     def get_speed(self):
+        """! Returns current set speed of robot
+        @param self         reference to current instance
+        @return             speed in mm/s
+        """
         return FANUCethernetipDriver.readR_Register(self.robot_IP, self.speed_register)
         
     # Starts robot movement and checks to see when it has completed
     # Default to blocking 
     # Function will block until move action is complete
     def start_robot(self, blocking=True):  
+        """! starts robot movement by setting the sync register to 1 on the TP program executing commands.
+        @param self         reference to current instance
+        @param blocking     True/False program will wait to continue till move is finished. Default=True
+        """
         # Write to start register to begin movement
         FANUCethernetipDriver.writeR_Register(self.robot_IP, self.start_register, 1)
 
@@ -222,6 +273,9 @@ class robot:
 
     # Detect if the robot is moving
     def is_moving(self):
+        """! checks to see if robot is moving based on the value of the sync register 1=moving 0=not moving
+        @param self         reference to current instance
+        """
         start_register = read_robot_start_register()
         if start_register == 1:
             return 1
@@ -237,6 +291,10 @@ class robot:
     # !!! -- THIS CAN BE MOVED INTO OWN FILE -- !!!
     # !!! -- THIS JOIN CONFIGURATION IS FOR THE CRX10 ROBOT -- !!!
     def set_joints_to_mount_position(self):
+        """! set the joints to be in a 'mount' position for tooling. 
+        This is for CRX10's and will most likely be removed from this API
+        @param self         reference to current instance
+        """
         print("**************************************************")
         print("* Setting Joint Positions to Mount Configuration *")
         print("**************************************************")
@@ -256,11 +314,19 @@ class robot:
 
     # This function reads register 1(sync bit for position register)
     def read_robot_start_register(self):
+        """! returns value of start register
+        @param self         reference to current instance
+        @return             value of start register
+        """
         start_register = FANUCethernetipDriver.readR_Register(self.robot_IP, self.start_register)
         return start_register
 
     # Toggle gripper open and close
     def gripper(self, command):
+        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: controls shunk gripper.
+        @param self         reference to current instance
+        @param command      string 'open' or 'close'
+        """
         # !! Registers 20 and 23 need to be toggled for opening and closing !!
 
         if command == 'open':
@@ -281,6 +347,11 @@ class robot:
 
     # Open onRobot gripper
     def onRobot_gripper_open(self, width_in_mm, force_in_newtons):
+        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: opens the onRobot gripper
+        @param self                 reference to current instance
+        @param width_in_mm          value in mm to set gripper jaw distance
+        @param force_in_newtons     value 0-120 in newtons
+        """
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 1) # Instance typically 1
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 36, width_in_mm) # Set open width in mm
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 37, force_in_newtons) # Set open force in newtons
@@ -288,27 +359,32 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 43, 50) # Register # you want data sent to
         #FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 1) # Set sync bit for onRobot gripper 1 = open
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 3) # Set sync bit for onRobot gripper 1 = open
-        read_35 = FANUCethernetipDriver.readR_Register(self.robot_IP, 35)
-        read_36 = FANUCethernetipDriver.readR_Register(self.robot_IP, 36)
-        read_37 = FANUCethernetipDriver.readR_Register(self.robot_IP, 37)
-        read_38 = FANUCethernetipDriver.readR_Register(self.robot_IP, 38)
-        read_3 = FANUCethernetipDriver.readR_Register(self.robot_IP, 3)
-        read_50 = FANUCethernetipDriver.readR_Register(self.robot_IP, 50)
-        read_42 = FANUCethernetipDriver.readR_Register(self.robot_IP, 42)
-        read_43 = FANUCethernetipDriver.readR_Register(self.robot_IP, 43)
-        read_46 = FANUCethernetipDriver.readR_Register(self.robot_IP, 46)
-        read_50 = FANUCethernetipDriver.readR_Register(self.robot_IP, 50)
-        print(f"Register 35: {read_35}")
-        print(f"Register 36: {read_36}")
-        print(f"Register 37: {read_37}")
-        print(f"Register 38: {read_38}")
-        print(f"Register 43: {read_43}")
-        print(f"Register 50: {read_50}")
-        print(f"Register 3: {read_3}")
+        #read_35 = FANUCethernetipDriver.readR_Register(self.robot_IP, 35)
+        #read_36 = FANUCethernetipDriver.readR_Register(self.robot_IP, 36)
+        #read_37 = FANUCethernetipDriver.readR_Register(self.robot_IP, 37)
+        #read_38 = FANUCethernetipDriver.readR_Register(self.robot_IP, 38)
+        #read_3 = FANUCethernetipDriver.readR_Register(self.robot_IP, 3)
+        #read_50 = FANUCethernetipDriver.readR_Register(self.robot_IP, 50)
+        #read_42 = FANUCethernetipDriver.readR_Register(self.robot_IP, 42)
+        #read_43 = FANUCethernetipDriver.readR_Register(self.robot_IP, 43)
+        #read_46 = FANUCethernetipDriver.readR_Register(self.robot_IP, 46)
+        #read_50 = FANUCethernetipDriver.readR_Register(self.robot_IP, 50)
+        #print(f"Register 35: {read_35}")
+        #print(f"Register 36: {read_36}")
+        #print(f"Register 37: {read_37}")
+        #print(f"Register 38: {read_38}")
+        #print(f"Register 43: {read_43}")
+        #print(f"Register 50: {read_50}")
+        #print(f"Register 3: {read_3}")
 
 
     # Close onRobot gripper
     def onRobot_gripper_close(self, width_in_mm, force_in_newtons):
+        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: closes the onRobot gripper
+        @param self                 reference to current instance
+        @param width_in_mm          value in mm to set gripper jaw distance
+        @param force_in_newtons     value 0-120 in newtons
+        """
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 1) # Instance typically 1
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 39, width_in_mm) # Set close width in mm
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 40, force_in_newtons) # Set close force in newtons
@@ -318,6 +394,10 @@ class robot:
 
     # Read conveyor belt sensor: returns value of 1 or 0
     def conveyor_proximity_sensor(self, sensor):
+        """! reads proximity sensors
+        @param self                 reference to current instance
+        @param sensor               string 'right' or 'left' sensor
+        """
         right_sensor_register = 31
         left_sensor_register = 30
 
@@ -330,6 +410,10 @@ class robot:
 
     # Control conveyor belt
     def conveyor(self, command):
+        """! Controls conveyor belt
+        @param self             reference to current instance
+        @param command          string 'forward' or 'reverse' or 'stop'
+        """
 
         #R21 is forward
         #R22 is reverse

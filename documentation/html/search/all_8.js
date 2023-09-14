@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['shunk_5fgripper_5fexample_24',['shunk_gripper_example',['../namespaceshunk__gripper__example.html',1,'']]],
-  ['speed_5fread_5ftest_25',['speed_read_test',['../namespacespeed__read__test.html',1,'']]]
+  ['pose_5ffunction_5ftest_20',['pose_function_test',['../namespacepose__function__test.html',1,'']]],
+  ['proximity_5fsensor_5fexample_21',['proximity_sensor_example',['../namespaceproximity__sensor__example.html',1,'']]],
+  ['proximity_5fsensor_5fexample2_22',['proximity_sensor_example2',['../namespaceproximity__sensor__example2.html',1,'']]]
 ];

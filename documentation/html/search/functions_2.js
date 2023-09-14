@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['read_5fcurrent_5fjoint_5fposition_49',['read_current_joint_position',['../classrobot__controller_1_1robot.html#a50d0c60c9daa375ecee700f452d44215',1,'robot_controller::robot']]],
-  ['read_5fjoint_5fposition_5fregister_50',['read_joint_position_register',['../classrobot__controller_1_1robot.html#ab2dc4226a861370ea49f10f7fb5885fb',1,'robot_controller::robot']]]
+  ['get_5fcoords_70',['get_coords',['../classrobot__controller_1_1robot.html#abe50673263ec8ce1959dea33394b14d4',1,'robot_controller::robot']]],
+  ['get_5fradians_71',['get_radians',['../classrobot__controller_1_1robot.html#aebfa99fa89734910b7764abb05872a90',1,'robot_controller::robot']]],
+  ['get_5fspeed_72',['get_speed',['../classrobot__controller_1_1robot.html#a9a7b3ef02612fab84edf4637532d83cf',1,'robot_controller::robot']]],
+  ['gripper_73',['gripper',['../classrobot__controller_1_1robot.html#af191c0321941ab34ae384ed843759f73',1,'robot_controller::robot']]]
 ];
