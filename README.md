@@ -14,7 +14,7 @@
   <p align="center">
     Drivers to control FANUC robots using Ethernet IP
     <br />
-    <a href="https://github.com/UniversityOfIdahoCDACS/FANUC-Ethernet_IP_Drivers"><strong>Explore the docs »</strong></a>
+    <a href="https://uofi-cdacs.github.io/FANUC-Ethernet_IP_Drivers/documentation/html/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
   </p>
@@ -90,7 +90,7 @@ This is an example of how to list things you need to use the software and how to
 
 TBD
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+_For more examples, please refer to the [Documentation](https://uofi-cdacs.github.io/FANUC-Ethernet_IP_Drivers/documentation/html/)_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
