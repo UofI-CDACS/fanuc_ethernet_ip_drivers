@@ -260,7 +260,7 @@ class robot:
     def is_moving(self):
         """! checks to see if robot is moving based on the value of the sync register 1=moving 0=not moving
         """
-        start_register = read_robot_start_register()
+        start_register = self.read_robot_start_register()
         if start_register == 1:
             return 1
 
