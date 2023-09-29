@@ -98,7 +98,8 @@ class robot:
         FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
     # DEPRACTED FUNCTION
-    # WILL BE REMOVED IN FUTURE UPDATE
+    # WILL BE REMOVED IN NEXT UPDATE
+    # USE write_joint_pose
     def set_pose(self, joint_position_array):
         """! Set a pose(all joint positions) for robot
         @param joint_position_array         a list of joint angles 
@@ -111,6 +112,7 @@ class robot:
         myList = self.CurJointPosList
 
         FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        print("FUNCTION DEPRACTED, USE: write_joint_pose()")
 
     # Set pose of robot by passing an array of joint positions
     def write_joint_pose(self, joint_position_array):
@@ -173,10 +175,35 @@ class robot:
         print("PR[%d]"% self.PRNumber)
         print("list=", PR_1_Value)
 
+    # DEPRACTED FUNCTION
+    # WILL BE REMOVED IN NEXT UPDATE
+    # USE write_cartesian_position()
+    def send_coords(self, X, Y, Z, W=None, P=None, R=None):
+        """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
+        These coordinates usually correlate to the tool end effectors position.
+        @param X            X cartesian coordinate
+        @param Y            Y cartesian coordinate
+        @param Z            Z cartesian coordinate
+        @param W            Yaw
+        @param P            Pitch
+        @param R            Roll
+        """
+        self.CurCartesianPosList[2] = X
+        self.CurCartesianPosList[3] = Y
+        self.CurCartesianPosList[4] = Z
+        self.CurCartesianPosList[5] = W if W is not None else self.CurCartesianPosList[5]
+        self.CurCartesianPosList[6] = P if P is not None else self.CurCartesianPosList[6]
+        self.CurCartesianPosList[7] = R if R is not None else self.CurCartesianPosList[7]
+
+        newPositionList = self.CurCartesianPosList
+
+        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
+        print("FUNCTION DEPRACTED, USE: write_cartesian_position()")
+
     # write PR[1] Cartesian Coordinates
     # Takes x, y, z, w, p, r coords.
     # WPR are the orientation of the end effector, DEFAULT to current orientation
-    def send_coords(self, X, Y, Z, W=None, P=None, R=None):
+    def write_cartesian_position(self, X, Y, Z, W=None, P=None, R=None):
         """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
         These coordinates usually correlate to the tool end effectors position.
         @param X            X cartesian coordinate
