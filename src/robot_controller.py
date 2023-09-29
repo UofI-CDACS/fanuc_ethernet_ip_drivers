@@ -97,10 +97,23 @@ class robot:
 
         FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
-    # Set pose of robot by passing an array of joint positions
-    # ie pose = [1, 2, 3, 4, 5, 6]
-    # set_pose(pose)
+    # DEPRACTED FUNCTION
+    # WILL BE REMOVED IN FUTURE UPDATE
     def set_pose(self, joint_position_array):
+        """! Set a pose(all joint positions) for robot
+        @param joint_position_array         a list of joint angles 
+        """
+        joint_number = 1
+        for joint in joint_position_array:
+            self.CurJointPosList[joint_number + 1] = joint_position_array[joint_number - 1]
+            joint_number += 1
+
+        myList = self.CurJointPosList
+
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+
+    # Set pose of robot by passing an array of joint positions
+    def write_joint_pose(self, joint_position_array):
         """! Set a pose(all joint positions) for robot
         @param joint_position_array         a list of joint angles 
         """
