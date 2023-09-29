@@ -317,11 +317,37 @@ class robot:
         return start_register
 
     # Toggle gripper open and close
+    def shunk_gripper(self, command):
+        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: controls shunk gripper.
+        @param command      string 'open' or 'close'
+        """
+        # !! Registers 20 and 23 need to be toggled for opening and closing !!
+
+        if command == 'open':
+            print("Opening Gripper...\n")
+            # set bits to toggle 20 off and 23 on
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 0)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 1)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, self.sync_register, 1)
+
+        elif command == 'close':
+            print("Closing Gripper...\n")
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 1)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 0)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, self.sync_register, 1)
+
+        else:
+            print("Invalid command.")
+
+    # FUNCTION DEPRACTED
+    # WILL BE REMOVED IN NEXT UPDATE
+    # USE shunk_gripper()
     def gripper(self, command):
         """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: controls shunk gripper.
         @param command      string 'open' or 'close'
         """
         # !! Registers 20 and 23 need to be toggled for opening and closing !!
+        print("FUNCTION DEPRACTED, USE: shunk_gripper()")
 
         if command == 'open':
             print("Opening Gripper...\n")
