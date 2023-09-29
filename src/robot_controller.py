@@ -352,24 +352,6 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 43, 50) # Register # you want data sent to
         #FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 1) # Set sync bit for onRobot gripper 1 = open
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 3) # Set sync bit for onRobot gripper 1 = open
-        #read_35 = FANUCethernetipDriver.readR_Register(self.robot_IP, 35)
-        #read_36 = FANUCethernetipDriver.readR_Register(self.robot_IP, 36)
-        #read_37 = FANUCethernetipDriver.readR_Register(self.robot_IP, 37)
-        #read_38 = FANUCethernetipDriver.readR_Register(self.robot_IP, 38)
-        #read_3 = FANUCethernetipDriver.readR_Register(self.robot_IP, 3)
-        #read_50 = FANUCethernetipDriver.readR_Register(self.robot_IP, 50)
-        #read_42 = FANUCethernetipDriver.readR_Register(self.robot_IP, 42)
-        #read_43 = FANUCethernetipDriver.readR_Register(self.robot_IP, 43)
-        #read_46 = FANUCethernetipDriver.readR_Register(self.robot_IP, 46)
-        #read_50 = FANUCethernetipDriver.readR_Register(self.robot_IP, 50)
-        #print(f"Register 35: {read_35}")
-        #print(f"Register 36: {read_36}")
-        #print(f"Register 37: {read_37}")
-        #print(f"Register 38: {read_38}")
-        #print(f"Register 43: {read_43}")
-        #print(f"Register 50: {read_50}")
-        #print(f"Register 3: {read_3}")
-
 
     # Close onRobot gripper
     def onRobot_gripper_close(self, width_in_mm, force_in_newtons):
@@ -381,8 +363,6 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 39, width_in_mm) # Set close width in mm
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 40, force_in_newtons) # Set close force in newtons
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 2) # Set sync bit for onRobot gripper 2 = close
-
-
 
     # Read conveyor belt sensor: returns value of 1 or 0
     def conveyor_proximity_sensor(self, sensor):
