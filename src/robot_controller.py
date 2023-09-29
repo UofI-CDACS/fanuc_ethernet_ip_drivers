@@ -224,30 +224,6 @@ class robot:
 
         FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
 
-    # Radian Movement
-
-    # Get the radians of all joints
-    # Returns: list: A float list of radians
-    def get_radians(self):
-        """! Returns a list of joint positions in radians
-        """
-        self.read_current_joint_position()
-        indices = range(2,8)
-        radian_list = [self.CurJointPosList[i] for i in indices]
-
-        for i in range(len(radian_list)):
-            radian_list[i] = math.radians((radian_list[i]))
-
-        return radian_list
-
-
-    # Send the radians of all joints to robot
-    def send_radians(self, radians):
-        """! Send joint movement in radians (CURRENTLY NOT IMPLEMENTED)
-        @param radians      pies over things 
-        """
-        pass
-
     # Utility Functions
 
     # write R[5] to set Speed in mm/sec
