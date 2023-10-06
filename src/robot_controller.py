@@ -19,7 +19,7 @@
 
 # Imports
 import math
-import fanuc_eip_driver.FANUCethernetipDriver as FANUCethernetipDriver
+from . import FANUCethernetipDriver
 
 ## The mode of operation; 
 FANUCethernetipDriver.DEBUG = False
