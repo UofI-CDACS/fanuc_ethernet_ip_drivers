@@ -77,6 +77,7 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    git clone https://github.com/UniversityOfIdahoCDACS/FANUC-Ethernet_IP_Drivers.git
    ```
+   * if you are developing in another project and want to use this as a module, copy `fanuc_eip_driver` to your source directory and use with `import fanuc_eip_driver...`.
 2. Run script
    ```sh
    python3 <scriptname>
