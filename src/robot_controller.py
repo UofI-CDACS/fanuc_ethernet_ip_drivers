@@ -15,6 +15,7 @@
 # @section author_robot_controller Authors(s)
 # - Original Code by John Shovic
 # - Modified by James Lasso on 6/12/2023
+# - Mofified by Kris Olds on 10/6/2023
 #
 
 # Imports
@@ -48,6 +49,7 @@ class robot:
         """! Updates the robots joint position list.
         """
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
+        return self.CurJointPosList
 
     # read PR[1] Joint Coordinates
     def read_joint_position_register(self):
@@ -56,6 +58,7 @@ class robot:
         PR_1_Value = FANUCethernetipDriver.readJointPositionRegister(self.robot_IP, self.PRNumber)
         print("PR[%d]"% self.PRNumber)
         print("list=", PR_1_Value)
+        return PR_1_Value
 
     # write PR[1] offset
     def write_joint_offset(self, joint, value):
@@ -162,6 +165,7 @@ class robot:
         CurPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(self.robot_IP)
 
         print("CURPOS=", CurPosList)
+        return CurPosList
 
     # read PR[1] Cartesian Coordinates
     def read_cartesian_position_register(self):
@@ -174,6 +178,7 @@ class robot:
         PR_1_Value = FANUCethernetipDriver.readCartesianPositionRegister(self.robot_IP, self.PRNumber)
         print("PR[%d]"% self.PRNumber)
         print("list=", PR_1_Value)
+        return PR_1_Value
 
     # DEPRACTED FUNCTION
     # WILL BE REMOVED IN NEXT UPDATE
