@@ -452,12 +452,3 @@ class robot:
             FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
             ## Set sync bit to update
             FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
-
-
-
-
-
-
-
-
-

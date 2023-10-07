@@ -593,20 +593,42 @@ def readDigitalOutput(drive_path, OutputNumber):
 
   :raises ValueError: if OutputNumber <=0
   '''
-  # Each input register is 8-bits long (I.E. R1 holds DO[1:8])
+  # Each output register is 8-bits long (I.E. R1 holds DO[1:8])
   if not OutputNumber: # If Input is 0
     raise ValueError("Cannot select 0-th register, does not exist")
 
-  inputs = readDigitalOutputs(drive_path) # Read in all registers
-  register = ((OutputNumber-1)//8) # What register block the input is in
-  value = inputs[register] >> ((OutputNumber-1)  % 8) # Get the value at the input position requested and whatever is to the right
+  outputs = readDigitalOutputs(drive_path) # Read in all registers
+  register = ((OutputNumber-1)//8) # What register block the output is in
+  value = outputs[register] >> ((OutputNumber-1)  % 8) # Get the value at the output position requested and whatever is to the right
   value = value &1 # Truncate to just the position
   #print("Register Num:",register)
-  #print("Full Register:",inputs[register])
+  #print("Full Register:",outputs[register])
   print("Value:", value)
   return value
    
 
-def writeDigitalInput(drive_path, OutputNumber, Value):
+def writeDigitalOutput(drive_path, OutputNumber, Value):
+  # I believe the manual said that R is a 16 bit, 8 for input 8 for output
+  # Is output the first 8 or last?
+  register = ((OutputNumber-1)//16) # What register block the output is in
+  bit = ((OutputNumber-1) % 16) # What bit in that register needs to be edited
 
-    raise NotImplementedError("writeDigitalInput not implemented yet. If you need this function, open an issue or submit a pull request.")
+  Old_R = readR_Register(drive_path, register) # Get current register values
+  print("Old Register Value:", Old_R)
+
+  # This prevents us from changing the value of nearby digital registers
+  if Value:
+    if Value > 1:
+      print("Value is larger than 1, setting to 1...")
+      Value = 1 
+    New_R = Old_R | (1<<bit)
+  elif Value == 0:
+    New_R = Old_R & ~(1<<bit)
+  else:
+     raise ValueError("Value cannot be a negative integer.")
+  
+  print("New Register Value:", New_R)
+  writeR_Register(drive_path, register,New_R) # Send to robot to be updated
+  ## Set sync bit to update
+  writeR_Register(drive_path, 2, 1) # Needed?
+  
