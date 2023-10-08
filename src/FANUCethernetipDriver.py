@@ -607,14 +607,20 @@ def readDigitalOutput(drive_path, OutputNumber):
   return value
    
 
-def writeDigitalOutput(drive_path, OutputNumber, Value):
-  # I believe the manual said that R is a 16 bit, 8 for input 8 for output
-  # Is output the first 8 or last?
-  register = ((OutputNumber-1)//16) # What register block the output is in
-  bit = ((OutputNumber-1) % 16) # What bit in that register needs to be edited
+def writeDigitalInput(drive_path, OutputNumber, Value):
+  raise NotImplementedError("writeDigialInput: This function will do nothing. WIP")
+  register = ((OutputNumber-1)//8) # What register block the output is in
+  bit = ((OutputNumber-1) % 8) # What bit in that register needs to be edited
 
-  Old_R = readR_Register(drive_path, register) # Get current register values
+  print("Register:", register+1)
+  print("Bit:",bit)
+
+
+  outputs = readDigitalOutputs(drive_path) # Get current register values
+  Old_R = outputs[register] # Old value at output register X
   print("Old Register Value:", Old_R)
+  print("Old Bin:",bin(Old_R))
+  print("R:",readR_Register(drive_path,register+1))
 
   # This prevents us from changing the value of nearby digital registers
   if Value:
@@ -628,7 +634,24 @@ def writeDigitalOutput(drive_path, OutputNumber, Value):
      raise ValueError("Value cannot be a negative integer.")
   
   print("New Register Value:", New_R)
-  writeR_Register(drive_path, register,New_R) # Send to robot to be updated
-  ## Set sync bit to update
-  writeR_Register(drive_path, 2, 1) # Needed?
+  print("New Bin:",bin(New_R))
+
+  outputs[register] = New_R
+  
+  bytesMessage = bytes(outputs)
+  print("Message:",bytesMessage)
+  with CIPDriver(drive_path) as drive:
+        myTag = drive.generic_message(
+            service=Services.set_attribute_single,
+            class_code=0x04,
+            instance=0x320,
+            attribute=0x03,
+            request_data=bytesMessage,
+            data_type=None,
+            connected=False,
+            unconnected_send=False,
+            route_path=False,
+            name='fanucDIread'
+        )
+  return myTag.error
   

@@ -452,3 +452,25 @@ class robot:
             FANUCethernetipDriver.writeR_Register(self.robot_IP, forward_register, off)
             ## Set sync bit to update
             FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+
+
+    def read_robot_connection_bit(self):
+        """
+        Reads and returns the value at DI[1]
+        """
+        value = FANUCethernetipDriver.readDigitalInput(self.robot_IP,1)
+        return value
+    
+
+    def write_robot_connection_bit(self,status):
+        """
+        Writes a value to R[1]->DO[1]
+        """
+        if status > 1 or status < 0:
+            raise ValueError("Value must be either 1 or 0")
+        DigitalOut = 1
+        sync_register = 2
+        sync_value = 1
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, DigitalOut, status)
+        ## Set sync bit to update
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
