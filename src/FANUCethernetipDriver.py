@@ -608,6 +608,10 @@ def readDigitalOutput(drive_path, OutputNumber):
    
 
 def writeDigitalInput(drive_path, OutputNumber, Value):
+  """
+  Fanuc does not support writes to DI/DO with explicit messaging (what we are doing here).
+  Possible work around in the future?
+  """
   raise NotImplementedError("writeDigialInput: This function will do nothing. WIP")
   register = ((OutputNumber-1)//8) # What register block the output is in
   bit = ((OutputNumber-1) % 8) # What bit in that register needs to be edited

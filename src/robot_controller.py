@@ -15,7 +15,7 @@
 # @section author_robot_controller Authors(s)
 # - Original Code by John Shovic
 # - Modified by James Lasso on 6/12/2023
-# - Mofified by Kris Olds on 10/6/2023
+# - Mofified by Kris Olds on 10/8/2023
 #
 
 # Imports
