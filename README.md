@@ -73,11 +73,11 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Clone the repo
+1. Clone the repo to desired working directory:
    ```sh
    git clone https://github.com/UniversityOfIdahoCDACS/fanuc_ethernet_ip_drivers.git
    ```
-2. Run script
+2. Run script from working directory:
    ```sh
    python3 <scriptname>
    ```
@@ -91,7 +91,9 @@ This is an example of how to list things you need to use the software and how to
 To use as a module, clone repo to your source folder and import with:
 
 ```python
-from fanuc_ethernet_ip_drivers.robot_controller import robot
+from fanuc_ethernet_ip_drivers import robot                     # Robot API
+from fanuc_ethernet_ip_drivers import robot_controller          # also contains robot
+from fanuc_ethernet_ip_drivers import fanuc_eip_driver          # Fanuc EthernetIP Driver
 ```
 
 _For more examples, please refer to the [Documentation](https://uofi-cdacs.github.io/FANUC-Ethernet_IP_Drivers/documentation/html/)_
