@@ -20,6 +20,7 @@
 
 # Imports
 import math
+import typing
 from . import FANUCethernetipDriver
 
 ## The mode of operation; 
@@ -28,7 +29,7 @@ FANUCethernetipDriver.DEBUG = False
 ## Robot Class
 # @param self, robotIP
 class robot:
-    def __init__(self, robotIP):
+    def __init__(self, robotIP: str, DEBUG: bool=False):
         """! Initializes the robot.
         @param robotIP      IP address of robot
         """
@@ -43,14 +44,14 @@ class robot:
 
     # Joint movement functions
 
-    def read_current_joint_position(self):
+    def read_current_joint_position(self) -> list:
         """! Updates the robots joint position list.
         """
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
         return self.CurJointPosList
 
     # read PR[1] Joint Coordinates
-    def read_joint_position_register(self):
+    def read_joint_position_register(self) -> float:
         """! Reads joint position register(PR1) and prints the value and prints list.
         """
         PR_1_Value = FANUCethernetipDriver.readJointPositionRegister(self.robot_IP, self.PRNumber)
@@ -59,7 +60,7 @@ class robot:
         return PR_1_Value
 
     # write PR[1] offset
-    def write_joint_offset(self, joint, value):
+    def write_joint_offset(self, joint:int, value:float):
         """! Offsets current joint position by value given in degrees.
         @param joint        which joint to move
         @param value        degrees you want to move, negative or positive direction
@@ -80,7 +81,7 @@ class robot:
         FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
     # write PR[1] Joint value
-    def write_joint_position(self, joint, value):
+    def write_joint_position(self, joint:int=(1,6), value:float=(-179, 179)):
         """! Sets joint to specific angle based on value
         @param joint        which joint to move
         @param value        angle to set joint to from -180 to 180
@@ -101,7 +102,7 @@ class robot:
     # DEPRACTED FUNCTION
     # WILL BE REMOVED IN NEXT UPDATE
     # USE write_joint_pose
-    def set_pose(self, joint_position_array):
+    def set_pose(self, joint_position_array:list[float]):
         """! Set a pose(all joint positions) for robot
         @param joint_position_array         a list of joint angles 
         """
@@ -116,7 +117,7 @@ class robot:
         print("FUNCTION DEPRACTED, USE: write_joint_pose()")
 
     # Set pose of robot by passing an array of joint positions
-    def write_joint_pose(self, joint_position_array):
+    def write_joint_pose(self, joint_position_array:list[float]):
         """! Set a pose(all joint positions) for robot
         @param joint_position_array         a list of joint angles 
         """
@@ -154,7 +155,7 @@ class robot:
     # Cartesian Movement Functions
 
     # read current cartesian position from Robot
-    def get_coords(self):
+    def read_current_cartesian_pose(self) -> list[float]:
         """! Print current cartesian coordinates from robot.
         """
         print("--------------------------")
@@ -165,23 +166,10 @@ class robot:
         print("CURPOS=", CurPosList)
         return CurPosList
 
-    # read PR[1] Cartesian Coordinates
-    def read_cartesian_position_register(self):
-        """! Reads the cartesian position register and prints a list
-        """
-        print("-----------------------------------")
-        print("| read PR[1] Cartesian Coordinate |")
-        print("-----------------------------------")
-
-        PR_1_Value = FANUCethernetipDriver.readCartesianPositionRegister(self.robot_IP, self.PRNumber)
-        print("PR[%d]"% self.PRNumber)
-        print("list=", PR_1_Value)
-        return PR_1_Value
-
     # DEPRACTED FUNCTION
     # WILL BE REMOVED IN NEXT UPDATE
     # USE write_cartesian_position()
-    def send_coords(self, X, Y, Z, W=None, P=None, R=None):
+    def write_cartesian_pose(self, X: float, Y:float, Z:float, W:None | float=(-179,179), P:None | float=(-179, 179), R:None | float=(-179,179)):
         """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
         These coordinates usually correlate to the tool end effectors position.
         @param X            X cartesian coordinate
@@ -206,7 +194,7 @@ class robot:
     # write PR[1] Cartesian Coordinates
     # Takes x, y, z, w, p, r coords.
     # WPR are the orientation of the end effector, DEFAULT to current orientation
-    def write_cartesian_position(self, X, Y, Z, W=None, P=None, R=None):
+    def write_cartesian_position(self, X: float, Y:float, Z:float, W:None | float=(-179,179), P:None | float=(-179, 179), R:None | float=(-179,179)):
         """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
         These coordinates usually correlate to the tool end effectors position.
         @param X            X cartesian coordinate
@@ -230,7 +218,7 @@ class robot:
     # Utility Functions
 
     # write R[5] to set Speed in mm/sec
-    def set_speed(self, value):
+    def set_speed(self, value: int=(0, 300)):
         """! Set movement speed of robot in mm/s
         @param value        speed in mm/s
         """
@@ -240,7 +228,7 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, self.speed_register, value)
 
     # get current speed
-    def get_speed(self):
+    def get_speed(self) -> int:
         """! Returns current set speed of robot
         @return             speed in mm/s
         """
@@ -249,7 +237,7 @@ class robot:
     # Starts robot movement and checks to see when it has completed
     # Default to blocking 
     # Function will block until move action is complete
-    def start_robot(self, blocking=True):  
+    def start_robot(self, blocking: bool=True):  
         """! starts robot movement by setting the sync register to 1 on the TP program executing commands.
         @param blocking     True/False program will wait to continue till move is finished. Default=True
         """
@@ -273,7 +261,7 @@ class robot:
             pass
 
     # Detect if the robot is moving
-    def is_moving(self):
+    def is_moving(self) -> bool:
         """! checks to see if robot is moving based on the value of the sync register 1=moving 0=not moving
         """
         start_register = self.read_robot_start_register()
@@ -312,7 +300,7 @@ class robot:
         FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
     # This function reads register 1(sync bit for position register)
-    def read_robot_start_register(self):
+    def read_robot_start_register(self) -> int:
         """! returns value of start register
         @return             value of start register
         """
@@ -320,7 +308,7 @@ class robot:
         return start_register
 
     # Toggle gripper open and close
-    def shunk_gripper(self, command):
+    def schunk_gripper(self, command:str=('open', 'close')):
         """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: controls shunk gripper.
         @param command      string 'open' or 'close'
         """
@@ -342,34 +330,9 @@ class robot:
         else:
             print("Invalid command.")
 
-    # FUNCTION DEPRACTED
-    # WILL BE REMOVED IN NEXT UPDATE
-    # USE shunk_gripper()
-    def gripper(self, command):
-        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: controls shunk gripper.
-        @param command      string 'open' or 'close'
-        """
-        # !! Registers 20 and 23 need to be toggled for opening and closing !!
-        print("FUNCTION DEPRACTED, USE: shunk_gripper()")
-
-        if command == 'open':
-            print("Opening Gripper...\n")
-            # set bits to toggle 20 off and 23 on
-            FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 0)
-            FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 1)
-            FANUCethernetipDriver.writeR_Register(self.robot_IP, self.sync_register, 1)
-
-        elif command == 'close':
-            print("Closing Gripper...\n")
-            FANUCethernetipDriver.writeR_Register(self.robot_IP, 20, 1)
-            FANUCethernetipDriver.writeR_Register(self.robot_IP, 23, 0)
-            FANUCethernetipDriver.writeR_Register(self.robot_IP, self.sync_register, 1)
-
-        else:
-            print("Invalid command.")
 
     # Open onRobot gripper
-    def onRobot_gripper_open(self, width_in_mm, force_in_newtons):
+    def onRobot_gripper_open(self, width_in_mm, force_in_newtons:int=(0,120)):
         """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: opens the onRobot gripper
         @param width_in_mm          value in mm to set gripper jaw distance
         @param force_in_newtons     value 0-120 in newtons
@@ -383,7 +346,7 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 3) # Set sync bit for onRobot gripper 1 = open
 
     # Close onRobot gripper
-    def onRobot_gripper_close(self, width_in_mm, force_in_newtons):
+    def onRobot_gripper_close(self, width_in_mm, force_in_newtons:int=(0,120)):
         """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: closes the onRobot gripper
         @param width_in_mm          value in mm to set gripper jaw distance
         @param force_in_newtons     value 0-120 in newtons
@@ -394,7 +357,7 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 2) # Set sync bit for onRobot gripper 2 = close
 
     # Read conveyor belt sensor: returns value of 1 or 0
-    def conveyor_proximity_sensor(self, sensor):
+    def conveyor_proximity_sensor(self, sensor) -> int:
         """! reads proximity sensors
         @param sensor               string 'right' or 'left' sensor
         """
@@ -409,7 +372,7 @@ class robot:
             print("Invalid Sensor, Try 'right' or 'left'\n")
 
     # Control conveyor belt
-    def conveyor(self, command):
+    def conveyor(self, command: str=('open', 'reverse', 'stop')):
         """! Controls conveyor belt
         @param command          string 'forward' or 'reverse' or 'stop'
         """
@@ -452,7 +415,7 @@ class robot:
             FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
 
-    def read_robot_connection_bit(self):
+    def read_robot_connection_bit(self) -> int:
         """
         Reads and returns the value at DI[1]
         """
@@ -460,7 +423,7 @@ class robot:
         return value
     
 
-    def write_robot_connection_bit(self,status):
+    def write_robot_connection_bit(self,status) -> int:
         """
         Writes a value to R[1]->DO[1]
         """
