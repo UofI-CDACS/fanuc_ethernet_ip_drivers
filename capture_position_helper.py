@@ -1,5 +1,5 @@
 import os
-from src.robot_controller import robot
+from robot_controller import robot
 
 # Global Constants
 #drive_path = '129.101.98.214' # Bill

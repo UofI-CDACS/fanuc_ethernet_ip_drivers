@@ -557,13 +557,14 @@ def readDigitalOutputs(drive_path):
 
 def readDigitalInput(drive_path, InputNumber):
 
-   raise NotImplementedError("readDigitalInput not implemented yet. If you need this function, open an issue or submit a pull request.")
+   
+   return
 
 
 def readDigitalOutput(drive_path, OutputNumber):
 
-   raise NotImplementedError("readDigitalOutput not implemented yet. If you need this function, open an issue or submit a pull request.")
+   return
 
 def writeDigitalInput(drive_path, OutputNumber, Value):
 
-    raise NotImplementedError("writeDigitalInput not implemented yet. If you need this function, open an issue or submit a pull request.")
+   return

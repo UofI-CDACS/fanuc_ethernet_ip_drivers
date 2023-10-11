@@ -20,6 +20,9 @@
 # Imports
 import sys
 sys.path.append('./pycomm3/pycomm3')
+import struct
+import random
+import time
 import math
 import FANUCethernetipDriver
 
