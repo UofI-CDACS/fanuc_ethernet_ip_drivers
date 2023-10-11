@@ -1,15 +1,16 @@
 
-
 # CURPOS Read and read and write PR[1] Cartesian Coordinates
 #
 
 import sys
 sys.path.append('./pycomm3/pycomm3')
+import struct
 import random
+import time
 
-from src import FANUCethernetipDriver
+import FANUCethernetipDriver
 
-drive_path = '129.101.98.244'    # 50iB Larry 
+drive_path = '129.101.98.214'    # CRX10 Bill
 
 # read CURPOS from Robot
 print("------------------------")
@@ -46,6 +47,8 @@ myList = CurPosList
 W_PR_1_return = FANUCethernetipDriver.writeCartesianPositionRegister(drive_path, PRNumber, myList)
 
 print("W_PR_1_return =", W_PR_1_return)
+
+
 # write R[5] to set Speed in mm/sec
 print("------------------------")
 print(" write R[5] to set arm speed")
@@ -56,8 +59,6 @@ Value = 100
 W_R_5_return = FANUCethernetipDriver.writeR_Register(drive_path, RegNum, Value)
 
 print ("W_R_5_return=",W_R_5_return)
-
-
 
 # write R[1] to start Robot
 print("------------------------")

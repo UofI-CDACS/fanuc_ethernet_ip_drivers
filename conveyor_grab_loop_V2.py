@@ -14,8 +14,10 @@
 # - Created by James Lasso on 6/13/2023
 
 # Imports
+import sys
 import time
-from src.robot_controller import robot
+import random
+from robot_controller import robot
 
 # Global Constants
 #drive_path = '129.101.98.214' # Bill

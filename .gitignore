@@ -5,6 +5,3 @@ __pycache__/
 doxygen-awesome-css/
 Doxyfile*
 *_test*
-
-# jetbrains IDEs
-.idea/
