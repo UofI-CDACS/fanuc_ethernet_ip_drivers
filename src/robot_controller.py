@@ -24,7 +24,6 @@ import typing
 from . import FANUCethernetipDriver
 
 ## The mode of operation; 
-FANUCethernetipDriver.DEBUG = False
 
 ## Robot Class
 # @param self, robotIP
@@ -41,6 +40,14 @@ class robot:
         self.sync_register = 2
         self.sync_value = 1
         self.speed_register = 5
+
+        self.DEBUG = DEBUG
+        FANUCethernetipDriver.DEBUG = DEBUG
+
+
+    # set debug on or off
+    def set_debug(state:bool):
+        FANUCethernetipDriver.DEBUG = state
 
     # Joint movement functions
 
@@ -309,7 +316,7 @@ class robot:
 
     # Toggle gripper open and close
     def schunk_gripper(self, command:str=('open', 'close')):
-        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: controls shunk gripper.
+        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: controls schunk gripper.
         @param command      string 'open' or 'close'
         """
         # !! Registers 20 and 23 need to be toggled for opening and closing !!
