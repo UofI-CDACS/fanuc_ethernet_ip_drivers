@@ -339,7 +339,7 @@ class robot:
 
 
     # Open onRobot gripper
-    def onRobot_gripper_open(self, width_in_mm, force_in_newtons:int=(0,120)):
+    def onRobot_gripper_open(self, width_in_mm:int=(0,160), force_in_newtons:int=(0,120)):
         """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: opens the onRobot gripper
         @param width_in_mm          value in mm to set gripper jaw distance
         @param force_in_newtons     value 0-120 in newtons
@@ -353,7 +353,7 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 3) # Set sync bit for onRobot gripper 1 = open
 
     # Close onRobot gripper
-    def onRobot_gripper_close(self, width_in_mm, force_in_newtons:int=(0,120)):
+    def onRobot_gripper_close(self, width_in_mm:int=(0,160), force_in_newtons:int=(0,120)):
         """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: closes the onRobot gripper
         @param width_in_mm          value in mm to set gripper jaw distance
         @param force_in_newtons     value 0-120 in newtons
