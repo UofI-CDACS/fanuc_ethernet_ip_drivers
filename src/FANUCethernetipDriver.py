@@ -15,6 +15,7 @@ DEBUG = False
 
 #import sys
 #sys.path.append('./pycomm3/pycomm3')
+from enum import Enum
 from pycomm3 import CIPDriver
 from pycomm3 import Services
 from pycomm3 import DataTypes, DataType
@@ -660,55 +661,152 @@ def writeDigitalInput(drive_path, OutputNumber, Value):
         )
   return myTag.error
 
-# get the alarm history as a string or something
-def returnActiveAlarmAttribute(drive_path):
+class FANUCAlarm:
+
+    class types(Enum):
+        active_alarm=0xA0
+        alarm_history=0xA1
+        motion_alarm=0xA2
+        system_alarm=0xA3
+        application_alarm=0xA4
+        recovery_alarm=0xA5
+        communications_alarm=0xA6
+
+    class attributes(Enum):
+        alarm_id = (0x01, DataTypes.int)
+        alarm_number = (0x02, DataTypes.int)
+        alarm_id_cause_code = (0x03, DataTypes.int)
+        alarm_num_cause_code = (0x04, DataTypes.int)
+        alarm_severity = (0x05, DataTypes.int)
+        time_stamp = (0x06, DataTypes.dint)
+        date_time_str = (0x07, None, 16, 28)
+        alarm_message = (0x08, None, 44, 88)
+        cause_code_message = (0x09, None, 132, 88)
+        alarm_severity_str = (0x0A, None, 220, 28)
+
     
-    with CIPDriver(drive_path) as driver:
-        cip_tag = driver.generic_message(
-                    service=Services.get_attribute_single,
-                    class_code=0xA0,
-                    instance=0x01,
-                    attribute=0x03,
-                    data_type=DataTypes.int,
-                    connected=False,
-                    unconnected_send=False,
-                    route_path=False,
-                    name='fanuc active alarm read'
-                )
+    def __init__(self):
+        self.buff = None                 # byte string representation
+        self.alarm_id = None             # 16 bit int
+        self.alarm_number = None         # 16 bit int
+        self.alarm_id_cause_code = None  # 16 bit int
+        self.alarm_num_cause_code = None # 16 bit int
+        self.alarm_severity = None       # 16 bit int
+        self.time_stamp = None           # 32 bit int
+        self.date_time_str = None        # 28 byte string
+        self.alarm_message = None        # 88 byte string
+        self.cause_code_message = None   # 88 byte string
+        self.alarm_severity_str = None   # 28 byte string
 
-        if not cip_tag:
-            print('[ERROR]', cip_tag.tag, cip_tag.error)
+    @classmethod
+    def __string_decode__(self, buff, offset, length):
+        msg_len = struct.unpack_from('h', buff, offset)
+        msg_pad = length - (msg_len[0] - 1) - 5
+        format = f'h2x{msg_len[0]-1}s{msg_pad}x'
 
-        else:
-            print(cip_tag.tag, cip_tag.value)
-            return cip_tag.value
-  
-# get the alarm history as a string or something
-# don't think this one is possible, error thrown even for examples
-# from documentation
-def returnActiveAlarm(drive_path):
-    
-    with CIPDriver(drive_path) as driver:
-        cip_tag = driver.generic_message(
-                    service=Services.get_attributes_all,
-                    class_code=0xA0,
-                    instance=0x01,
-                    connected=False,
-                    unconnected_send=False,
-                    route_path=False,
-                    name='fanuc active alarm read'
-                )
+        msg_str = struct.unpack_from(format, buff, offset)
+        msg_str = msg_str[1].decode('utf-8')
 
-        if not cip_tag:
-            print('[ERROR]', cip_tag.tag, cip_tag.error)
+        return msg_str
 
-        else:
-            print(cip_tag.tag, cip_tag.value)
-            return cip_tag.value
+
+    @classmethod
+    def get_attribute_single(self, drive_path, class_code, instance=1, attribute=attributes.alarm_number):
+        # get a single attribute from list above
+
+        with CIPDriver(drive_path) as driver:
+
+            cip_tag = driver.generic_message(
+                                service=Services.get_attribute_single,
+                                class_code=class_code.value,
+                                instance=1,
+                                attribute=attribute.value[0],
+                                data_type=attribute.value[1],
+                                connected=False,
+                                unconnected_send=False,
+                                route_path=False,
+                                name=attribute.name
+                            )
+
+            if not cip_tag:
+                print('[ERROR] CIP tag:', cip_tag.tag, cip_tag.error)
+                return None
+
+            else:
+
+                output = {}
+                if attribute.value[1] is None:
+                    # interpret this as a string and do
+                    #   complicated decode
+                    output_val = self.__string_decode__(cip_tag.value, 0, attribute.value[3])
+                    output[attribute.name] = output_val
+                    return output
+
+                else:
+                    output[attribute.name] = cip_tag.value
+                    return output
+                
+    @classmethod
+    def get_attributes_all(self, drive_path, class_code, instance=1):
+        # get a single attribute from list above
+
+        with CIPDriver(drive_path) as driver:
+
+            cip_tag = driver.generic_message(
+                                service=Services.get_attributes_all,
+                                class_code=class_code.value,
+                                instance=1,
+                                attribute=None,
+                                data_type=None,
+                                connected=False,
+                                unconnected_send=False,
+                                route_path=False,
+                                name=class_code.name
+                            )
+
+            if not cip_tag:
+                print('[ERROR] CIP tag:', cip_tag.tag, cip_tag.error)
+                return None
+
+            else:
+                # process and return as dict
+                buff = cip_tag.value
+
+                alarm_dict = {
+                        'alarm_id': DataTypes.int.decode(buff[:2]),
+                        'alarm_number': DataTypes.int.decode(buff[2:4]),
+                        'alarm_id_cause_code': DataTypes.int.decode(buff[4:6]),
+                        'alarm_num_cause_code': DataTypes.int.decode(buff[6:8]),
+                        'alarm_severity': DataTypes.int.decode(buff[8:10]),
+                        'pad': DataTypes.int.decode(buff[10:12]),
+                        'time_stamp': DataTypes.dint.decode(buff[12:12+4]),
+                        }
+
+                # time stamp string: 2 bytes len | 2 bytes pad | <=20 bytes str | >=2 bytes pad
+                #ts_str = struct.unpack_from('h2x22s2x', buff, 16)
+                #ts_str = ts_str[1].decode('utf-8')
+                ts_str = self.__string_decode__(buff, 16, 28)
+                # error message: 2 bytes len | 2 bytes pad | <=82 bytes str | >=2 bytes pad
+                msg_str = self.__string_decode__(buff, 44, 88)
+                # cause code message: 2 bytes len | 2 bytes pad | <=82 bytes str | >= 2 bytes pad
+                cc_str = self.__string_decode__(buff, 132, 88)
+                ss_str = self.__string_decode__(buff, 220, 28)
+
+                # place in dictionary
+                alarm_dict['date_time_str'] = ts_str
+                alarm_dict['alarm_message'] = msg_str
+                alarm_dict['cause_code_message'] = cc_str
+                alarm_dict['alarm_severity_str'] = ss_str
+
+                if DEBUG:
+                    print('decoded = ', alarm_dict)
+
+                return alarm_dict
 
 
 # Get the most recent alarm from the robot
 def returnMostRecentAlarm(drive_path):
+    # DEPRACTED! DEPRACTED I SAY!!!
 
     with CIPDriver(drive_path) as driver:
         cip_tag = driver.generic_message(
@@ -771,6 +869,7 @@ def returnMostRecentAlarm(drive_path):
 # get the alarm history as a string or something
 # TODO convert from byte strings
 def returnAlarmHistory(drive_path):
+    # DEPRACTED! DEPRACTED I SAY!!!
     
     with CIPDriver(drive_path) as driver:
         cip_tag = driver.generic_message(
