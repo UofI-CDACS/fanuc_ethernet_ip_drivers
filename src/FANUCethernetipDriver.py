@@ -661,43 +661,58 @@ def writeDigitalInput(drive_path, OutputNumber, Value):
         )
   return myTag.error
 
+
+
+'''
+    Class implementing the FANUC EIP Alarm objects.
+
+    Get attribute single method fetches one of the attributes documented in FANUCAlarm.attributes enum
+        and decodes it by variable type.
+
+    Get attribute all method fetches all attributes in FANUCAlarm.attributes enum, decodes them
+        and places them in a dictionary which can be keyed with FANUCAlarm.attributes.<attribute>.name
+
+'''
 class FANUCAlarm:
 
+    # fanuc alarm classes
     class types(Enum):
-        active_alarm=0xA0
+        active_alarm=0xA0           # errors
         alarm_history=0xA1
         motion_alarm=0xA2
-        system_alarm=0xA3
+        system_alarm=0xA3 
         application_alarm=0xA4
         recovery_alarm=0xA5
-        communications_alarm=0xA6
+        communications_alarm=0xA6   # errors
 
+    # fanuc alarm object attributes
+    #   enum member is tuple containing (attribute #, data type, *offset*, *length*)
+    #   * = optional
+    #
+    #   Note: 
+    #       None types assumed to be strings
     class attributes(Enum):
-        alarm_id = (0x01, DataTypes.int)
-        alarm_number = (0x02, DataTypes.int)
-        alarm_id_cause_code = (0x03, DataTypes.int)
-        alarm_num_cause_code = (0x04, DataTypes.int)
-        alarm_severity = (0x05, DataTypes.int)
-        time_stamp = (0x06, DataTypes.dint)
-        date_time_str = (0x07, None, 16, 28)
-        alarm_message = (0x08, None, 44, 88)
-        cause_code_message = (0x09, None, 132, 88)
-        alarm_severity_str = (0x0A, None, 220, 28)
+        alarm_id = (0x01, DataTypes.int)                # 16 bit int
+        alarm_number = (0x02, DataTypes.int)            # 16 bit int
+        alarm_id_cause_code = (0x03, DataTypes.int)     # 16 bit int
+        alarm_num_cause_code = (0x04, DataTypes.int)    # 16 bit int
+        alarm_severity = (0x05, DataTypes.int)          # 16 bit int
+        time_stamp = (0x06, DataTypes.dint)             # 32 bit int
+        date_time_str = (0x07, None, 16, 28)            # 28 byte string
+        alarm_message = (0x08, None, 44, 88)            # 88 byte string
+        cause_code_message = (0x09, None, 132, 88)      # 88 byte string
+        alarm_severity_str = (0x0A, None, 220, 28)      # 28 byte string
 
     
     def __init__(self):
         self.buff = None                 # byte string representation
-        self.alarm_id = None             # 16 bit int
-        self.alarm_number = None         # 16 bit int
-        self.alarm_id_cause_code = None  # 16 bit int
-        self.alarm_num_cause_code = None # 16 bit int
-        self.alarm_severity = None       # 16 bit int
-        self.time_stamp = None           # 32 bit int
-        self.date_time_str = None        # 28 byte string
-        self.alarm_message = None        # 88 byte string
-        self.cause_code_message = None   # 88 byte string
-        self.alarm_severity_str = None   # 28 byte string
 
+    # Decodes byte strings into string and returns 
+    #   fanuc strings follow convention similar to pascal strings:
+    #       2 byte length N
+    #       2 byte pad
+    #       N length string
+    #       pad 
     @classmethod
     def __string_decode__(self, buff, offset, length):
         msg_len = struct.unpack_from('h', buff, offset)
@@ -710,6 +725,8 @@ class FANUCAlarm:
         return msg_str
 
 
+    # Uses CIP service get_attribute_single to get one attribute defined by FANUCAlarm.attributes enum,
+    #   decode it, and return the value in a dictionary keyed by FANUCAlarm.attributes.<attribute>.name
     @classmethod
     def get_attribute_single(self, drive_path, class_code, instance=1, attribute=attributes.alarm_number):
         # get a single attribute from list above
@@ -746,6 +763,8 @@ class FANUCAlarm:
                     output[attribute.name] = cip_tag.value
                     return output
                 
+    # Uses CIP service get_attributes_all to get every attribute defined in FANUCAlarm.attributes
+    #   as a byte string, decode the data, and return it in a dictionary
     @classmethod
     def get_attributes_all(self, drive_path, class_code, instance=1):
         # get a single attribute from list above
