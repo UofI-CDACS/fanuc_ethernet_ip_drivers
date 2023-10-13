@@ -17,6 +17,7 @@ DEBUG = False
 #sys.path.append('./pycomm3/pycomm3')
 from pycomm3 import CIPDriver
 from pycomm3 import Services
+from pycomm3 import DataTypes, DataType
 from pycomm3.logger import configure_default_logger, LOG_VERBOSE
 import pycomm3
 import struct
@@ -658,4 +659,135 @@ def writeDigitalInput(drive_path, OutputNumber, Value):
             name='fanucDIread'
         )
   return myTag.error
+
+# get the alarm history as a string or something
+def returnActiveAlarmAttribute(drive_path):
+    
+    with CIPDriver(drive_path) as driver:
+        cip_tag = driver.generic_message(
+                    service=Services.get_attribute_single,
+                    class_code=0xA0,
+                    instance=0x01,
+                    attribute=0x03,
+                    data_type=DataTypes.int,
+                    connected=False,
+                    unconnected_send=False,
+                    route_path=False,
+                    name='fanuc active alarm read'
+                )
+
+        if not cip_tag:
+            print('[ERROR]', cip_tag.tag, cip_tag.error)
+
+        else:
+            print(cip_tag.tag, cip_tag.value)
+            return cip_tag.value
   
+# get the alarm history as a string or something
+# don't think this one is possible, error thrown even for examples
+# from documentation
+def returnActiveAlarm(drive_path):
+    
+    with CIPDriver(drive_path) as driver:
+        cip_tag = driver.generic_message(
+                    service=Services.get_attributes_all,
+                    class_code=0xA0,
+                    instance=0x01,
+                    connected=False,
+                    unconnected_send=False,
+                    route_path=False,
+                    name='fanuc active alarm read'
+                )
+
+        if not cip_tag:
+            print('[ERROR]', cip_tag.tag, cip_tag.error)
+
+        else:
+            print(cip_tag.tag, cip_tag.value)
+            return cip_tag.value
+
+
+# Get the most recent alarm from the robot
+def returnMostRecentAlarm(drive_path):
+
+    with CIPDriver(drive_path) as driver:
+        cip_tag = driver.generic_message(
+                    service=Services.get_attributes_all,
+                    class_code=0xA1,
+                    instance=0x01,
+                    data_type=None,
+                    connected=False,
+                    unconnected_send=False,
+                    route_path=False,
+                    name='fanuc alarm history read'
+                )
+
+        if not cip_tag:
+            print('[ERROR]', cip_tag.tag, cip_tag.error)
+
+        else:
+            # save byte buffer
+            buff = cip_tag.value
+
+            alarm_dict = {
+                    'alarm_id': DataTypes.int.decode(buff[:2]),
+                    'alarm_number': DataTypes.int.decode(buff[2:4]),
+                    'cause_code_id': DataTypes.int.decode(buff[4:6]),
+                    'cause_code_num': DataTypes.int.decode(buff[6:8]),
+                    'severity': DataTypes.int.decode(buff[8:10]),
+                    'pad': DataTypes.int.decode(buff[10:12]),
+                    'time_stamp': DataTypes.dint.decode(buff[12:12+4]),
+                    }
+
+            # time stamp string: 2 bytes len | 2 bytes pad | <=20 bytes str | >=2 bytes pad
+            ts_str = struct.unpack_from('h2x22s2x', buff, 16)
+            ts_str = ts_str[1].decode('utf-8')
+            # error message: 2 bytes len | 2 bytes pad | <=82 bytes str | >=2 bytes pad
+            msg_len = struct.unpack_from('h', buff, 44)
+            msg_pad = 82 - msg_len[0]
+            format = f'h2x{msg_len[0]}s{msg_pad}x'
+            msg_str = struct.unpack_from(format, buff, 44)
+            msg_str = msg_str[1].decode('utf-8')
+            # cause code message: 2 bytes len | 2 bytes pad | <=82 bytes str | >= 2 bytes pad
+            cc_len = struct.unpack_from('hh', buff, 132)
+            cc_pad = 82 - cc_len[0]
+            format = f'h2x{cc_len[0]}s{cc_pad}x'
+            # unpack to tuple of values
+            cc_str = struct.unpack_from(format, buff, 132)
+            cc_str = cc_str[1].decode('utf-8')
+
+            # place in dictionary
+            alarm_dict['time_stamp_str'] = ts_str
+            alarm_dict['message'] = msg_str
+            alarm_dict['cause_code'] = cc_str
+
+            if DEBUG:
+                print('decoded = ', alarm_dict)
+
+            return alarm_dict
+
+
+
+# get the alarm history as a string or something
+# TODO convert from byte strings
+def returnAlarmHistory(drive_path):
+    
+    with CIPDriver(drive_path) as driver:
+        cip_tag = driver.generic_message(
+                    service=Services.get_attributes_all,
+                    class_code=0xA1,
+                    instance=0x01,
+                    attribute=0x00,
+                    data_type=None,
+                    connected=False,
+                    unconnected_send=False,
+                    route_path=False,
+                    name='fanuc alarm history read'
+                )
+
+        if not cip_tag:
+            print('[ERROR]', cip_tag.tag, cip_tag.error)
+
+        else:
+            print(cip_tag.tag, cip_tag.value)
+            return cip_tag.value
