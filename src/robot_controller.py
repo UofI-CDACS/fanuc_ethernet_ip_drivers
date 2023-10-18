@@ -464,11 +464,11 @@ class robot:
 
     def write_robot_connection_bit(self,status):
         """
-        Writes a value to R[1]->DO[1]
+        Writes a value to R[24]->DO[1]
         """
         if status > 1 or status < 0:
             raise ValueError("Value must be either 1 or 0")
-        DigitalOut = 1
+        DigitalOut = 24
         sync_register = 2
         sync_value = 1
         FANUCethernetipDriver.writeR_Register(self.robot_IP, DigitalOut, status)
