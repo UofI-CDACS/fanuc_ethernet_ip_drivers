@@ -162,7 +162,7 @@ class robot:
     # write PR[1] Cartesian Coordinates
     # Takes x, y, z, w, p, r coords.
     # WPR are the orientation of the end effector, DEFAULT to current orientation
-    def write_cartesian_position(self, X: float, Y:float, Z:float, W:float | None, P:float | None, R:float | None):
+    def write_cartesian_position(self, X: float, Y:float, Z:float, W:float=None, P:float=None, R:float=None):
         """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
         These coordinates usually correlate to the tool end effectors position.
         @param X            X cartesian coordinate
