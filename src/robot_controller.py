@@ -15,7 +15,7 @@
 # @section author_robot_controller Authors(s)
 # - Original Code by John Shovic
 # - Modified by James Lasso on 6/12/2023
-# - Modified by Kris Olds on 10/8/2023
+# - Modified by Kris Olds on 11/17/2023
 #
 
 # Imports
@@ -88,7 +88,7 @@ class robot:
         FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
 
     # write PR[1] Joint value
-    def write_joint_position(self, joint:int=(1,6), value:float=(-179, 179)):
+    def write_joint_position(self, joint:int, value:float):
         """! Sets joint to specific angle based on value
         @param joint        which joint to move
         @param value        angle to set joint to from -180 to 180
@@ -96,6 +96,9 @@ class robot:
         print("--------------------------------")
         print("| write PR[1] Joint Coordinate |")
         print("--------------------------------")
+        if value > 179 | value < -179:
+            raise Warning(f"Angle should be in the range of [-179.0, 179.0], got {value}")
+        
         joint = joint + 1
 
         newPosition = value
@@ -105,23 +108,6 @@ class robot:
         myList = self.CurJointPosList
 
         FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
-
-    # DEPRACTED FUNCTION
-    # WILL BE REMOVED IN NEXT UPDATE
-    # USE write_joint_pose
-    def set_pose(self, joint_position_array:list[float]):
-        """! Set a pose(all joint positions) for robot
-        @param joint_position_array         a list of joint angles 
-        """
-        joint_number = 1
-        for joint in joint_position_array:
-            self.CurJointPosList[joint_number + 1] = joint_position_array[joint_number - 1]
-            joint_number += 1
-
-        myList = self.CurJointPosList
-
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
-        print("FUNCTION DEPRACTED, USE: write_joint_pose()")
 
     # Set pose of robot by passing an array of joint positions
     def write_joint_pose(self, joint_position_array:list[float]):
@@ -173,35 +159,10 @@ class robot:
         print("CURPOS=", CurPosList)
         return CurPosList
 
-    # DEPRACTED FUNCTION
-    # WILL BE REMOVED IN NEXT UPDATE
-    # USE write_cartesian_position()
-    def write_cartesian_pose(self, X: float, Y:float, Z:float, W:None | float=(-179,179), P:None | float=(-179, 179), R:None | float=(-179,179)):
-        """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
-        These coordinates usually correlate to the tool end effectors position.
-        @param X            X cartesian coordinate
-        @param Y            Y cartesian coordinate
-        @param Z            Z cartesian coordinate
-        @param W            Yaw
-        @param P            Pitch
-        @param R            Roll
-        """
-        self.CurCartesianPosList[2] = X
-        self.CurCartesianPosList[3] = Y
-        self.CurCartesianPosList[4] = Z
-        self.CurCartesianPosList[5] = W if W is not None else self.CurCartesianPosList[5]
-        self.CurCartesianPosList[6] = P if P is not None else self.CurCartesianPosList[6]
-        self.CurCartesianPosList[7] = R if R is not None else self.CurCartesianPosList[7]
-
-        newPositionList = self.CurCartesianPosList
-
-        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
-        print("FUNCTION DEPRACTED, USE: write_cartesian_position()")
-
     # write PR[1] Cartesian Coordinates
     # Takes x, y, z, w, p, r coords.
     # WPR are the orientation of the end effector, DEFAULT to current orientation
-    def write_cartesian_position(self, X: float, Y:float, Z:float, W:None | float=(-179,179), P:None | float=(-179, 179), R:None | float=(-179,179)):
+    def write_cartesian_position(self, X: float, Y:float, Z:float, W:float=None, P:float=None, R:float=None):
         """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
         These coordinates usually correlate to the tool end effectors position.
         @param X            X cartesian coordinate
@@ -211,6 +172,13 @@ class robot:
         @param P            Pitch
         @param R            Roll
         """
+        if W > 179 | W < -179:
+            raise Warning(f"W, P and R should be in the range of [-179.0, 179.0], got {W}")
+        if P > 179 | P < -179:
+            raise Warning(f"W, P and R should be in the range of [-179.0, 179.0], got {P}")
+        if R > 179 | R < -179:
+            raise Warning(f"W, P and R should be in the range of [-179.0, 179.0], got {R}")
+        
         self.CurCartesianPosList[2] = X
         self.CurCartesianPosList[3] = Y
         self.CurCartesianPosList[4] = Z
@@ -223,15 +191,17 @@ class robot:
         FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
 
     # Utility Functions
-
     # write R[5] to set Speed in mm/sec
-    def set_speed(self, value: int=(0, 300)):
+    def set_speed(self, value: int):
         """! Set movement speed of robot in mm/s
         @param value        speed in mm/s
         """
         # print("------------------------------")
         # print(f"| Speed set to {value}mm/sec |")
         # print("------------------------------")
+        if value > 300 | value < 0:
+            raise Warning(f"Speed should be in the range of [0, 300], got {value}")
+        
         FANUCethernetipDriver.writeR_Register(self.robot_IP, self.speed_register, value)
 
     # get current speed
@@ -315,7 +285,7 @@ class robot:
         return start_register
 
     # Toggle gripper open and close
-    def schunk_gripper(self, command:str=('open', 'close')):
+    def schunk_gripper(self, command:str):
         """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: controls schunk gripper.
         @param command      string 'open' or 'close'
         """
@@ -335,15 +305,20 @@ class robot:
             FANUCethernetipDriver.writeR_Register(self.robot_IP, self.sync_register, 1)
 
         else:
-            print("Invalid command.")
+            raise Warning(f"Gripper only supports 'open' or 'closed' strings")
 
 
     # Open onRobot gripper
-    def onRobot_gripper_open(self, width_in_mm:int=(0,160), force_in_newtons:int=(0,120)):
+    def onRobot_gripper_open(self, width_in_mm:int, force_in_newtons:int):
         """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: opens the onRobot gripper
         @param width_in_mm          value in mm to set gripper jaw distance
         @param force_in_newtons     value 0-120 in newtons
         """
+        if width_in_mm > 160 | width_in_mm < 0:
+            raise Warning(f"Width should be in the range of [0, 160], got {width_in_mm}")
+        if force_in_newtons > 120 | force_in_newtons < 0:
+            raise Warning(f"Force should be in the range of [0, 120], got {force_in_newtons}")
+        
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 1) # Instance typically 1
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 36, width_in_mm) # Set open width in mm
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 37, force_in_newtons) # Set open force in newtons
@@ -353,11 +328,16 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 3) # Set sync bit for onRobot gripper 1 = open
 
     # Close onRobot gripper
-    def onRobot_gripper_close(self, width_in_mm:int=(0,160), force_in_newtons:int=(0,120)):
+    def onRobot_gripper_close(self, width_in_mm:int, force_in_newtons:int):
         """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: closes the onRobot gripper
         @param width_in_mm          value in mm to set gripper jaw distance
         @param force_in_newtons     value 0-120 in newtons
         """
+        if width_in_mm > 160 | width_in_mm < 0:
+            raise Warning(f"Width should be in the range of [0, 160], got {width_in_mm}")
+        if force_in_newtons > 120 | force_in_newtons < 0:
+            raise Warning(f"Force should be in the range of [0, 120], got {force_in_newtons}")
+
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 1) # Instance typically 1
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 39, width_in_mm) # Set close width in mm
         FANUCethernetipDriver.writeR_Register(self.robot_IP, 40, force_in_newtons) # Set close force in newtons
@@ -379,7 +359,7 @@ class robot:
             print("Invalid Sensor, Try 'right' or 'left'\n")
 
     # Control conveyor belt
-    def conveyor(self, command: str=('open', 'reverse', 'stop')):
+    def conveyor(self, command: str):
         """! Controls conveyor belt
         @param command          string 'forward' or 'reverse' or 'stop'
         """
