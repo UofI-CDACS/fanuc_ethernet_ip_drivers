@@ -14,14 +14,11 @@
 # - Created by James Lasso on 6/13/2023
 
 # Imports
-import sys
-import time
-import random
-from robot_controller import robot
+from src.robot_controller import robot
 
 # Global Constants
-#drive_path = '129.101.98.214' # Bill
-drive_path = '129.101.98.215' # DJ
+drive_path = '129.101.98.214' # Bill
+#drive_path = '129.101.98.215' # DJ
 #drive_path = '129.101.98.244' # Larry
 
 def main():
@@ -31,30 +28,41 @@ def main():
     crx10 = robot(drive_path)
 
     # Set robot speed
-    crx10.set_speed(300)
+    crx10.set_speed(100)
 
     loops = 1
     while(loops <= 1):
-        
-        # Set robot speed
-        #crx10.set_speed(random.randrange(200, 300))
         print("==============================")
         print(f"Current loops: {loops}/3")
         print("==============================")
 
         # Home position (set all positions to 1)
-        #crx10.set_joints_to_home_position()
+        crx10.set_joints_to_home_position()
+        # Execute move action
+        crx10.start_robot()
 
+        # Read current cartesian coordinates
+        crx10.read_current_cartesian_position()
+
+        crx10.write_cartesian_coordinates(714, -170, 650)
+        #crx10.write_cartesian_coordinates(714, -137, 650)
+        # Execute move action
+        crx10.start_robot()
+
+        #crx10.write_cartesian_coordinates(808, 106, 604)
         # Execute move action
         #crx10.start_robot()
 
-        # Open Gripper
-        crx10.gripper('open')
-        time.sleep(2)
+        # Home position (set all positions to 1)
+        crx10.set_joints_to_home_position()
+        # Execute move action
+        crx10.start_robot()
 
-        # Close Gripper
-        crx10.gripper('close')
-        time.sleep(2)
+        # Print Final position list
+        print("*************************")
+        print(" Final Joint Positions")
+        print("*************************")
+        crx10.read_current_cartesian_position()
 
         # increment loops
         loops += 1

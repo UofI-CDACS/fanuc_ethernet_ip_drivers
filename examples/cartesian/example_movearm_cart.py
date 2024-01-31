@@ -1,14 +1,12 @@
 
-# CURJPOS Read and read and write PR[1] Joint Coordinates
+# CURPOS Read and read and write PR[1] Cartesian Coordinates
 #
 
 import sys
 sys.path.append('./pycomm3/pycomm3')
-import struct
 import random
-import time
 
-import FANUCethernetipDriver
+from src import FANUCethernetipDriver
 
 drive_path = '129.101.98.214'    # CRX10 Bill
 
@@ -16,37 +14,38 @@ drive_path = '129.101.98.214'    # CRX10 Bill
 print("------------------------")
 print(" read CURPOS from Robot")
 print("------------------------")
-CurPosList = FANUCethernetipDriver.returnJointCurrentPosition(drive_path)
+CurPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(drive_path)
 
 print("CURPOS=", CurPosList)
 
-# read PR[1] Joint Coordinates
+# read PR[1] Cartesian Coordinates
 print("------------------------")
-print(" read PR[1] Joint Coordinate")
+print(" read PR[1] Cartesian Coordinate")
 print("------------------------")
 
 PRNumber = 1
-PR_1_Value = FANUCethernetipDriver.readJointPositionRegister(drive_path, PRNumber)
+PR_1_Value = FANUCethernetipDriver.readCartesianPositionRegister(drive_path, PRNumber)
 print("PR[%d]"% PRNumber)
 print("list=", PR_1_Value)
 
-# write PR[1] Joint Coordinates
+# write PR[1] Cartesian Coordinates
 print("------------------------")
-print(" write PR[1] Joint Coordinate")
+print(" write PR[1] Cartesian Coordinate")
 print("------------------------")
 
-# take CurPos and add random amount to J2 axis
-newJ2 = CurPosList[3]+random.randrange(-10.0, 10)
+# take CurPos and add random amount to Z axis
+newZ = CurPosList[4]+random.randrange(-50.0, 50)
 
-CurPosList[3] = newJ2
-print("CURPOS(J2offset)=", CurPosList)
+CurPosList[4] = newZ
+print("CURPOS(Zoffset)=", CurPosList)
 
 PRNumber = 1
 myList = CurPosList
 
-W_PR_1_return = FANUCethernetipDriver.writeJointPositionRegister(drive_path, PRNumber, myList)
+W_PR_1_return = FANUCethernetipDriver.writeCartesianPositionRegister(drive_path, PRNumber, myList)
 
 print("W_PR_1_return =", W_PR_1_return)
+
 
 # write R[5] to set Speed in mm/sec
 print("------------------------")
@@ -58,7 +57,6 @@ Value = 100
 W_R_5_return = FANUCethernetipDriver.writeR_Register(drive_path, RegNum, Value)
 
 print ("W_R_5_return=",W_R_5_return)
-
 
 # write R[1] to start Robot
 print("------------------------")
@@ -87,7 +85,7 @@ print ("R_R_2_return=",R_R_2_return)
 print("------------------------")
 print(" read new CURPOS from Robot")
 print("------------------------")
-CurPosList = FANUCethernetipDriver.returnJointCurrentPosition(drive_path)
+CurPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(drive_path)
 
 print("CURPOS=", CurPosList)
 
