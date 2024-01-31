@@ -15,10 +15,21 @@
 # @section author_robot_controller Authors(s)
 # - Original Code by John Shovic
 # - Modified by James Lasso on 6/12/2023
+<<<<<<< HEAD:src/robot_controller.py
 # - Modified by Kris Olds on 11/17/2023
 #
 
 # Imports
+=======
+#
+
+# Imports
+import sys
+sys.path.append('./pycomm3/pycomm3')
+import struct
+import random
+import time
+>>>>>>> master:robot_controller.py
 import math
 import typing
 from . import FANUCethernetipDriver
@@ -55,7 +66,6 @@ class robot:
         """! Updates the robots joint position list.
         """
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
-        return self.CurJointPosList
 
     # read PR[1] Joint Coordinates
     def read_joint_position_register(self) -> float:
@@ -64,7 +74,6 @@ class robot:
         PR_1_Value = FANUCethernetipDriver.readJointPositionRegister(self.robot_IP, self.PRNumber)
         print("PR[%d]"% self.PRNumber)
         print("list=", PR_1_Value)
-        return PR_1_Value
 
     # write PR[1] offset
     def write_joint_offset(self, joint:int, value:float):
@@ -157,8 +166,47 @@ class robot:
         CurPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(self.robot_IP)
 
         print("CURPOS=", CurPosList)
-        return CurPosList
 
+<<<<<<< HEAD:src/robot_controller.py
+=======
+    # read PR[1] Cartesian Coordinates
+    def read_cartesian_position_register(self):
+        """! Reads the cartesian position register and prints a list
+        """
+        print("-----------------------------------")
+        print("| read PR[1] Cartesian Coordinate |")
+        print("-----------------------------------")
+
+        PR_1_Value = FANUCethernetipDriver.readCartesianPositionRegister(self.robot_IP, self.PRNumber)
+        print("PR[%d]"% self.PRNumber)
+        print("list=", PR_1_Value)
+
+    # DEPRACTED FUNCTION
+    # WILL BE REMOVED IN NEXT UPDATE
+    # USE write_cartesian_position()
+    def send_coords(self, X, Y, Z, W=None, P=None, R=None):
+        """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
+        These coordinates usually correlate to the tool end effectors position.
+        @param X            X cartesian coordinate
+        @param Y            Y cartesian coordinate
+        @param Z            Z cartesian coordinate
+        @param W            Yaw
+        @param P            Pitch
+        @param R            Roll
+        """
+        self.CurCartesianPosList[2] = X
+        self.CurCartesianPosList[3] = Y
+        self.CurCartesianPosList[4] = Z
+        self.CurCartesianPosList[5] = W if W is not None else self.CurCartesianPosList[5]
+        self.CurCartesianPosList[6] = P if P is not None else self.CurCartesianPosList[6]
+        self.CurCartesianPosList[7] = R if R is not None else self.CurCartesianPosList[7]
+
+        newPositionList = self.CurCartesianPosList
+
+        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
+        print("FUNCTION DEPRACTED, USE: write_cartesian_position()")
+
+>>>>>>> master:robot_controller.py
     # write PR[1] Cartesian Coordinates
     # Takes x, y, z, w, p, r coords.
     # WPR are the orientation of the end effector, DEFAULT to current orientation
@@ -402,6 +450,7 @@ class robot:
             FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
 
 
+<<<<<<< HEAD:src/robot_controller.py
     def read_robot_connection_bit(self) -> int:
         """
         Reads and returns the value at DI[1]
@@ -422,3 +471,12 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, DigitalOut, status)
         ## Set sync bit to update
         FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+=======
+
+
+
+
+
+
+
+>>>>>>> master:robot_controller.py

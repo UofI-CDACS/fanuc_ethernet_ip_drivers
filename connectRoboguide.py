@@ -5,11 +5,13 @@
 
 import sys
 sys.path.append('./pycomm3/pycomm3')
+import struct
 import random
+import time
 
-from src import FANUCethernetipDriver
+import FANUCethernetipDriver
 
-drive_path = '129.101.98.214'    # CRX10 Bill
+drive_path = '129.101.98.199'    # CRX10 Bill Roboguide
 
 # read CURPOS from Robot
 print("------------------------")
@@ -46,3 +48,36 @@ myList = CurPosList
 W_PR_1_return = FANUCethernetipDriver.writeCartesianPositionRegister(drive_path, PRNumber, myList)
 
 print("W_PR_1_return =", W_PR_1_return)
+
+
+# write R[1] to start Robot
+print("------------------------")
+print(" write R[1] to move arm ")
+print("------------------------")
+
+RegNum = 1
+Value = 1
+W_R_2_return = FANUCethernetipDriver.writeR_Register(drive_path, RegNum, Value)
+
+print ("W_R_2_return=",W_R_2_return)
+
+
+# read R[1]
+print("------------------------")
+print(" read R[1] Register")
+print("------------------------")
+
+RegNum = 1
+
+R_R_2_return = FANUCethernetipDriver.readR_Register(drive_path, RegNum)
+print ("R_R_2_return=",R_R_2_return)
+
+
+# read new CURPOS from Robot
+print("------------------------")
+print(" read new CURPOS from Robot")
+print("------------------------")
+CurPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(drive_path)
+
+print("CURPOS=", CurPosList)
+
