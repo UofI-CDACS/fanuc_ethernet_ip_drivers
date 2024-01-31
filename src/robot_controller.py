@@ -15,13 +15,13 @@
 # @section author_robot_controller Authors(s)
 # - Original Code by John Shovic
 # - Modified by James Lasso on 6/12/2023
-# - Modified by Kris Olds on 11/17/2023
+# - Modified by Kris Olds on 1/31/2024
 #
 
 # Imports
 import math
 import typing
-from . import FANUCethernetipDriver
+import FANUCethernetipDriver
 
 ## The mode of operation; 
 
@@ -62,8 +62,8 @@ class robot:
         """! Reads joint position register(PR1) and prints the value and prints list.
         """
         PR_1_Value = FANUCethernetipDriver.readJointPositionRegister(self.robot_IP, self.PRNumber)
-        print("PR[%d]"% self.PRNumber)
-        print("list=", PR_1_Value)
+        #print("PR[%d]"% self.PRNumber)
+        #print("list=", PR_1_Value)
         return PR_1_Value
 
     # write PR[1] offset
@@ -78,10 +78,10 @@ class robot:
         joint += 1
 
         newPosition = self.CurJointPosList[joint] + value
-        print(f"New Position value: {newPosition}\n")
+        #print(f"New Position value: {newPosition}\n")
 
         self.CurJointPosList[joint] = newPosition
-        print(self.CurJointPosList[joint])
+        #print(self.CurJointPosList[joint])
 
         myList = self.CurJointPosList
 
@@ -96,8 +96,8 @@ class robot:
         print("--------------------------------")
         print("| write PR[1] Joint Coordinate |")
         print("--------------------------------")
-        if value > 179 | value < -179:
-            raise Warning(f"Angle should be in the range of [-179.0, 179.0], got {value}")
+        if value > 179.9 or value < -179.9:
+            raise Warning(f"Angle should be in the range of [-179.9, 179.9], got {value}")
         
         joint = joint + 1
 
@@ -156,13 +156,13 @@ class robot:
         print("--------------------------")
         CurPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(self.robot_IP)
 
-        print("CURPOS=", CurPosList)
+        #print("CURPOS=", CurPosList)
         return CurPosList
 
     # write PR[1] Cartesian Coordinates
     # Takes x, y, z, w, p, r coords.
     # WPR are the orientation of the end effector, DEFAULT to current orientation
-    def write_cartesian_position(self, X: float, Y:float, Z:float, W:float=None, P:float=None, R:float=None):
+    def write_cartesian_position(self, X: float, Y:float, Z:float, W:float | None, P:float | None, R:float | None):
         """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
         These coordinates usually correlate to the tool end effectors position.
         @param X            X cartesian coordinate
@@ -172,12 +172,12 @@ class robot:
         @param P            Pitch
         @param R            Roll
         """
-        if W > 179 | W < -179:
-            raise Warning(f"W, P and R should be in the range of [-179.0, 179.0], got {W}")
-        if P > 179 | P < -179:
-            raise Warning(f"W, P and R should be in the range of [-179.0, 179.0], got {P}")
-        if R > 179 | R < -179:
-            raise Warning(f"W, P and R should be in the range of [-179.0, 179.0], got {R}")
+        if W > 179.9 or W < -179.9:
+            raise Warning(f"W, P and R should be in the range of [-179.9, 179.9], got {W}")
+        if P > 179.9 or P < -179.9:
+            raise Warning(f"W, P and R should be in the range of [-179.9, 179.9], got {P}")
+        if R > 179.9 or R < -179.9:
+            raise Warning(f"W, P and R should be in the range of [-179.9, 179.9], got {R}")
         
         self.CurCartesianPosList[2] = X
         self.CurCartesianPosList[3] = Y
@@ -196,10 +196,10 @@ class robot:
         """! Set movement speed of robot in mm/s
         @param value        speed in mm/s
         """
-        # print("------------------------------")
-        # print(f"| Speed set to {value}mm/sec |")
-        # print("------------------------------")
-        if value > 300 | value < 0:
+        print("------------------------------")
+        print(f"| Speed set to {value}mm/sec |")
+        print("------------------------------")
+        if value > 300 or value < 0:
             raise Warning(f"Speed should be in the range of [0, 300], got {value}")
         
         FANUCethernetipDriver.writeR_Register(self.robot_IP, self.speed_register, value)
