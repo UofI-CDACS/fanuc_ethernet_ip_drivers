@@ -1,8 +1,8 @@
 #############
 #
 # FANUC Ethernet/IP Driver
-# Version 1.0
-# 6/2/2023
+# Version 1.1
+# 10/6/2023
 # Shovic, et.al.
 # Center for Intelligent Industrial Robotics
 # University of Idaho
@@ -11,7 +11,7 @@
 # Requires Ethernet/IP FANUC driver and 30 Series Controller
 # 
 
-DEBUG = True
+DEBUG = False
 
 import sys
 sys.path.append('./pycomm3/pycomm3')
@@ -554,17 +554,66 @@ def readDigitalOutputs(drive_path):
         if (DEBUG == True):
           print("myList=", myList) 
         return myList
+  
+
 
 def readDigitalInput(drive_path, InputNumber):
+  '''
+  Read one digital input value (I.E. Read the value at DI[1])
 
-   
-   return
+  :param str drive-path: IP location of the robot
+  :param int InputNumber: Digital Input (DI) you want to read
+  :return: Value at DI[ InputNumber ]
+  :rtype: int (1 or 0)
+
+  :raises ValueError: if InputNumber <=0
+  '''
+  # Each input register is 8-bits long (I.E. R1 holds DI[1:8])
+  if not InputNumber: # If Input is 0
+    raise ValueError("Cannot select 0-th register, does not exist")
+
+  inputs = readDigitalInputs(drive_path) # Read in all registers
+  register = ((InputNumber-1)//8) # What register block the input is in
+  value = inputs[register] >> ((InputNumber-1)  % 8) # Get the value at the input position requested and whatever is to the right
+  value = value &1 # Truncate to just the position
+  #print("Register Num:",register)
+  #print("Full Register:",inputs[register])
+  print("Value:", value)
+  return value
 
 
 def readDigitalOutput(drive_path, OutputNumber):
+  '''
+  Read one digital output value (I.E. Read the value at DO[1])
 
-   return
+  :param str drive-path: IP location of the robot
+  :param int OutputNumber: Digital Output (DO) you want to read
+  :return: Value at DO[ OutputNumber ]
+  :rtype: int (1 or 0)
+
+  :raises ValueError: if OutputNumber <=0
+  '''
+  # Each output register is 8-bits long (I.E. R1 holds DO[1:8])
+  if not OutputNumber: # If Input is 0
+    raise ValueError("Cannot select 0-th register, does not exist")
+
+  outputs = readDigitalOutputs(drive_path) # Read in all registers
+  register = ((OutputNumber-1)//8) # What register block the output is in
+  value = outputs[register] >> ((OutputNumber-1)  % 8) # Get the value at the output position requested and whatever is to the right
+  value = value &1 # Truncate to just the position
+  #print("Register Num:",register)
+  #print("Full Register:",outputs[register])
+  print("Value:", value)
+  return value
+   
 
 def writeDigitalInput(drive_path, OutputNumber, Value):
+  """
+  Fanuc does not support writes to DI/DO with explicit messaging (what we are doing here).
+  Possible work around in the future?
+  """
+  raise NotImplementedError("writeDigialInput: This function will do nothing. WIP")
+  register = ((OutputNumber-1)//8) # What register block the output is in
+  bit = ((OutputNumber-1) % 8) # What bit in that register needs to be edited
 
    return
