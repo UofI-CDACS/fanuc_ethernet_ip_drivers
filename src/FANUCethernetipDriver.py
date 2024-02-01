@@ -616,4 +616,4 @@ def writeDigitalInput(drive_path, OutputNumber, Value):
   register = ((OutputNumber-1)//8) # What register block the output is in
   bit = ((OutputNumber-1) % 8) # What bit in that register needs to be edited
 
-   return
+  return
