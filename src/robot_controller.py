@@ -52,10 +52,10 @@ class robot:
     # Joint movement functions
 
     def read_current_joint_position(self) -> list:
-        """! Updates the robots joint position list.
+        """! Returns list of angles at each joint. [0] -> joint 1
         """
         self.CurJointPosList = FANUCethernetipDriver.returnJointCurrentPosition(self.robot_IP)
-        return self.CurJointPosList
+        return self.CurJointPosList[2:8]
 
     # read PR[1] Joint Coordinates
     def read_joint_position_register(self) -> float:
@@ -83,31 +83,28 @@ class robot:
         self.CurJointPosList[joint] = newPosition
         #print(self.CurJointPosList[joint])
 
-        myList = self.CurJointPosList
-
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, self.CurJointPosList)
 
     # write PR[1] Joint value
     def write_joint_position(self, joint:int, value:float):
-        """! Sets joint to specific angle based on value
+        """! Sets a specified joint to specific angle based on value
         @param joint        which joint to move
         @param value        angle to set joint to from -180 to 180
         """
         print("--------------------------------")
-        print("| write PR[1] Joint Coordinate |")
+        print("|   write Joint Coordinate     |")
         print("--------------------------------")
         if value > 179.9 or value < -179.9:
             raise Warning(f"Angle should be in the range of [-179.9, 179.9], got {value}")
         
+        if joint > 6 or joint < 1:
+            raise Warning(f"Joint should be in the range of [1,6], got {joint}")
+        
         joint = joint + 1
 
-        newPosition = value
+        self.CurJointPosList[joint] = value
 
-        self.CurJointPosList[joint] = newPosition
-
-        myList = self.CurJointPosList
-
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, self.CurJointPosList)
 
     # Set pose of robot by passing an array of joint positions
     def write_joint_pose(self, joint_position_array:list[float]):
@@ -119,9 +116,7 @@ class robot:
             self.CurJointPosList[joint_number + 1] = joint_position_array[joint_number - 1]
             joint_number += 1
 
-        myList = self.CurJointPosList
-
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, self.CurJointPosList)
         
 
     # Put robot in home position
@@ -141,15 +136,13 @@ class robot:
         self.CurJointPosList[6] = 1.0 # J5 PB50IB does not like this join, OK on CRX10
         self.CurJointPosList[7] = 1.0 # J6
 
-        myList = self.CurJointPosList
-
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, self.CurJointPosList)
 
     # Cartesian Movement Functions
 
     # read current cartesian position from Robot
     def read_current_cartesian_pose(self) -> list[float]:
-        """! Print current cartesian coordinates from robot.
+        """! Print current cartesian coordinates from robot. Returns [X, Y, Z, W, P, R]
         """
         print("--------------------------")
         print("| read CURPOS from Robot |")
@@ -157,7 +150,7 @@ class robot:
         CurPosList = FANUCethernetipDriver.returnCartesianCurrentPostion(self.robot_IP)
 
         #print("CURPOS=", CurPosList)
-        return CurPosList
+        return CurPosList[2:8]
 
     # write PR[1] Cartesian Coordinates
     # Takes x, y, z, w, p, r coords.
@@ -186,9 +179,7 @@ class robot:
         self.CurCartesianPosList[6] = P if P is not None else self.CurCartesianPosList[6]
         self.CurCartesianPosList[7] = R if R is not None else self.CurCartesianPosList[7]
 
-        newPositionList = self.CurCartesianPosList
-
-        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber, newPositionList)
+        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber,  self.CurCartesianPosList)
 
     # Utility Functions
     # write R[5] to set Speed in mm/sec
@@ -272,9 +263,7 @@ class robot:
         self.CurJointPosList[6] = 11.0 # J5 PB50IB does not like this join, OK on CRX10
         self.CurJointPosList[7] = -6.0 # J6
 
-        myList = self.CurJointPosList
-
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, myList)
+        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, self.CurJointPosList)
 
     # This function reads register 1(sync bit for position register)
     def read_robot_start_register(self) -> int:
@@ -286,7 +275,7 @@ class robot:
 
     # Toggle gripper open and close
     def schunk_gripper(self, command:str):
-        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: controls schunk gripper.
+        """! controls schunk gripper.
         @param command      string 'open' or 'close'
         """
         # !! Registers 20 and 23 need to be toggled for opening and closing !!
