@@ -6,8 +6,8 @@
 import sys
 sys.path.append('./pycomm3/pycomm3')
 import random
-
-from src import FANUCethernetipDriver
+sys.path.append('../src')
+import FANUCethernetipDriver
 
 drive_path = '129.101.98.214'    # CRX10 Bill
 

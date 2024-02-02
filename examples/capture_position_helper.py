@@ -1,5 +1,7 @@
 import os
-from src.robot_controller import robot
+import sys
+sys.path.append('../src')
+from robot_controller import robot
 
 # Global Constants
 #drive_path = '129.101.98.214' # Bill
@@ -22,7 +24,7 @@ while True:
 
     if choice == "1":
         # Code to capture position goes here
-        text = "pose" + str(pose_num) + " " + "= [" + str(crx10.CurJointPosList[2]) + "," + str(crx10.CurJointPosList[3]) + "," + str(crx10.CurJointPosList[4]) + "," + str(crx10.CurJointPosList[5]) + "," + str(crx10.CurJointPosList[6]) + "," + str(crx10.CurJointPosList[7]) + "]"
+        text = "pose " + str(pose_num) + ": " + crx10.read_current_joint_position()
         write_to_file(file_path, text)
         print("Position captured!")
         pose_num += 1

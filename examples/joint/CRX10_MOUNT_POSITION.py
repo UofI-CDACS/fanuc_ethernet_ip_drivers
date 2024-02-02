@@ -14,7 +14,9 @@
 # - Created by James Lasso on 6/27/2023
 
 # Imports
-from src.robot_controller import robot
+import sys
+sys.path.append('../../src')
+from robot_controller import robot
 
 # Global Constants
 #drive_path = '129.101.98.214' # Bill
@@ -35,9 +37,6 @@ def main():
 
     # Set joints to mount position
     crx10.set_joints_to_mount_position()
-
-    # Execute move action
-    crx10.start_robot()
 
 
     # Print Final position list

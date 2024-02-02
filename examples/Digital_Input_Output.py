@@ -1,7 +1,7 @@
 import sys
-sys.path.append('../') # This allows us to access files in src
+sys.path.append('../src')
 
-import src.FANUCethernetipDriver as EIP
+import FANUCethernetipDriver as EIP
 
 drive_path = '172.29.208.124' # Beaker
 
@@ -11,11 +11,7 @@ print("Returned list")
 print(inputList)
 
 # Read in 1 input
-# EIP.readDigitalInput(drive_path, 1) # DI[1]
-# EIP.readDigitalInput(drive_path, 137) # DI[137]
+print("input 1: ", EIP.readDigitalInput(drive_path, 1)) # DI[1]
+print("input 137: ", EIP.readDigitalInput(drive_path, 137)) # DI[137]
 
-# EIP.readDigitalOutput(drive_path, 5) # DO[5]
-
-erorr = EIP.writeR_Register(drive_path,1,0)
-EIP.writeR_Register(drive_path,2,1)
-print("Error:",erorr)
+print("output 5: ", EIP.readDigitalOutput(drive_path, 5)) # DO[5]

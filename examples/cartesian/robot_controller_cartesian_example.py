@@ -14,7 +14,9 @@
 # - Created by James Lasso on 6/13/2023
 
 # Imports
-from src.robot_controller import robot
+import sys
+sys.path.append('../../src')
+from robot_controller import robot
 
 # Global Constants
 drive_path = '129.101.98.214' # Bill
@@ -38,25 +40,18 @@ def main():
 
         # Home position (set all positions to 1)
         crx10.set_joints_to_home_position()
-        # Execute move action
-        crx10.start_robot()
 
         # Read current cartesian coordinates
         crx10.read_current_cartesian_position()
 
-        crx10.write_cartesian_coordinates(714, -170, 650)
-        #crx10.write_cartesian_coordinates(714, -137, 650)
-        # Execute move action
-        crx10.start_robot()
+        crx10.write_cartesian_coordinates([714, -170, 650])
+        #crx10.write_cartesian_coordinates([714, -137, 650])
 
-        #crx10.write_cartesian_coordinates(808, 106, 604)
-        # Execute move action
-        #crx10.start_robot()
+        #crx10.write_cartesian_coordinates([808, 106, 604])
+
 
         # Home position (set all positions to 1)
         crx10.set_joints_to_home_position()
-        # Execute move action
-        crx10.start_robot()
 
         # Print Final position list
         print("*************************")
