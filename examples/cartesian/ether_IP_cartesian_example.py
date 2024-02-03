@@ -8,7 +8,7 @@ import random
 sys.path.append('../../src')
 import FANUCethernetipDriver 
 
-drive_path = '172.29.208.124'    # CRX10 Bill
+drive_path = '172.29.208.124'    # CRX10 Beaker
 
 # read CURPOS from Robot
 print("------------------------")

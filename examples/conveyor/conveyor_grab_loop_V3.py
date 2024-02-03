@@ -8,7 +8,7 @@
 # An example python program demonstrating how to use robot_controller class.
 # 
 # @section todo_robot_controller_example TODO
-# - Clean up
+# - Fix poses
 #
 # @section author_robot_controller_example Author(s)
 # - Created by James Lasso on 6/13/2023
@@ -21,8 +21,9 @@ from robot_controller import robot
 
 # Global Constants
 #drive_path = '129.101.98.214' # Bill
-drive_path = '129.101.98.215' # DJ
+#drive_path = '129.101.98.215' # DJ
 #drive_path = '129.101.98.244' # Larry
+drive_path = '172.29.208.124' # Beaker
 sleep_time = 0.5
 
 def main():
@@ -32,15 +33,15 @@ def main():
     crx10 = robot(drive_path)
 
     # Set robot speed
-    crx10.set_speed(400)
+    crx10.set_speed(300)
 
     # Make sure conveyor is off
     crx10.conveyor("stop")
 
-    # Move robot to home position and open gripper
-    crx10.set_joints_to_home_position()
-    # Open gripper
-    crx10.gripper("open")
+    # Move robot to home position and open schunk_gripper
+    #crx10.set_joints_to_home_position()
+    # Open schunk_gripper
+    crx10.schunk_gripper("open")
 
     # Move to FIRST position (PREPARE TO PICK UP DICE)
     pose1 = [14.000, 20.000, -45.000, -0.737, -46.000, 16.00]
@@ -55,9 +56,9 @@ def main():
 
     #time.sleep(sleep_time)
 
-    # Close gripper
-    crx10.gripper("close")
-    # Pause briefly so gripper can close
+    # Close schunk_gripper
+    crx10.schunk_gripper("close")
+    # Pause briefly so schunk_gripper can close
     time.sleep(0.5)
 
     # Move back to FIRST position (HOLDING DICE, CLEAR TABLE)
@@ -70,17 +71,17 @@ def main():
     # Move to FOURTH position(MOVE DOWN AND LET GO OF DICE)
     pose4 = [56.234,26.204,-22.890,-1.416,-67.776,-26.162]
     crx10.write_cartesian_position(pose4)
-    # Open gripper
-    crx10.gripper("open")
-    # Pause briefly so gripper can open
+    # Open schunk_gripper
+    crx10.schunk_gripper("open")
+    # Pause briefly so schunk_gripper can open
     time.sleep(0.5)
 
     # Move back to THIRD position (NOT HOLDING DICE, CLEAR TABLE)
     crx10.write_cartesian_position(pose3)
 
     # Move to HOME position
-    # Move robot to home position and open gripper
-    crx10.set_joints_to_home_position()
+    # Move robot to home position and open schunk_gripper
+    #crx10.set_joints_to_home_position()
 
     #start conveyor
     crx10.conveyor("forward")
@@ -134,9 +135,9 @@ def main():
         crx10.write_cartesian_position(pose6)
         #time.sleep(sleep_time)
 
-        # Close gripper
-        crx10.gripper("close")
-        # Pause briefly so gripper can close
+        # Close schunk_gripper
+        crx10.schunk_gripper("close")
+        # Pause briefly so schunk_gripper can close
         time.sleep(0.5)
 
         # Move back to FIFTH position (HOLDING DICE, CLEAR TABLE)
@@ -148,9 +149,9 @@ def main():
 
         # Move to FOURTH position (MOVE DOWN AND LET GO OF DICE)
         crx10.write_cartesian_position(pose4)
-        # Open gripper
-        crx10.gripper("open")
-        # Pause briefly so gripper can open
+        # Open schunk_gripper
+        crx10.schunk_gripper("open")
+        # Pause briefly so schunk_gripper can open
         time.sleep(0.5)
 
         #start conveyor
@@ -201,9 +202,9 @@ def main():
     crx10.write_cartesian_position(pose6)
     #time.sleep(sleep_time)
 
-    # Close gripper
-    crx10.gripper("close")
-    # Pause briefly so gripper can close
+    # Close schunk_gripper
+    crx10.schunk_gripper("close")
+    # Pause briefly so schunk_gripper can close
     time.sleep(0.5)
 
     # Move back to FIFTH position (HOLDING DICE, CLEAR TABLE)
@@ -224,17 +225,17 @@ def main():
     pose2 = [14.000, 24.000, -52.690, -0.867, -38.678, 14.582]
     crx10.write_cartesian_position(pose2)
     
-    # Open gripper
-    crx10.gripper("open")
-    # Pause briefly so gripper can open
+    # Open schunk_gripper
+    crx10.schunk_gripper("open")
+    # Pause briefly so schunk_gripper can open
     time.sleep(0.5)
 
     # Move to FIRST position (PREPARE TO PICK UP DICE)
     pose1 = [14.000, 20.000, -45.000, -0.737, -46.000, 16.00]
     crx10.write_cartesian_position(pose1)
 
-    # Move robot to home position and open gripper
-    crx10.set_joints_to_home_position()
+    # Move robot to home position and open schunk_gripper
+    #crx10.set_joints_to_home_position()
 
     # End program
     print("==============================")

@@ -2,9 +2,9 @@ import os
 import subprocess
 
 # commands to run simultaneously
-command1 = ['python3', 'Bill_example.py']
-command2 = ['python3', 'DJ_example.py']
-command3 = ['python3', 'proximity_sensor_example.py']
+command1 = ['python3', 'robots/Bill_example.py']
+command2 = ['python3', 'robots/DJ_example.py']
+command3 = ['python3', 'conveyor/proximity_sensor_example.py']
 
 # Execute script
 process1 = subprocess.Popen(command1, preexec_fn=os.setpgrp)

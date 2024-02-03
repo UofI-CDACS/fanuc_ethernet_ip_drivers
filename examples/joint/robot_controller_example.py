@@ -43,7 +43,7 @@ def main():
         print("==============================")
 
         # Home position (set all positions to 1)
-        crx10.set_joints_to_home_position()
+        # crx10.set_joints_to_home_position()
         time.sleep(1)
 
         # Write new position in joint 2 to -30
@@ -68,7 +68,7 @@ def main():
         time.sleep(1)
 
         # Home position (set all positions to 1)
-        crx10.set_joints_to_home_position()
+        # crx10.set_joints_to_home_position()
         time.sleep(1)
 
         crx10.write_joint_offset(6, -30)
@@ -78,7 +78,7 @@ def main():
         time.sleep(1)
 
         # Home position (set all positions to 1)
-        crx10.set_joints_to_home_position()
+        # crx10.set_joints_to_home_position()
         time.sleep(1)
 
         # Print Final position list

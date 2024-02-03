@@ -21,8 +21,9 @@ from robot_controller import robot
 
 # Global Constants
 #drive_path = '129.101.98.214' # Bill
-drive_path = '129.101.98.215' # DJ
+# drive_path = '129.101.98.215' # DJ
 #drive_path = '129.101.98.244' # Larry
+drive_path = '172.29.208.124' # Beaker
 sleep_time = 0.5
 
 def main():
@@ -38,9 +39,9 @@ def main():
     crx10.conveyor("stop")
 
     # Move robot to home position and open gripper
-    crx10.set_joints_to_home_position()
+    # crx10.set_joints_to_home_position()
     # Open gripper
-    crx10.gripper("open")
+    crx10.schunk_gripper("open")
 
     # Move to FIRST position (PREPARE TO PICK UP DICE)
     pose1 = [14.000, 20.000, -45.000, -0.737, -46.000, 16.00]
@@ -56,7 +57,7 @@ def main():
     #time.sleep(sleep_time)
 
     # Close gripper
-    crx10.gripper("close")
+    crx10.schunk_gripper("close")
     # Pause briefly so gripper can close
     time.sleep(0.5)
 
@@ -72,7 +73,7 @@ def main():
     crx10.write_cartesian_position(pose4)
 
     # Open gripper
-    crx10.gripper("open")
+    crx10.schunk_gripper("open")
     # Pause briefly so gripper can open
     time.sleep(0.5)
 
@@ -83,7 +84,7 @@ def main():
 
     # Move to HOME position
     # Move robot to home position and open gripper
-    crx10.set_joints_to_home_position()
+    # crx10.set_joints_to_home_position()
 
     #start conveyor
     crx10.conveyor("forward")
@@ -140,7 +141,7 @@ def main():
         #time.sleep(sleep_time)
 
         # Close gripper
-        crx10.gripper("close")
+        crx10.schunk_gripper("close")
         # Pause briefly so gripper can close
         time.sleep(0.5)
 
@@ -154,7 +155,7 @@ def main():
         # Move to FOURTH position (MOVE DOWN AND LET GO OF DICE)
         crx10.write_cartesian_position(pose4)
         # Open gripper
-        crx10.gripper("open")
+        crx10.schunk_gripper("open")
         # Pause briefly so gripper can open
         time.sleep(0.5)
 
@@ -175,9 +176,9 @@ def main():
     # Stop conveyor
     crx10.conveyor("stop")
     # Move robot to home position and open gripper
-    crx10.set_joints_to_home_position()
+    # crx10.set_joints_to_home_position()
     # Open gripper
-    crx10.gripper("open")
+    crx10.schunk_gripper("open")
 
     # End program
     print("==============================")

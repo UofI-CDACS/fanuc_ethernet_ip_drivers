@@ -2,6 +2,7 @@ import sys
 sys.path.append('../src')
 
 import FANUCethernetipDriver as EIP
+from robot_controller import robot
 
 drive_path = '172.29.208.124' # Beaker
 

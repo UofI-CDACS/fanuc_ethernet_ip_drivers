@@ -120,8 +120,11 @@ class robot:
 
     # Put robot in home position
     def set_joints_to_home_position(self, blocking:bool=True):
-        """! This used to set a CRX10 into a 'home' position. Not useful for other machines probably
+        """! This used to set a CRX10 into a 'home' position. Not useful for other machines probably.
+        Will be removed in the future!
         """
+        print("Deperication Warning: This function causes the robot to get stuck in a 'singilarity', will be removed in future update; currently will do nothing. ")
+        return 
         print("*************************************************")
         print("* Setting Joint Positions to Home Configuration *")
         print("*************************************************")
