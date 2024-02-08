@@ -118,14 +118,14 @@ class robot:
             else:
                 raise Warning("If passing a list of lists, all elements must be lists!")
             
-
-        joint_number = 1
-        for joint in joint_position_array:
-            self.CurJointPosList[joint_number + 1] = joint_position_array[joint_number - 1]
-            joint_number += 1
-
-        FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, self.CurJointPosList)
-        self.start_robot(blocking=blocking)
+        else:
+            joint_number = 1
+            for joint in joint_position_array:
+                self.CurJointPosList[joint_number + 1] = joint_position_array[joint_number - 1]
+                joint_number += 1
+    
+            FANUCethernetipDriver.writeJointPositionRegister(self.robot_IP, self.PRNumber, self.CurJointPosList)
+            self.start_robot(blocking=blocking)
         
 
     # Put robot in home position
