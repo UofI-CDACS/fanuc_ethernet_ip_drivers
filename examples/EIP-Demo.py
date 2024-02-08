@@ -19,7 +19,6 @@ cartPose = theRobot.read_current_cartesian_pose()
 print(cartPose)
 
 theRobot.write_cartesian_position(-600.0, -200.0, -80.0, cartPose[3], cartPose[4],cartPose[5])
-theRobot.start_robot()
 
 cartPose = theRobot.read_current_cartesian_pose()
 print(cartPose)
