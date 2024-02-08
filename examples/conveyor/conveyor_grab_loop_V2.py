@@ -15,12 +15,15 @@
 
 # Imports
 import time
-from src.robot_controller import robot
+import sys
+sys.path.append('../../src')
+from robot_controller import robot
 
 # Global Constants
 #drive_path = '129.101.98.214' # Bill
-drive_path = '129.101.98.215' # DJ
+# drive_path = '129.101.98.215' # DJ
 #drive_path = '129.101.98.244' # Larry
+drive_path = '172.29.208.124' # Beaker
 sleep_time = 0.5
 
 def main():
@@ -36,63 +39,52 @@ def main():
     crx10.conveyor("stop")
 
     # Move robot to home position and open gripper
-    crx10.set_joints_to_home_position()
-    # Sync bit and move robot
-    crx10.start_robot()
+    # crx10.set_joints_to_home_position()
     # Open gripper
-    crx10.gripper("open")
+    crx10.schunk_gripper("open")
 
     # Move to FIRST position (PREPARE TO PICK UP DICE)
     pose1 = [14.000, 20.000, -45.000, -0.737, -46.000, 16.00]
-    crx10.set_pose(pose1)
-    # Sync bit and move robot
-    crx10.start_robot()
+    crx10.write_cartesian_position(pose1)
 
     #time.sleep(sleep_time)
 
 
     # Move to SECOND position (MOVE DOWN TO GRAB DICE)
     pose2 = [14.000, 24.000, -52.690, -0.867, -38.678, 14.582]
-    crx10.set_pose(pose2)
-    # Sync bit and move robot
-    crx10.start_robot()
+    crx10.write_cartesian_position(pose2)
 
     #time.sleep(sleep_time)
 
     # Close gripper
-    crx10.gripper("close")
+    crx10.schunk_gripper("close")
     # Pause briefly so gripper can close
     time.sleep(0.5)
 
     # Move back to FIRST position (HOLDING DICE, CLEAR TABLE)
-    crx10.set_pose(pose1)
-    # Sync bit and move robot
-    crx10.start_robot()
+    crx10.write_cartesian_position(pose1)
 
     # Move to THIRD position (PREPARE TO PLACE DICE)
     pose3 = [56.128,23.078,-14.487,-1.349,-76.180,-26.270]
-    crx10.set_pose(pose3)
-    # Sync bit and move robot
-    crx10.start_robot()
+    crx10.write_cartesian_position(pose3)
 
     # Move to FOURTH position(MOVE DOWN AND LET GO OF DICE)
     pose4 = [56.234,26.204,-22.890,-1.416,-67.776,-26.162]
-    crx10.set_pose(pose4)
-    # Sync bit and move robot
-    crx10.start_robot()
+    crx10.write_cartesian_position(pose4)
+
     # Open gripper
-    crx10.gripper("open")
+    crx10.schunk_gripper("open")
     # Pause briefly so gripper can open
     time.sleep(0.5)
 
     # Move back to THIRD position (NOT HOLDING DICE, CLEAR TABLE)
-    crx10.set_pose(pose3)
+    crx10.write_cartesian_position(pose3)
     # Sync bit and move robot
     crx10.start_robot()
 
     # Move to HOME position
     # Move robot to home position and open gripper
-    crx10.set_joints_to_home_position()
+    # crx10.set_joints_to_home_position()
 
     #start conveyor
     crx10.conveyor("forward")
@@ -140,40 +132,30 @@ def main():
 
         # Move to FIFTH position (PREPARE TO PICK UP DICE)
         pose5 = [105.8661117553711,6.044949531555176,-22.301790237426758,-0.9746052622795105,-67.01868438720703,-74.2422103881836]
-        crx10.set_pose(pose5)
-        # Sync bit and move robot
-        crx10.start_robot()
+        crx10.write_cartesian_position(pose5)
         #time.sleep(sleep_time)
 
         # Move to SIXTH position (MOVE DOWN AND PICK UP DICE)
         pose6 = [106.07597351074219,9.101266860961914,-31.484973907470703,-1.0569950342178345,-57.83364486694336,-74.26985168457031]
-        crx10.set_pose(pose6)
-        # Sync bit and move robot
-        crx10.start_robot()
+        crx10.write_cartesian_position(pose6)
         #time.sleep(sleep_time)
 
         # Close gripper
-        crx10.gripper("close")
+        crx10.schunk_gripper("close")
         # Pause briefly so gripper can close
         time.sleep(0.5)
 
         # Move back to FIFTH position (HOLDING DICE, CLEAR TABLE)
-        crx10.set_pose(pose5)
-        # Sync bit and move robot
-        crx10.start_robot()
+        crx10.write_cartesian_position(pose5)
         #time.sleep(sleep_time)
 
         # Move to THIRD position (PREPARE TO PLACE DICE)
-        crx10.set_pose(pose3)
-        # Sync bit and move robot
-        crx10.start_robot()
+        crx10.write_cartesian_position(pose3)
 
         # Move to FOURTH position (MOVE DOWN AND LET GO OF DICE)
-        crx10.set_pose(pose4)
-        # Sync bit and move robot
-        crx10.start_robot()
+        crx10.write_cartesian_position(pose4)
         # Open gripper
-        crx10.gripper("open")
+        crx10.schunk_gripper("open")
         # Pause briefly so gripper can open
         time.sleep(0.5)
 
@@ -181,15 +163,11 @@ def main():
         crx10.conveyor("forward")
 
         # Move back to THIRD position (NOT HOLDING DICE, CLEAR TABLE)
-        crx10.set_pose(pose3)
-        # Sync bit and move robot
-        crx10.start_robot()
+        crx10.write_cartesian_position(pose3)
 
         #  MOVE INTO WAIT POSITION IN MIDDLE
         pose7 = [73.16226196289062,10.072640419006348,-8.073392868041992,-1.1352527141571045,-81.83869171142578,-41.75325012207031]
-        crx10.set_pose(pose7)
-        # Sync bit and move robot
-        crx10.start_robot()
+        crx10.write_cartesian_position(pose7)
 
         time.sleep(0.1)
 
@@ -198,11 +176,9 @@ def main():
     # Stop conveyor
     crx10.conveyor("stop")
     # Move robot to home position and open gripper
-    crx10.set_joints_to_home_position()
-    # Sync bit and move robot
-    crx10.start_robot()
+    # crx10.set_joints_to_home_position()
     # Open gripper
-    crx10.gripper("open")
+    crx10.schunk_gripper("open")
 
     # End program
     print("==============================")

@@ -15,7 +15,9 @@
 
 # Imports
 import time
-from src.robot_controller import robot
+import sys
+sys.path.append('../../src')
+from robot_controller import robot
 
 # Global Constants
 drive_path = '129.101.98.214' # Bill
@@ -41,22 +43,15 @@ def main():
         print("==============================")
 
         # Home position (set all positions to 1)
-        crx10.set_joints_to_home_position()
-        crx10.start_robot()
+        # crx10.set_joints_to_home_position()
         time.sleep(1)
 
         # Write new position in joint 2 to -30
         crx10.write_joint_offset(2, -30)
-
-        # Execute move action
-        crx10.start_robot()
         time.sleep(1)
 
         # write new position in join 2 to 30
         crx10.write_joint_offset(2, 30)
-
-        # Execute move action
-        crx10.start_robot()
         time.sleep(1)
 
         # write new position in join 3-6 to 30
@@ -64,39 +59,26 @@ def main():
         crx10.write_joint_offset(4, 30)
         crx10.write_joint_offset(5, -30)
         crx10.write_joint_offset(6, -30)
-
-        # Execute move action
-        crx10.start_robot()
         time.sleep(1)
 
         crx10.write_joint_offset(4, -30)
-        crx10.start_robot()
         time.sleep(1)
 
         crx10.write_joint_offset(4, 30)
-        crx10.start_robot()
         time.sleep(1)
 
         # Home position (set all positions to 1)
-        crx10.set_joints_to_home_position()
-
-        # Execute move action
-        crx10.start_robot()
+        # crx10.set_joints_to_home_position()
         time.sleep(1)
 
         crx10.write_joint_offset(6, -30)
-        crx10.start_robot()
         time.sleep(1)
 
         crx10.write_joint_offset(6, 30)
-        crx10.start_robot()
         time.sleep(1)
 
         # Home position (set all positions to 1)
-        crx10.set_joints_to_home_position()
-
-        # Execute move action
-        crx10.start_robot()
+        # crx10.set_joints_to_home_position()
         time.sleep(1)
 
         # Print Final position list

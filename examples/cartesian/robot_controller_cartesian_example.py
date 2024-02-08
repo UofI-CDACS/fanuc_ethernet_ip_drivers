@@ -14,10 +14,12 @@
 # - Created by James Lasso on 6/13/2023
 
 # Imports
-from src.robot_controller import robot
+import sys
+sys.path.append('../../src')
+from robot_controller import robot
 
 # Global Constants
-drive_path = '129.101.98.214' # Bill
+drive_path = '172.29.208.124' # Beaker
 #drive_path = '129.101.98.215' # DJ
 #drive_path = '129.101.98.244' # Larry
 
@@ -37,32 +39,25 @@ def main():
         print("==============================")
 
         # Home position (set all positions to 1)
-        crx10.set_joints_to_home_position()
-        # Execute move action
-        crx10.start_robot()
+        # crx10.set_joints_to_home_position()
 
         # Read current cartesian coordinates
-        crx10.read_current_cartesian_position()
+        crx10.read_current_cartesian_pose()
 
-        crx10.write_cartesian_coordinates(714, -170, 650)
-        #crx10.write_cartesian_coordinates(714, -137, 650)
-        # Execute move action
-        crx10.start_robot()
+        crx10.write_cartesian_position([714, -170, 650])
+        # crx10.write_cartesian_position([714, -137, 650])
 
-        #crx10.write_cartesian_coordinates(808, 106, 604)
-        # Execute move action
-        #crx10.start_robot()
+        crx10.write_cartesian_position([808, 106, 604])
+
 
         # Home position (set all positions to 1)
-        crx10.set_joints_to_home_position()
-        # Execute move action
-        crx10.start_robot()
+        #crx10.set_joints_to_home_position()
 
         # Print Final position list
         print("*************************")
         print(" Final Joint Positions")
         print("*************************")
-        crx10.read_current_cartesian_position()
+        crx10.read_current_cartesian_pose()
 
         # increment loops
         loops += 1

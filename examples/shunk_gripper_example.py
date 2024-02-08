@@ -15,7 +15,9 @@
 
 # Imports
 import time
-from src.robot_controller import robot
+import sys
+sys.path.append('../src')
+from robot_controller import robot
 
 # Global Constants
 #drive_path = '129.101.98.214' # Bill
@@ -42,9 +44,6 @@ def main():
 
         # Home position (set all positions to 1)
         #crx10.set_joints_to_home_position()
-
-        # Execute move action
-        #crx10.start_robot()
 
         # Open Gripper
         crx10.gripper('open')
