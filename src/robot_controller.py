@@ -109,6 +109,16 @@ class robot:
         """! Set a pose(all joint positions) for robot
         @param joint_position_array         a list of joint angles 
         """
+        if isinstance(joint_position_array[0], list):
+            # If the first element is a list (making array a list of lists of positions to all be run one after another)
+            # Check that all elements in the list are also lists
+            if all(isinstance(x, list) for x in joint_position_array):
+                for jlist in joint_position_array:
+                    self.write_joint_pose(jlist, blocking=blocking) # Loop through all coords in list and run them.
+            else:
+                raise Warning("If passing a list of lists, all elements must be lists!")
+            
+
         joint_number = 1
         for joint in joint_position_array:
             self.CurJointPosList[joint_number + 1] = joint_position_array[joint_number - 1]
