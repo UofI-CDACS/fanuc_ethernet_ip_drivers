@@ -165,37 +165,6 @@ class robot:
         #print("CURPOS=", CurPosList)
         return CurPosList[2:8]
 
-    # write PR[1] Cartesian Coordinates
-    # Takes x, y, z, w, p, r coords.
-    # WPR are the orientation of the end effector, DEFAULT to current orientation
-    # SOON TO BE CHANGED!! Will take a list of coordinates instead of individual arguements. Keeping for now for compatability
-    def write_cartesian_position(self, X: float, Y:float, Z:float, W:float | None, P:float | None, R:float | None, blocking:bool=True):
-        """! Send cartesian coordinates to robot using X, Y, Z, W, P, R system. 
-        These coordinates usually correlate to the tool end effectors position.
-        @param X            X cartesian coordinate
-        @param Y            Y cartesian coordinate
-        @param Z            Z cartesian coordinate
-        @param W            Yaw
-        @param P            Pitch
-        @param R            Roll
-        """
-        print("Deperication Warning: Passing arguments in this style will soon be depricated! In the future, pass arguments as a list.")
-        if W > 179.9 or W < -179.9:
-            raise Warning(f"W, P and R should be in the range of [-179.9, 179.9], got {W}")
-        if P > 179.9 or P < -179.9:
-            raise Warning(f"W, P and R should be in the range of [-179.9, 179.9], got {P}")
-        if R > 179.9 or R < -179.9:
-            raise Warning(f"W, P and R should be in the range of [-179.9, 179.9], got {R}")
-        
-        self.CurCartesianPosList[2] = X
-        self.CurCartesianPosList[3] = Y
-        self.CurCartesianPosList[4] = Z
-        self.CurCartesianPosList[5] = W if W is not None else self.CurCartesianPosList[5]
-        self.CurCartesianPosList[6] = P if P is not None else self.CurCartesianPosList[6]
-        self.CurCartesianPosList[7] = R if R is not None else self.CurCartesianPosList[7]
-
-        FANUCethernetipDriver.writeCartesianPositionRegister(self.robot_IP, self.PRNumber,  self.CurCartesianPosList)
-        self.start_robot(blocking=blocking)
 
     # write PR[1] Cartesian Coordinates
     # Takes x, y, z, w, p, r coords.

@@ -6,6 +6,10 @@ from robot_controller import robot
 
 drive_path = '172.29.208.124' # Beaker
 
+"""
+This is a test to read the Digital Input/Output registers, DI[] & DO[] 
+"""
+
 # Read in a list of inputs
 inputList = EIP.readDigitalInputs(drive_path)
 print("Returned list")
