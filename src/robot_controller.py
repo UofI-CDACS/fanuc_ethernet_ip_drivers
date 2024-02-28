@@ -338,29 +338,9 @@ class robot:
         else:
             raise Warning(f"Gripper only supports 'open' or 'closed' strings")
 
-
-    # Open onRobot gripper
-    def onRobot_gripper_open(self, width_in_mm:int, force_in_newtons:int):
-        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: opens the onRobot gripper
-        @param width_in_mm          value in mm to set gripper jaw distance
-        @param force_in_newtons     value 0-120 in newtons
-        """
-        if width_in_mm > 160 | width_in_mm < 0:
-            raise Warning(f"Width should be in the range of [0, 160], got {width_in_mm}")
-        if force_in_newtons > 120 | force_in_newtons < 0:
-            raise Warning(f"Force should be in the range of [0, 120], got {force_in_newtons}")
-        
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 1) # Instance typically 1
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 36, width_in_mm) # Set open width in mm
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 37, force_in_newtons) # Set open force in newtons
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 42, 8) # Set to 1 for use with R[43]
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 43, 50) # Register # you want data sent to
-        #FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 1) # Set sync bit for onRobot gripper 1 = open
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 3) # Set sync bit for onRobot gripper 1 = open
-
-    # Close onRobot gripper
-    def onRobot_gripper_close(self, width_in_mm:int, force_in_newtons:int):
-        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: closes the onRobot gripper
+    # Control onRobot gripper
+    def onRobot_gripper(self, width_in_mm:int, force_in_newtons:int):
+        """opens or closes the onRobot gripper
         @param width_in_mm          value in mm to set gripper jaw distance
         @param force_in_newtons     value 0-120 in newtons
         """
@@ -450,3 +430,17 @@ class robot:
         FANUCethernetipDriver.writeR_Register(self.robot_IP, DigitalOut, status)
         ## Set sync bit to update
         FANUCethernetipDriver.writeR_Register(self.robot_IP, sync_register, sync_value)
+
+
+
+    def schunk_gripper_status(self) -> int:
+        """
+        Returns the current state of the Schunk gripper
+        """
+        r1 = FANUCethernetipDriver.readRobotInput(self.robot_IP, 1) # RI[1] Schunk Gripper off
+
+        # If not closed, its open
+        if r1:
+            return 0
+        else:
+            return 1
