@@ -690,9 +690,9 @@ def returnActiveAlarm(drive_path):
     
     with CIPDriver(drive_path) as driver:
         cip_tag = driver.generic_message(
-                    service=Services.get_attributes_all,
-                    class_code=0xA0,
-                    instance=0x01,
+                    service=Services.get_attributes_all, #0x01
+                    class_code=0xA0,    # most recent active alarm
+                    instance=0x01,      # most recent
                     connected=False,
                     unconnected_send=False,
                     route_path=False,
@@ -722,7 +722,7 @@ def returnMostRecentAlarm(drive_path):
                     name='fanuc alarm history read'
                 )
 
-        if not cip_tag:
+        if not cip_tag and DEBUG:
             print('[ERROR]', cip_tag.tag, cip_tag.error)
 
         else:
