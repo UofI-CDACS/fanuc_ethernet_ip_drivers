@@ -663,44 +663,71 @@ def writeDigitalInput(drive_path, OutputNumber, Value):
 
 
 
-'''
-    Class implementing the FANUC EIP Alarm objects.
-
-    Get attribute single method fetches one of the attributes documented in FANUCAlarm.attributes enum
-        and decodes it by variable type.
-
-    Get attribute all method fetches all attributes in FANUCAlarm.attributes enum, decodes them
-        and places them in a dictionary which can be keyed with FANUCAlarm.attributes.<attribute>.name
-
-'''
 class FANUCAlarm:
+    '''!
+        Class implementing the FANUC EIP Alarm objects.
+
+        Get attribute single method fetches one of the attributes documented in FANUCAlarm.attributes enum
+            and decodes it by variable type.
+
+        Get attribute all method fetches all attributes in FANUCAlarm.attributes enum, decodes them
+            and places them in a dictionary which can be keyed with FANUCAlarm.attributes.<attribute>.name
+    '''
 
     # fanuc alarm classes
     class types(Enum):
+        '''!
+        FANUC alarm classes. 
+
+        These define classes of alarms which can be used to filter and select alarms
+        which the user would like access to.
+        '''
+        ## Currently active alarm on the system. Each instance corresponds to an active alarm.
         active_alarm=0xA0           # errors
+        ## Each object corresponds to an alarm in the history.
         alarm_history=0xA1
+        ## A motion alarm object. Instance 1 corresponds to the most recent.
         motion_alarm=0xA2
+        ## A system alarm object. Instance 1 corresponds to the most recent.
         system_alarm=0xA3 
+        ## Application alarm object. Instance 1 is most recent.
         application_alarm=0xA4
+        ## Recovery alarm object. Instance 1 is most recent.
         recovery_alarm=0xA5
+        ## Communications alarm object. Instance 1 is most recent.
         communications_alarm=0xA6   # errors
 
-    # fanuc alarm object attributes
-    #   enum member is tuple containing (attribute #, data type, *offset*, *length*)
-    #   * = optional
-    #
-    #   Note: 
-    #       None types assumed to be strings
     class attributes(Enum):
+        '''!
+        FANUC alarm object attributes.
+
+        These define information fields attached to each alarm object created by FANUC
+        and exposed to the EIP interface.
+        
+        Enum member is tuple containing (attribute #, data type, *offset*, *length*).
+        * = optional
+
+        Note: None types assumed to be strings.
+        '''
+        ## The alarm ID or alarm code.
         alarm_id = (0x01, DataTypes.int)                # 16 bit int
+        ## The alarm number.
         alarm_number = (0x02, DataTypes.int)            # 16 bit int
+        ## The cause code of the alarm ID.
         alarm_id_cause_code = (0x03, DataTypes.int)     # 16 bit int
+        ## The cause code of the alarm number.
         alarm_num_cause_code = (0x04, DataTypes.int)    # 16 bit int
+        ## The alarm severity.
         alarm_severity = (0x05, DataTypes.int)          # 16 bit int
+        ## The alarm time stamp in 32-bit MSDOS format.
         time_stamp = (0x06, DataTypes.dint)             # 32 bit int
+        ## The alarm time stamp in human readable string.
         date_time_str = (0x07, None, 16, 28)            # 28 byte string
+        ## The alarm message in a human readable string.
         alarm_message = (0x08, None, 44, 88)            # 88 byte string
+        ## The alarm cause code message in a human readable string.
         cause_code_message = (0x09, None, 132, 88)      # 88 byte string
+        ## The alarm severity in a human readable string.
         alarm_severity_str = (0x0A, None, 220, 28)      # 28 byte string
 
     
@@ -714,7 +741,19 @@ class FANUCAlarm:
     #       N length string
     #       pad 
     @classmethod
-    def __string_decode__(self, buff, offset, length):
+    def __string_decode__(self, buff, offset:int, length:int):
+        '''!
+        Decodes byte strings into string and returns.
+
+        FANUC strings follow convention similar to pascal strings:
+               2 byte: length N
+               2 byte: pad
+               N length string
+               (2? byte:) pad 
+
+        @param[in] buff A byte string buffer received from the robot controller through the EIP interface.
+        @param[in] offset The starting offset in bytes required for Python's unpack_from() method.
+        '''
         msg_len = struct.unpack_from('h', buff, offset)
         msg_pad = length - (msg_len[0] - 1) - 5
         format = f'h2x{msg_len[0]-1}s{msg_pad}x'
@@ -725,10 +764,19 @@ class FANUCAlarm:
         return msg_str
 
 
-    # Uses CIP service get_attribute_single to get one attribute defined by FANUCAlarm.attributes enum,
-    #   decode it, and return the value in a dictionary keyed by FANUCAlarm.attributes.<attribute>.name
     @classmethod
-    def get_attribute_single(self, drive_path, class_code, instance=1, attribute=attributes.alarm_number):
+    def get_attribute_single(self, drive_path:string, class_code, instance=1, attribute=attributes.alarm_number) -> dict:
+        '''!
+        Uses CIP service get_attribute_single to get one attribute defined by FANUCAlarm.attributes enum,
+        decode it, and return the value in a dictionary keyed by FANUCAlarm.attributes.<attribute>.name.
+
+        @param[in] drive_path Robot IP address as a string.
+        @param[in] class_code A byte identifier defined by FANUCAlarm.types, specifies what type of alarm object to return.
+        @param[in] instance An integer indexing which alarm instance to request. Instance 1 selects most recent object, higher values select older objects.
+        @param[in] attribute The attribute or field to retrieve from the requested alarm object.
+
+        @return A dictionary containing the requested attribute, indexed by the attribute enum name property.
+        '''
         # get a single attribute from list above
 
         with CIPDriver(drive_path) as driver:
@@ -763,12 +811,17 @@ class FANUCAlarm:
                     output[attribute.name] = cip_tag.value
                     return output
                 
-    # Uses CIP service get_attributes_all to get every attribute defined in FANUCAlarm.attributes
-    #   as a byte string, decode the data, and return it in a dictionary
     @classmethod
-    def get_attributes_all(self, drive_path, class_code, instance=1):
-        # get a single attribute from list above
+    def get_attributes_all(self, drive_path, class_code, instance=1) -> dict:
+        '''!
+        Get all attributes of a FANUC alarm object in a dictionary.
 
+        @param[in] drive_path Robot IP address as a string.
+        @param[in] class_code A byte identifier defined by FANUCAlarm.types, specifies what type of alarm object to return.
+        @param[in] instance An integer indexing which alarm instance to request. Instance 1 selects most recent object, higher values select older objects.
+
+        @return A dict object containing all attributes of the desired alarm object, keyed by the attribute enum name property.
+        '''
         with CIPDriver(drive_path) as driver:
 
             cip_tag = driver.generic_message(
@@ -826,6 +879,7 @@ class FANUCAlarm:
 # Get the most recent alarm from the robot
 def returnMostRecentAlarm(drive_path):
     # DEPRACTED! DEPRACTED I SAY!!!
+    # ie, this is just an example of a crude way to retrieve alarms
 
     with CIPDriver(drive_path) as driver:
         cip_tag = driver.generic_message(
