@@ -765,7 +765,7 @@ class FANUCAlarm:
 
 
     @classmethod
-    def get_attribute_single(self, drive_path:string, class_code, instance=1, attribute=attributes.alarm_number) -> dict:
+    def get_attribute_single(self, drive_path:str, class_code, instance=1, attribute=attributes.alarm_number) -> dict:
         '''!
         Uses CIP service get_attribute_single to get one attribute defined by FANUCAlarm.attributes enum,
         decode it, and return the value in a dictionary keyed by FANUCAlarm.attributes.<attribute>.name.
