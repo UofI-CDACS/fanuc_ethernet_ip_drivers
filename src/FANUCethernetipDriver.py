@@ -665,12 +665,13 @@ def writeDigitalInput(drive_path, OutputNumber, Value):
 
 class FANUCAlarm:
     '''!
-        Class implementing the FANUC EIP Alarm objects.
+        Class implementing the FANUC EIP Alarm objects. Alarm classes (types) are listed in FANUCAlarm.types.
+        Data contained by each class type can be requested using the get attribute class methods.
 
         Get attribute single method fetches one of the attributes documented in FANUCAlarm.attributes enum
             and decodes it by variable type.
 
-        Get attribute all method fetches all attributes in FANUCAlarm.attributes enum, decodes them
+        Get attribute all method fetches all attributes listed in FANUCAlarm.attributes enum, decodes them
             and places them in a dictionary which can be keyed with FANUCAlarm.attributes.<attribute>.name
     '''
 
@@ -681,6 +682,13 @@ class FANUCAlarm:
 
         These define classes of alarms which can be used to filter and select alarms
         which the user would like access to.
+
+        Note: you may occasionally receive a CIP error with a message such as -
+            "Destination unknown, class unsupported, instance undefined or structure 
+             element undefined (see extended status) - Extended status out of memory  (05, 00)"
+
+             When this error occurs, the get attribute (single or all) will return None and print
+             the error message from the CIP tag object.
         '''
         ## Currently active alarm on the system. Each instance corresponds to an active alarm.
         active_alarm=0xA0           # errors
@@ -765,7 +773,11 @@ class FANUCAlarm:
 
 
     @classmethod
-    def get_attribute_single(self, drive_path:str, class_code, instance=1, attribute=attributes.alarm_number) -> dict:
+    def get_attribute_single(self, 
+                             drive_path: str, 
+                             class_code: int=types.alarm_history, 
+                             instance: int=1, 
+                             attribute: int=attributes.alarm_number) -> dict:
         '''!
         Uses CIP service get_attribute_single to get one attribute defined by FANUCAlarm.attributes enum,
         decode it, and return the value in a dictionary keyed by FANUCAlarm.attributes.<attribute>.name.
@@ -775,7 +787,7 @@ class FANUCAlarm:
         @param[in] instance An integer indexing which alarm instance to request. Instance 1 selects most recent object, higher values select older objects.
         @param[in] attribute The attribute or field to retrieve from the requested alarm object.
 
-        @return A dictionary containing the requested attribute, indexed by the attribute enum name property.
+        @return A dictionary containing the requested attribute, indexed by the attribute enum name property. Returns None if CIP tag contains an error.
         '''
         # get a single attribute from list above
 
@@ -794,7 +806,7 @@ class FANUCAlarm:
                             )
 
             if not cip_tag:
-                print('[ERROR] CIP tag:', cip_tag.tag, cip_tag.error)
+                print(f'[ERROR] CIP tag: \"{cip_tag.tag}\"\n\tmessage: \"{cip_tag.error}\"')
                 return None
 
             else:
@@ -812,7 +824,10 @@ class FANUCAlarm:
                     return output
                 
     @classmethod
-    def get_attributes_all(self, drive_path, class_code, instance=1) -> dict:
+    def get_attributes_all(self, 
+                           drive_path: str, 
+                           class_code: int=types.alarm_history, 
+                           instance: int=1) -> dict:
         '''!
         Get all attributes of a FANUC alarm object in a dictionary.
 
@@ -820,7 +835,7 @@ class FANUCAlarm:
         @param[in] class_code A byte identifier defined by FANUCAlarm.types, specifies what type of alarm object to return.
         @param[in] instance An integer indexing which alarm instance to request. Instance 1 selects most recent object, higher values select older objects.
 
-        @return A dict object containing all attributes of the desired alarm object, keyed by the attribute enum name property.
+        @return A dict object containing all attributes of the desired alarm object, keyed by the attribute enum name property. Returns none if CIP tag contains an error.
         '''
         with CIPDriver(drive_path) as driver:
 
@@ -837,7 +852,7 @@ class FANUCAlarm:
                             )
 
             if not cip_tag:
-                print('[ERROR] CIP tag:', cip_tag.tag, cip_tag.error)
+                print(f'[ERROR] CIP tag: \"{cip_tag.tag}\"\n\tmessage: \"{cip_tag.error}\"')
                 return None
 
             else:
