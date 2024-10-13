@@ -319,6 +319,7 @@ class robot:
     def schunk_gripper(self, command:str, wait:bool=True):
         """! controls schunk gripper.
         @param command      string 'open' or 'close'
+        @param wait         wait until the gripper stops moving
         """
         # !! Registers 20 and 23 need to be toggled for opening and closing !!
 
