@@ -20,9 +20,9 @@
 
 # Imports
 import math
+import time
 import typing
 import FANUCethernetipDriver
-import time
 
 ## The mode of operation; 
 
