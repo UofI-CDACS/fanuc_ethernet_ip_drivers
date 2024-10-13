@@ -22,6 +22,7 @@
 import math
 import typing
 import FANUCethernetipDriver
+import time
 
 ## The mode of operation; 
 
@@ -315,7 +316,7 @@ class robot:
         return start_register
 
     # Toggle gripper open and close
-    def schunk_gripper(self, command:str):
+    def schunk_gripper(self, command:str, wait:bool=True):
         """! controls schunk gripper.
         @param command      string 'open' or 'close'
         """
@@ -337,41 +338,49 @@ class robot:
         else:
             raise Warning(f"Gripper only supports 'open' or 'closed' strings")
 
+        # Implement wait functionality
+        if wait is True:
+            time.sleep(0.5)
 
-    # Open onRobot gripper
-    def onRobot_gripper_open(self, width_in_mm:int, force_in_newtons:int):
-        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: opens the onRobot gripper
+
+    # Move onRobot gripper
+    def onRobot_gripper(self, width_in_mm:int, force_in_newtons:int, wait:bool=True):
+        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: moves the onRobot gripper
         @param width_in_mm          value in mm to set gripper jaw distance
         @param force_in_newtons     value 0-120 in newtons
-        """
-        if width_in_mm > 160 | width_in_mm < 0:
-            raise Warning(f"Width should be in the range of [0, 160], got {width_in_mm}")
-        if force_in_newtons > 120 | force_in_newtons < 0:
-            raise Warning(f"Force should be in the range of [0, 120], got {force_in_newtons}")
-        
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 1) # Instance typically 1
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 36, width_in_mm) # Set open width in mm
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 37, force_in_newtons) # Set open force in newtons
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 42, 8) # Set to 1 for use with R[43]
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 43, 50) # Register # you want data sent to
-        #FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 1) # Set sync bit for onRobot gripper 1 = open
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 3) # Set sync bit for onRobot gripper 1 = open
-
-    # Close onRobot gripper
-    def onRobot_gripper_close(self, width_in_mm:int, force_in_newtons:int):
-        """! FUNCTION WILL BE MOVED TO ITS OWN MODULE: closes the onRobot gripper
-        @param width_in_mm          value in mm to set gripper jaw distance
-        @param force_in_newtons     value 0-120 in newtons
+        @param wait                 wait until the gripper stops moving
         """
         if width_in_mm > 160 | width_in_mm < 0:
             raise Warning(f"Width should be in the range of [0, 160], got {width_in_mm}")
         if force_in_newtons > 120 | force_in_newtons < 0:
             raise Warning(f"Force should be in the range of [0, 120], got {force_in_newtons}")
 
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 1) # Instance typically 1
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 39, width_in_mm) # Set close width in mm
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 40, force_in_newtons) # Set close force in newtons
-        FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 2) # Set sync bit for onRobot gripper 2 = close
+        # R[35] holds boolean for wait. Set it to false so we can manually check moving status
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 35, 0)
+
+        # Set open width in mm & open force in newtons
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 36, width_in_mm)
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 37, force_in_newtons)
+
+        # Set sync bit to 1 to move onRobot gripper
+        FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 1)
+
+        # Implement wait functionality by polling R[50],
+        # which stores 1 if busy (moving) & 0 if not busy
+        if wait is True:
+            # Set R[42] to 4 to check if gripper 'is_busy' (if the gripper is busy, it is moving)
+            # Store the result in R[50]
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 42, 4)
+            FANUCethernetipDriver.writeR_Register(self.robot_IP, 43, 50)
+
+            # Wait for the gripper to start moving
+            time.sleep(0.5)
+            gripper_is_moving = True
+            while gripper_is_moving:
+                # Set sync bit to 3 to check to if the gripper is moving
+                FANUCethernetipDriver.writeR_Register(self.robot_IP, 3, 3)
+                # Check status value stored in R[50]
+                gripper_is_moving = FANUCethernetipDriver.readR_Register(self.robot_IP, 50)
 
     # Read conveyor belt sensor: returns value of 1 or 0
     def conveyor_proximity_sensor(self, sensor) -> int:
