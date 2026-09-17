@@ -46,11 +46,11 @@ def main():
         #crx10.set_joints_to_home_position()
 
         # Open Gripper
-        crx10.gripper('open')
+        crx10.schunk_gripper('open')
         time.sleep(2)
 
         # Close Gripper
-        crx10.gripper('close')
+        crx10.schunk_gripper('close')
         time.sleep(2)
 
         # increment loops
