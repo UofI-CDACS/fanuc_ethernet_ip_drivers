@@ -20,29 +20,6 @@
   </p>
 </div>
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ol>
-</details>
 
 
 
@@ -60,39 +37,33 @@ This project aims to give developers tools to control FANUC robots in new ways u
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* pip3
-  ```sh
-  pip3 install pycomm3
-  ```
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/UniversityOfIdahoCDACS/FANUC-Ethernet_IP_Drivers.git
-   ```
-2. Run script
-   ```sh
-   python3 <scriptname>
-   ```
+#### 1. Clone the repo
+```sh
+  git clone https://github.com/UniversityOfIdahoCDACS/FANUC-Ethernet_IP_Drivers.git
+```
+####  2. Install required libaries
+```sh
+  python3 -m venv venv
+  source venv/bin/activate
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+  pip install pycomm3
+```
+####  3. Start the FANUC TP program
+Below is a video on how to do this.
+<a href="https://www.youtube.com/shorts/izM8dLgkj2w"> Video Link </a>
+
+####  4. Run script
+```sh
+  cd examples/
+  python quick_start.py
+```
 
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-TBD
-
-_For more examples, please refer to the [Documentation](https://uofi-cdacs.github.io/FANUC-Ethernet_IP_Drivers/documentation/html/)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## Troubleshooting
+<a href="https://docs.google.com/document/d/1N1k1eQPG0qeFhDfgyBnDlwhtVD0UiQ-7i8RM8bexTCA/edit?tab=t.0#heading=h.ybj6n73925tj" > Common Troubleshooting Issues </a>
 
 <!-- ROADMAP -->
 ## Roadmap
