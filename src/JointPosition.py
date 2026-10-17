@@ -2,6 +2,7 @@ import copy
 import robot_controller
 from typing import Self
 
+# - Modified by Charle Bennington on 9/16/2026
 
 
 class JointPosition():

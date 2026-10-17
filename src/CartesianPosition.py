@@ -2,6 +2,8 @@ import copy
 import robot_controller
 from typing import Self
 
+# - Modified by Charle Bennington on 9/16/2026
+
 class CartesianPosition():
     def _check_if_in_sphere(pos : list[float], maxdist : float ) -> bool:
         return pos[0] ** 2 + pos[1] ** 2 + pos[2] ** 2 < maxdist ** 2
